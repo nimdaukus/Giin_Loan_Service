@@ -116,6 +116,25 @@ async function migrate() {
     INSERT INTO system_settings (id, currency, language, apr, late_fee)
     VALUES (1, 'RWF', 'English', 18.5, 2.0)
     ON CONFLICT (id) DO NOTHING;
+
+    -- Disable RLS on all tables to allow client operations via Anon Key
+    ALTER TABLE users DISABLE ROW LEVEL SECURITY;
+    ALTER TABLE applications DISABLE ROW LEVEL SECURITY;
+    ALTER TABLE loans DISABLE ROW LEVEL SECURITY;
+    ALTER TABLE activities DISABLE ROW LEVEL SECURITY;
+    ALTER TABLE reminders DISABLE ROW LEVEL SECURITY;
+    ALTER TABLE templates DISABLE ROW LEVEL SECURITY;
+    ALTER TABLE system_settings DISABLE ROW LEVEL SECURITY;
+
+    -- Grant permissions
+    GRANT ALL ON TABLE users TO anon, authenticated, service_role;
+    GRANT ALL ON TABLE applications TO anon, authenticated, service_role;
+    GRANT ALL ON TABLE loans TO anon, authenticated, service_role;
+    GRANT ALL ON TABLE activities TO anon, authenticated, service_role;
+    GRANT ALL ON TABLE reminders TO anon, authenticated, service_role;
+    GRANT ALL ON TABLE templates TO anon, authenticated, service_role;
+    GRANT ALL ON TABLE system_settings TO anon, authenticated, service_role;
+    GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO anon, authenticated, service_role;
   `;
 
   try {
