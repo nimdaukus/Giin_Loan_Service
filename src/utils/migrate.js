@@ -15,9 +15,12 @@ async function migrate() {
   console.log('Connected. Running migrations...');
 
   const schemaQuery = `
+    -- Drop existing users table to resolve UUID type mismatch
+    DROP TABLE IF EXISTS users CASCADE;
+
     -- Users Table
     CREATE TABLE IF NOT EXISTS users (
-      id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+      id TEXT PRIMARY KEY,
       name TEXT NOT NULL,
       email TEXT UNIQUE NOT NULL,
       password TEXT NOT NULL,
