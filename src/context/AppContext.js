@@ -1,6 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { supabase } from '@/utils/supabase';
 
 const AppContext = createContext();
 
@@ -88,7 +89,7 @@ export function AppProvider({ children }) {
     }
   };
   
-  // Pre-populated applications
+  // Pre-populated applications fallback
   const [applications, setApplications] = useState([
     {
       id: 'APP-101',
@@ -154,7 +155,7 @@ export function AppProvider({ children }) {
     }
   ]);
 
-  // Pre-populated active loans
+  // Pre-populated active loans fallback
   const [loans, setLoans] = useState([
     {
       id: 'LOAN-103',
@@ -221,7 +222,7 @@ export function AppProvider({ children }) {
     }
   ]);
 
-  // Portfolio Totals
+  // Portfolio Totals fallback
   const [metrics, setMetrics] = useState({
     totalOutstanding: 12482900,
     activeBorrowers: 5842500,
@@ -229,78 +230,150 @@ export function AppProvider({ children }) {
     pendingApprovals: 2
   });
 
-  // Reminders
+  // Pre-populated reminders fallback
   const [reminders, setReminders] = useState([
-    { id: 'REM-1', borrowerName: 'Jean Paul H.', dueDate: '2026-08-15', daysLeft: 12, type: 'Email', status: 'Sent' },
-    { id: 'REM-2', borrowerName: 'Marie Keita', dueDate: '2026-08-19', daysLeft: 16, type: 'SMS', status: 'Pending' },
-    { id: 'REM-3', borrowerName: 'Emmanuel O.', dueDate: '2026-08-25', daysLeft: 22, type: 'Email & SMS', status: 'Sent' },
-    { id: 'REM-4', borrowerName: 'Beatrice T.', dueDate: '2026-08-30', daysLeft: 27, type: 'SMS', status: 'Pending' }
-  ]);
-
-  // Reminder Templates
-  const [templates, setTemplates] = useState([
     {
-      id: 'temp-1',
-      name: 'Repayment Reminder - 12 days before',
-      subject: 'Repayment Reminder: Loan ID [LOAN_ID]',
-      body: `DEAR [BORROWER_NAME],
-
-This is a reminder that your repayment of [REPAYMENT_AMOUNT] MVP for your [LOAN_TYPE] is due in [DAYS_LEFT] days ([DUE_DATE]).
-
-Please visit the payment portal to clear your balance.
-
-Best regards,
-GIIN Sentinel Institutional Advisor`
+      id: 'REM-101',
+      borrowerName: 'Marie Keita',
+      dueDate: '2026-08-19',
+      daysLeft: 16,
+      type: 'Email',
+      status: 'Pending'
+    },
+    {
+      id: 'REM-102',
+      borrowerName: 'Beatrice T.',
+      dueDate: '2026-08-30',
+      daysLeft: 27,
+      type: 'SMS',
+      status: 'Sent'
     }
   ]);
 
-  // Live Activities Log
+  // Pre-populated templates fallback
+  const [templates, setTemplates] = useState([
+    {
+      id: 'TEMP-1',
+      title: 'Active Accounts Script',
+      subject: 'URGENT: GIIN Sentinel Repayment Notice - [BORROWER_NAME]',
+      body: 'Dear [BORROWER_NAME],\n\nThis is an automated notification from GIIN Sentinel Credit Office. Your active account [LOAN_ID] has an outstanding repayment balance of [REPAYMENT_AMOUNT] due on [DUE_DATE].\n\nPlease settle this amount to avoid daily penalty surcharges.\n\nRegards,\nCredit Operations Node'
+    },
+    {
+      id: 'TEMP-2',
+      title: 'Delinquent Accounts Script',
+      subject: 'OVERDUE NOTICE: Immediate Action Required - [BORROWER_NAME]',
+      body: 'ATTENTION [BORROWER_NAME],\n\nYour loan repayment of [REPAYMENT_AMOUNT] was due on [DUE_DATE] and is now OVERDUE.\n\nLate surcharges are accumulating daily at 1.5% of the principal value. Please process settlement immediately to prevent legal recovery operations.\n\nSincerely,\nRisk Management'
+    }
+  ]);
+
+  // Pre-populated live activities fallback
   const [activities, setActivities] = useState([
     {
-      id: 'ACT-1',
-      title: 'Loan Application Submitted',
-      desc: 'Jean Paul H. applied for 500,000 MVP',
+      id: 'ACT-101',
+      title: 'Manual Loan Created',
+      desc: 'Beatrice T. added with 25,000 MVP principal',
       time: '2 hours ago',
       type: 'submit'
     },
     {
-      id: 'ACT-2',
+      id: 'ACT-102',
       title: 'Repayment Received',
-      desc: 'LURITY LTD settled 25,850.00 MVP',
+      desc: 'Marie Keita settled 25,850 MVP',
       time: '4 hours ago',
       type: 'repayment'
     },
     {
-      id: 'ACT-3',
-      title: 'Institutional Refusal',
-      desc: 'Acme Corp loan application denied due to insufficient collateral',
+      id: 'ACT-103',
+      title: 'Loan Approved',
+      desc: 'Emmanuel O. approved for 72,000 MVP. Contract: 0x91c63db45a123',
       time: '1 day ago',
-      type: 'refusal'
+      type: 'submit'
     }
   ]);
 
-  // Keep metrics.pendingApprovals updated based on pending application list size
+  // Load initial data from Supabase tables
   useEffect(() => {
-    const pendingCount = applications.filter(app => app.status === 'Pending' || app.status === 'Under Review').length;
-    setMetrics(prev => ({
-      ...prev,
-      pendingApprovals: pendingCount
-    }));
-  }, [applications]);
+    async function loadData() {
+      try {
+        // Fetch applications
+        const { data: appsData, error: appsError } = await supabase
+          .from('applications')
+          .select('*');
+        if (!appsError && appsData && appsData.length > 0) {
+          setApplications(appsData);
+        }
 
-  // Function to submit a loan application from the Mobile Simulator
-  const submitApplication = (appData) => {
-    const newId = `APP-${Date.now().toString().slice(-3)}`;
+        // Fetch loans
+        const { data: lnData, error: lnError } = await supabase
+          .from('loans')
+          .select('*');
+        if (!lnError && lnData && lnData.length > 0) {
+          setLoans(lnData);
+        }
+
+        // Fetch activities
+        const { data: actData, error: actError } = await supabase
+          .from('activities')
+          .select('*')
+          .order('id', { ascending: false });
+        if (!actError && actData && actData.length > 0) {
+          setActivities(actData);
+        }
+
+        // Fetch reminders
+        const { data: remData, error: remError } = await supabase
+          .from('reminders')
+          .select('*');
+        if (!remError && remData && remData.length > 0) {
+          setReminders(remData);
+        }
+
+        // Fetch templates
+        const { data: tempData, error: tempError } = await supabase
+          .from('templates')
+          .select('*');
+        if (!tempError && tempData && tempData.length > 0) {
+          setTemplates(tempData);
+        }
+        
+        // Fetch system settings
+        const { data: settingsData, error: settingsError } = await supabase
+          .from('system_settings')
+          .select('*')
+          .single();
+        if (!settingsError && settingsData) {
+          if (settingsData.currency) setCurrency(settingsData.currency);
+          if (settingsData.language) setLanguage(settingsData.language);
+        }
+      } catch (err) {
+        console.warn("Supabase fetch failed, falling back to local pre-populated state:", err);
+      }
+    }
+    loadData();
+  }, []);
+
+  // Update system settings in Supabase
+  useEffect(() => {
+    supabase.from('system_settings').upsert({ id: 1, currency, language }).then(({ error }) => {
+      if (error) console.warn("Supabase settings sync error:", error.message);
+    });
+  }, [currency, language]);
+
+  // Function to submit a loan application from the Mobile App
+  const submitApplication = async (appData) => {
+    const nextNum = applications.length > 0
+      ? Math.max(...applications.map(a => parseInt(a.id.split('-')[1]) || 100)) + 1
+      : 101;
     const newApp = {
-      id: newId,
-      name: appData.name || 'Anonymous Borrower',
+      id: `APP-${nextNum}`,
+      name: appData.name,
       phone: appData.phone || 'N/A',
       passport: appData.passport || 'N/A',
       email: appData.email || 'N/A',
       address: appData.address || 'N/A',
       amount: parseFloat(appData.amount) || 10000,
-      term: appData.term || '12 Months',
-      type: appData.type || 'Business Loan',
+      term: appData.term || '1 Week',
+      type: appData.type || 'Business Expansion Loan',
       collateralDesc: appData.collateralDesc || 'N/A',
       status: 'Pending',
       date: new Date().toISOString().split('T')[0],
@@ -308,6 +381,9 @@ GIIN Sentinel Institutional Advisor`
     };
 
     setApplications(prev => [newApp, ...prev]);
+    supabase.from('applications').insert(newApp).then(({ error }) => {
+      if (error) console.warn("Supabase app insert warning:", error.message);
+    });
 
     // Log in live activity
     const newAct = {
@@ -318,6 +394,7 @@ GIIN Sentinel Institutional Advisor`
       type: 'submit'
     };
     setActivities(prev => [newAct, ...prev]);
+    supabase.from('activities').insert(newAct).then();
   };
 
   // Function to approve an application from the Approval Center
@@ -347,6 +424,13 @@ GIIN Sentinel Institutional Advisor`
             interestRatePercent: rate,
             interestDays: days
           };
+          
+          supabase.from('applications').update({
+            status: 'Approved',
+            contractId: approvedApp.contractId,
+            repaymentDate: approvedApp.repaymentDate
+          }).eq('id', appId).then();
+
           return approvedApp;
         }
         return app;
@@ -382,19 +466,19 @@ GIIN Sentinel Institutional Advisor`
         };
 
         setLoans(prev => [newLoan, ...prev]);
+        supabase.from('loans').insert(newLoan).then();
 
         // Add to Reminders Center list
-        setReminders(prev => [
-          {
-            id: `REM-${Date.now()}`,
-            borrowerName: approvedApp.name,
-            dueDate: approvedApp.repaymentDate,
-            daysLeft: days,
-            type: 'Email',
-            status: 'Pending'
-          },
-          ...prev
-        ]);
+        const newReminder = {
+          id: `REM-${Date.now()}`,
+          borrowerName: approvedApp.name,
+          dueDate: approvedApp.repaymentDate,
+          daysLeft: days,
+          type: 'Email',
+          status: 'Pending'
+        };
+        setReminders(prev => [newReminder, ...prev]);
+        supabase.from('reminders').insert(newReminder).then();
 
         // Update Outstanding portfolio metrics
         setMetrics(prev => ({
@@ -411,6 +495,7 @@ GIIN Sentinel Institutional Advisor`
           type: 'submit'
         };
         setActivities(prev => [newAct, ...prev]);
+        supabase.from('activities').insert(newAct).then();
       }
     }, 100);
   };
@@ -422,6 +507,7 @@ GIIN Sentinel Institutional Advisor`
       prev.map(app => {
         if (app.id === appId) {
           rejectedApp = { ...app, status: 'Rejected' };
+          supabase.from('applications').update({ status: 'Rejected' }).eq('id', appId).then();
           return rejectedApp;
         }
         return app;
@@ -438,6 +524,7 @@ GIIN Sentinel Institutional Advisor`
           type: 'refusal'
         };
         setActivities(prev => [newAct, ...prev]);
+        supabase.from('activities').insert(newAct).then();
       }
     }, 100);
   };
@@ -453,11 +540,17 @@ GIIN Sentinel Institutional Advisor`
           const newPaid = Math.min(loan.totalRepayment, loan.paid + amount);
           const newBalance = loan.totalRepayment - newPaid;
           if (newBalance === 0) completed = true;
-          return {
-            ...loan,
+          
+          const updatedFields = {
             paid: newPaid,
             balance: newBalance,
             status: newBalance === 0 ? 'Completed' : 'Active'
+          };
+          supabase.from('loans').update(updatedFields).eq('id', loanId).then();
+
+          return {
+            ...loan,
+            ...updatedFields
           };
         }
         return loan;
@@ -480,6 +573,7 @@ GIIN Sentinel Institutional Advisor`
       type: 'repayment'
     };
     setActivities(prev => [newAct, ...prev]);
+    supabase.from('activities').insert(newAct).then();
   };
 
   // Function to save email reminder template modifications
@@ -487,6 +581,7 @@ GIIN Sentinel Institutional Advisor`
     setTemplates(prev =>
       prev.map(t => (t.id === id ? { ...t, subject, body } : t))
     );
+    supabase.from('templates').update({ subject, body }).eq('id', id).then();
   };
 
   // Function to trigger reminder sending simulation
@@ -496,6 +591,7 @@ GIIN Sentinel Institutional Advisor`
       prev.map(l => {
         if (l.id === loanId) {
           target = l;
+          supabase.from('loans').update({ reminderStatus: 'Sent' }).eq('id', loanId).then();
           return { ...l, reminderStatus: 'Sent' };
         }
         return l;
@@ -513,6 +609,7 @@ GIIN Sentinel Institutional Advisor`
           type: 'repayment'
         };
         setActivities(prev => [newAct, ...prev]);
+        supabase.from('activities').insert(newAct).then();
       }
     }, 50);
   };
@@ -523,11 +620,16 @@ GIIN Sentinel Institutional Advisor`
       prev.map(loan => {
         if (loan.id === loanId) {
           const isCompleted = newStatus === 'Completed';
-          return {
-            ...loan,
+          const updatedFields = {
             status: newStatus,
             balance: isCompleted ? 0 : (loan.paid > 0 ? loan.totalRepayment - loan.paid : loan.totalRepayment),
             paid: isCompleted ? loan.totalRepayment : (loan.paid === loan.totalRepayment ? 0 : loan.paid)
+          };
+          supabase.from('loans').update(updatedFields).eq('id', loanId).then();
+
+          return {
+            ...loan,
+            ...updatedFields
           };
         }
         return loan;
@@ -545,6 +647,7 @@ GIIN Sentinel Institutional Advisor`
         type: 'repayment'
       };
       setActivities(prev => [newAct, ...prev]);
+      supabase.from('activities').insert(newAct).then();
     }
   };
 
@@ -578,6 +681,9 @@ GIIN Sentinel Institutional Advisor`
     };
 
     setLoans(prev => [newLoan, ...prev]);
+    supabase.from('loans').insert(newLoan).then(({ error }) => {
+      if (error) console.warn("Supabase manual loan insert warning:", error.message);
+    });
 
     // Update Outstanding portfolio metrics
     setMetrics(prev => ({
@@ -594,6 +700,7 @@ GIIN Sentinel Institutional Advisor`
       type: 'submit'
     };
     setActivities(prev => [newAct, ...prev]);
+    supabase.from('activities').insert(newAct).then();
   };
 
   // Function to edit / modify a loan record
@@ -608,12 +715,26 @@ GIIN Sentinel Institutional Advisor`
           const totalRep = principal + interestAmt;
           const balanceVal = Math.max(0, totalRep - merged.paid);
           
-          return {
-            ...merged,
+          const updatedFields = {
+            borrowerName: merged.borrowerName,
+            passport: merged.passport,
+            phone: merged.phone,
+            email: merged.email,
+            address: merged.address,
             amount: principal,
+            interestRate: `${rateVal.toFixed(1)}%`,
             interestAmount: interestAmt,
             totalRepayment: totalRep,
+            repaymentDate: merged.repaymentDate,
+            collateralDesc: merged.collateralDesc,
             balance: balanceVal
+          };
+
+          supabase.from('loans').update(updatedFields).eq('id', loanId).then();
+
+          return {
+            ...merged,
+            ...updatedFields
           };
         }
         return loan;
@@ -629,6 +750,7 @@ GIIN Sentinel Institutional Advisor`
       type: 'submit'
     };
     setActivities(prev => [newAct, ...prev]);
+    supabase.from('activities').insert(newAct).then();
   };
 
   // Function to delete a loan record
@@ -640,6 +762,8 @@ GIIN Sentinel Institutional Advisor`
       return prev.filter(l => l.id !== loanId);
     });
 
+    supabase.from('loans').delete().eq('id', loanId).then();
+
     // Add activity log
     const newAct = {
       id: `ACT-${Date.now()}`,
@@ -649,6 +773,7 @@ GIIN Sentinel Institutional Advisor`
       type: 'refusal'
     };
     setActivities(prev => [newAct, ...prev]);
+    supabase.from('activities').insert(newAct).then();
   };
 
   return (
