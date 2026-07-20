@@ -105,6 +105,34 @@ export function AppProvider({ children }) {
     }
   };
   
+  const [toast, setToast] = useState(null);
+
+  const showRealtimeNotification = (title, desc) => {
+    setToast({ title, desc });
+    
+    // Play a chime sound using Web Audio API
+    try {
+      const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(587.33, audioCtx.currentTime); // D5
+      osc.frequency.setValueAtTime(880, audioCtx.currentTime + 0.1); // A5
+      gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.35);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.35);
+    } catch (e) {
+      // Audio context blocked
+    }
+
+    setTimeout(() => {
+      setToast(null);
+    }, 5500);
+  };
+
   // Pre-populated applications fallback (empty for clean start)
   const [applications, setApplications] = useState([]);
 
@@ -149,7 +177,7 @@ export function AppProvider({ children }) {
         const { data: userData, error: userError } = await supabase
           .from('users')
           .select('*');
-        if (!userError && userData && userData.length > 0) {
+        if (!userError && userData) {
           // Merge default super admin to avoid loss
           const mergedUsers = [...userData];
           if (!mergedUsers.find(u => u.email === 'mensahqsukujr@gmail.com')) {
@@ -169,7 +197,7 @@ export function AppProvider({ children }) {
         const { data: appsData, error: appsError } = await supabase
           .from('applications')
           .select('*');
-        if (!appsError && appsData && appsData.length > 0) {
+        if (!appsError && appsData) {
           setApplications(appsData);
         }
 
@@ -177,7 +205,7 @@ export function AppProvider({ children }) {
         const { data: lnData, error: lnError } = await supabase
           .from('loans')
           .select('*');
-        if (!lnError && lnData && lnData.length > 0) {
+        if (!lnError && lnData) {
           setLoans(lnData);
         }
 
@@ -186,7 +214,7 @@ export function AppProvider({ children }) {
           .from('activities')
           .select('*')
           .order('id', { ascending: false });
-        if (!actError && actData && actData.length > 0) {
+        if (!actError && actData) {
           setActivities(actData);
         }
 
@@ -194,7 +222,7 @@ export function AppProvider({ children }) {
         const { data: remData, error: remError } = await supabase
           .from('reminders')
           .select('*');
-        if (!remError && remData && remData.length > 0) {
+        if (!remError && remData) {
           setReminders(remData);
         }
 
@@ -202,7 +230,7 @@ export function AppProvider({ children }) {
         const { data: tempData, error: tempError } = await supabase
           .from('templates')
           .select('*');
-        if (!tempError && tempData && tempData.length > 0) {
+        if (!tempError && tempData) {
           setTemplates(tempData);
         }
         
@@ -220,6 +248,91 @@ export function AppProvider({ children }) {
       }
     }
     loadData();
+  }, []);
+
+  // Compute global portfolio metrics dynamically
+  useEffect(() => {
+    const outstanding = loans.filter(l => l.status === 'Active').reduce((sum, l) => sum + (parseFloat(l.balance) || 0), 0);
+    const repayments = loans.reduce((sum, l) => sum + (parseFloat(l.paid) || 0), 0);
+    const activeBorrowers = new Set(loans.filter(l => l.status === 'Active').map(l => l.borrowerName)).size;
+    const pendingApprovals = applications.filter(a => a.status === 'Pending' || a.status === 'Under Review').length;
+
+    setMetrics({
+      totalOutstanding: outstanding,
+      activeBorrowers: activeBorrowers,
+      totalRepayments: repayments,
+      pendingApprovals: pendingApprovals
+    });
+  }, [loans, applications]);
+
+  // Subscribe to real-time updates from Supabase channels
+  useEffect(() => {
+    const applicationsChannel = supabase
+      .channel('applications-realtime')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'applications' }, (payload) => {
+        console.log('Realtime application change received:', payload);
+        if (payload.eventType === 'INSERT') {
+          setApplications(prev => {
+            if (prev.some(a => a.id === payload.new.id)) return prev;
+            return [payload.new, ...prev];
+          });
+          showRealtimeNotification('New Loan Application', `${payload.new.name} submitted a new request for ${payload.new.amount.toLocaleString()} RWF.`);
+        } else if (payload.eventType === 'UPDATE') {
+          setApplications(prev => prev.map(a => a.id === payload.new.id ? payload.new : a));
+        } else if (payload.eventType === 'DELETE') {
+          setApplications(prev => prev.filter(a => a.id !== payload.old.id));
+        }
+      })
+      .subscribe();
+
+    const activitiesChannel = supabase
+      .channel('activities-realtime')
+      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'activities' }, (payload) => {
+        console.log('Realtime activity received:', payload);
+        setActivities(prev => {
+          if (prev.some(act => act.id === payload.new.id)) return prev;
+          return [payload.new, ...prev];
+        });
+        showRealtimeNotification(payload.new.title, payload.new.desc);
+      })
+      .subscribe();
+
+    const loansChannel = supabase
+      .channel('loans-realtime')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'loans' }, (payload) => {
+        if (payload.eventType === 'INSERT') {
+          setLoans(prev => {
+            if (prev.some(l => l.id === payload.new.id)) return prev;
+            return [payload.new, ...prev];
+          });
+        } else if (payload.eventType === 'UPDATE') {
+          setLoans(prev => prev.map(l => l.id === payload.new.id ? payload.new : l));
+        } else if (payload.eventType === 'DELETE') {
+          setLoans(prev => prev.filter(l => l.id !== payload.old.id));
+        }
+      })
+      .subscribe();
+
+    const usersChannel = supabase
+      .channel('users-realtime')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'users' }, (payload) => {
+        if (payload.eventType === 'INSERT') {
+          setUsers(prev => {
+            if (prev.some(u => u.id === payload.new.id)) return prev;
+            return [...prev, payload.new];
+          });
+        } else if (payload.eventType === 'UPDATE') {
+          setUsers(prev => prev.map(u => u.id === payload.new.id ? payload.new : u));
+        }
+      })
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(applicationsChannel);
+      supabase.removeChannel(activitiesChannel);
+      supabase.removeChannel(loansChannel);
+      supabase.removeChannel(usersChannel);
+    };
   }, []);
 
   // Update system settings in Supabase
@@ -727,7 +840,8 @@ export function AppProvider({ children }) {
         t,
         formatCurrency,
         modifyLoanRecord,
-        deleteLoanRecord
+        deleteLoanRecord,
+        toast
       }}
     >
       {children}

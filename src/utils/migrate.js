@@ -144,6 +144,38 @@ async function migrate() {
     GRANT ALL ON TABLE templates TO anon, authenticated, service_role;
     GRANT ALL ON TABLE system_settings TO anon, authenticated, service_role;
     GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO anon, authenticated, service_role;
+
+    -- Setup Replication for Supabase Realtime
+    DO $$
+    BEGIN
+      IF NOT EXISTS (SELECT 1 FROM pg_publication WHERE pubname = 'supabase_realtime') THEN
+        CREATE PUBLICATION supabase_realtime;
+      END IF;
+    END $$;
+
+    DO $$
+    BEGIN
+      ALTER PUBLICATION supabase_realtime ADD TABLE applications;
+    EXCEPTION WHEN OTHERS THEN NULL;
+    END $$;
+
+    DO $$
+    BEGIN
+      ALTER PUBLICATION supabase_realtime ADD TABLE activities;
+    EXCEPTION WHEN OTHERS THEN NULL;
+    END $$;
+
+    DO $$
+    BEGIN
+      ALTER PUBLICATION supabase_realtime ADD TABLE loans;
+    EXCEPTION WHEN OTHERS THEN NULL;
+    END $$;
+
+    DO $$
+    BEGIN
+      ALTER PUBLICATION supabase_realtime ADD TABLE users;
+    EXCEPTION WHEN OTHERS THEN NULL;
+    END $$;
   `;
 
   try {
