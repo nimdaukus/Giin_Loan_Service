@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>GIIN Sentinel | Secure Verification</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "inverse-primary": "#bec6e0",
+                    "on-error-container": "#93000a",
+                    "surface-dim": "#dcd9db",
+                    "alert-amber": "#F59E0B",
+                    "on-primary-container": "#7c839b",
+                    "surface-container-high": "#eae7e9",
+                    "surface-container": "#f0edef",
+                    "on-surface-variant": "#45464d",
+                    "on-tertiary": "#ffffff",
+                    "on-primary-fixed": "#131b2e",
+                    "outline": "#76777d",
+                    "border-subtle": "#E2E8F0",
+                    "on-secondary-fixed": "#00174b",
+                    "surface-container-lowest": "#ffffff",
+                    "on-secondary-container": "#fefcff",
+                    "secondary-container": "#316bf3",
+                    "background": "#fcf8fa",
+                    "secondary": "#0051d5",
+                    "on-primary-fixed-variant": "#3f465c",
+                    "on-surface": "#1b1b1d",
+                    "tertiary-container": "#271901",
+                    "surface": "#fcf8fa",
+                    "inverse-surface": "#303032",
+                    "primary-container": "#131b2e",
+                    "surface-container-low": "#f6f3f5",
+                    "on-secondary": "#ffffff",
+                    "danger-coral": "#F43F5E",
+                    "on-tertiary-fixed": "#271901",
+                    "on-background": "#1b1b1d",
+                    "outline-variant": "#c6c6cd",
+                    "error": "#ba1a1a",
+                    "surface-variant": "#e4e2e4",
+                    "on-secondary-fixed-variant": "#003ea8",
+                    "tertiary-fixed-dim": "#dec29a",
+                    "inverse-on-surface": "#f3f0f2",
+                    "primary-fixed-dim": "#bec6e0",
+                    "surface-container-highest": "#e4e2e4",
+                    "tertiary": "#000000",
+                    "surface-bright": "#fcf8fa",
+                    "surface-tint": "#565e74",
+                    "on-tertiary-fixed-variant": "#574425",
+                    "on-primary": "#ffffff",
+                    "primary-fixed": "#dae2fd",
+                    "on-tertiary-container": "#98805d",
+                    "error-container": "#ffdad6",
+                    "secondary-fixed": "#dbe1ff",
+                    "on-error": "#ffffff",
+                    "secondary-fixed-dim": "#b4c5ff",
+                    "surface-gray": "#F8FAFC",
+                    "primary": "#000000",
+                    "success-emerald": "#10B981",
+                    "tertiary-fixed": "#fcdeb5"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "stack-md": "1rem",
+                    "margin-desktop": "2.5rem",
+                    "stack-lg": "2rem",
+                    "container-max": "1280px",
+                    "stack-sm": "0.5rem",
+                    "margin-mobile": "1rem",
+                    "gutter": "1.5rem"
+            },
+            "fontFamily": {
+                    "headline-lg-mobile": ["Inter"],
+                    "data-mono": ["Inter"],
+                    "label-caps": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "body-md": ["Inter"],
+                    "body-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "data-mono": ["13px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                    "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .otp-input:focus {
+            outline: none;
+            border-color: #0051d5;
+            box-shadow: 0 0 0 2px rgba(0, 81, 213, 0.1);
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+    </style>
+</head>
+<body class="bg-surface-gray font-body-md text-on-surface min-h-screen flex flex-col overflow-x-hidden">
+<!-- Top Navigation (Shell Rule: Suppressed for transactional focus, but Brand Identity maintained) -->
+<nav class="sticky top-0 z-50 flex justify-between items-center px-margin-desktop w-full max-w-container-max mx-auto py-stack-md bg-transparent">
+<div class="font-headline-md text-headline-md font-bold text-primary">
+            GIIN Sentinel
+        </div>
+<div class="flex items-center gap-stack-md">
+<span class="material-symbols-outlined text-on-surface-variant">security</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant">SECURE ACCESS</span>
+</div>
+</nav>
+<main class="flex-grow flex items-center justify-center px-margin-mobile md:px-0 py-stack-lg relative">
+<!-- Atmospheric Background Element -->
+<div class="absolute inset-0 pointer-events-none overflow-hidden">
+<div class="absolute -top-[10%] -right-[5%] w-[40%] h-[40%] bg-secondary/5 rounded-full blur-[120px]"></div>
+<div class="absolute -bottom-[10%] -left-[5%] w-[40%] h-[40%] bg-primary/5 rounded-full blur-[120px]"></div>
+</div>
+<!-- Verification Container -->
+<div class="w-full max-w-[480px] z-10">
+<div class="glass-panel border border-border-subtle rounded-xl p-stack-lg shadow-sm">
+<!-- Branding & Security Header -->
+<div class="text-center mb-stack-lg">
+<div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-secondary-container/10 mb-stack-md">
+<span class="material-symbols-outlined text-secondary text-4xl" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-primary mb-stack-sm">Secure Verification</h1>
+<p class="font-body-md text-on-surface-variant max-w-[320px] mx-auto">
+                        We've sent a 6-digit code to your email <span class="font-semibold text-on-surface">i***n@institution.com</span>. Please enter it below to proceed.
+                    </p>
+</div>
+<!-- OTP Form -->
+<form class="space-y-stack-lg" id="verification-form">
+<div class="flex justify-between gap-2 md:gap-4" id="otp-container">
+<input autocomplete="one-time-code" autofocus="" class="otp-input w-12 h-14 md:w-14 md:h-16 text-center text-headline-md font-bold border border-outline-variant rounded-lg bg-surface transition-all" data-index="0" maxlength="1" type="text"/>
+<input class="otp-input w-12 h-14 md:w-14 md:h-16 text-center text-headline-md font-bold border border-outline-variant rounded-lg bg-surface transition-all" data-index="1" maxlength="1" type="text"/>
+<input class="otp-input w-12 h-14 md:w-14 md:h-16 text-center text-headline-md font-bold border border-outline-variant rounded-lg bg-surface transition-all" data-index="2" maxlength="1" type="text"/>
+<input class="otp-input w-12 h-14 md:w-14 md:h-16 text-center text-headline-md font-bold border border-outline-variant rounded-lg bg-surface transition-all" data-index="3" maxlength="1" type="text"/>
+<input class="otp-input w-12 h-14 md:w-14 md:h-16 text-center text-headline-md font-bold border border-outline-variant rounded-lg bg-surface transition-all" data-index="4" maxlength="1" type="text"/>
+<input class="otp-input w-12 h-14 md:w-14 md:h-16 text-center text-headline-md font-bold border border-outline-variant rounded-lg bg-surface transition-all" data-index="5" maxlength="1" type="text"/>
+</div>
+<div class="space-y-stack-md">
+<button class="w-full bg-secondary text-on-secondary py-4 px-6 rounded-lg font-semibold text-body-lg hover:opacity-90 transition-opacity flex items-center justify-center gap-2" type="submit">
+                            Verify Identity
+                            <span class="material-symbols-outlined text-[20px]">chevron_right</span>
+</button>
+<div class="text-center">
+<p class="font-body-md text-on-surface-variant">
+                                Didn't receive the code? 
+                                <button class="text-secondary font-semibold hover:underline transition-all" id="resend-btn" type="button">Resend code</button>
+</p>
+</div>
+</div>
+</form>
+<!-- Security Assurance -->
+<div class="mt-stack-lg pt-stack-lg border-t border-border-subtle flex items-center justify-center gap-4 text-outline">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">lock</span>
+<span class="font-label-caps text-label-caps">256-BIT ENCRYPTION</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">verified</span>
+<span class="font-label-caps text-label-caps">ISO 27001</span>
+</div>
+</div>
+</div>
+<!-- Contextual Footer (Shell Rule) -->
+<div class="mt-stack-lg text-center">
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary flex items-center justify-center gap-1" href="#">
+<span class="material-symbols-outlined text-[14px]">arrow_back</span>
+                    BACK TO LOGIN
+                </a>
+</div>
+</div>
+</main>
+<!-- Global Footer (Transactional Version) -->
+<footer class="w-full py-stack-md px-margin-desktop flex flex-col md:flex-row justify-between items-center gap-gutter border-t border-border-subtle bg-surface-container-lowest">
+<p class="font-body-md text-on-surface-variant text-[12px]">
+            © 2024 GIIN Sentinel. Secure Institutional Lending Portal.
+        </p>
+<div class="flex gap-stack-md">
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-colors" href="#">Security Whitepaper</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-colors" href="#">Privacy Policy</a>
+</div>
+</footer>
+<script>
+        // OTP Input Logic
+        const inputs = document.querySelectorAll('.otp-input');
+        const resendBtn = document.getElementById('resend-btn');
+
+        inputs.forEach((input, index) => {
+            input.addEventListener('input', (e) => {
+                if (e.inputType === 'deleteContentBackward') return;
+                
+                // Allow only numbers
+                if (!/^\d$/.test(e.data)) {
+                    input.value = '';
+                    return;
+                }
+
+                if (input.value.length > 0 && index < inputs.length - 1) {
+                    inputs[index + 1].focus();
+                }
+            });
+
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && input.value === '' && index > 0) {
+                    inputs[index - 1].focus();
+                }
+            });
+
+            // Paste logic
+            input.addEventListener('paste', (e) => {
+                e.preventDefault();
+                const pasteData = e.clipboardData.getData('text').slice(0, 6).split('');
+                pasteData.forEach((char, i) => {
+                    if (inputs[i] && /^\d$/.test(char)) {
+                        inputs[i].value = char;
+                    }
+                });
+                if (pasteData.length > 0) {
+                    const lastIndex = Math.min(pasteData.length - 1, inputs.length - 1);
+                    inputs[lastIndex].focus();
+                }
+            });
+        });
+
+        // Micro-interaction for resend button
+        let countdown = 60;
+        let timerActive = false;
+
+        resendBtn.addEventListener('click', () => {
+            if (timerActive) return;
+            
+            // Visual feedback
+            resendBtn.classList.add('opacity-50');
+            resendBtn.textContent = `Wait ${countdown}s`;
+            timerActive = true;
+
+            const interval = setInterval(() => {
+                countdown--;
+                resendBtn.textContent = `Wait ${countdown}s`;
+                
+                if (countdown <= 0) {
+                    clearInterval(interval);
+                    timerActive = false;
+                    countdown = 60;
+                    resendBtn.textContent = 'Resend code';
+                    resendBtn.classList.remove('opacity-50');
+                }
+            }, 1000);
+        });
+
+        // Form submission animation
+        document.getElementById('verification-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button[type="submit"]');
+            const originalContent = btn.innerHTML;
+            
+            btn.disabled = true;
+            btn.innerHTML = `<span class="material-symbols-outlined animate-spin">sync</span> Validating...`;
+            
+            setTimeout(() => {
+                // Simulate success
+                btn.innerHTML = `<span class="material-symbols-outlined">check_circle</span> Verified`;
+                btn.classList.replace('bg-secondary', 'bg-success-emerald');
+                
+                // Final redirect simulation
+                setTimeout(() => {
+                    alert("Identity Verified. Redirecting to Dashboard...");
+                    btn.innerHTML = originalContent;
+                    btn.disabled = false;
+                    btn.classList.replace('bg-success-emerald', 'bg-secondary');
+                }, 1000);
+            }, 2000);
+        });
+    </script>
+</body></html>

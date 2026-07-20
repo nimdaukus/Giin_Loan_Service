@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Settings Portal | GIIN Sentinel</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-container": "#271901",
+                    "border-subtle": "#E2E8F0",
+                    "surface-container-lowest": "#ffffff",
+                    "on-tertiary": "#ffffff",
+                    "surface-tint": "#565e74",
+                    "on-tertiary-fixed": "#271901",
+                    "on-primary-container": "#7c839b",
+                    "on-error": "#ffffff",
+                    "on-surface-variant": "#45464d",
+                    "secondary": "#0051d5",
+                    "secondary-fixed-dim": "#b4c5ff",
+                    "on-primary-fixed": "#131b2e",
+                    "tertiary": "#000000",
+                    "surface-gray": "#F8FAFC",
+                    "alert-amber": "#F59E0B",
+                    "inverse-on-surface": "#f3f0f2",
+                    "on-primary": "#ffffff",
+                    "secondary-container": "#316bf3",
+                    "on-primary-fixed-variant": "#3f465c",
+                    "surface-variant": "#e4e2e4",
+                    "on-secondary-fixed-variant": "#003ea8",
+                    "error-container": "#ffdad6",
+                    "surface-container": "#f0edef",
+                    "outline": "#76777d",
+                    "danger-coral": "#F43F5E",
+                    "success-emerald": "#10B981",
+                    "tertiary-fixed-dim": "#dec29a",
+                    "on-secondary": "#ffffff",
+                    "primary-fixed-dim": "#bec6e0",
+                    "primary-fixed": "#dae2fd",
+                    "surface": "#fcf8fa",
+                    "on-secondary-container": "#fefcff",
+                    "primary-container": "#131b2e",
+                    "error": "#ba1a1a",
+                    "on-tertiary-fixed-variant": "#574425",
+                    "surface-container-highest": "#e4e2e4",
+                    "background": "#fcf8fa",
+                    "on-secondary-fixed": "#00174b",
+                    "surface-dim": "#dcd9db",
+                    "on-background": "#1b1b1d",
+                    "secondary-fixed": "#dbe1ff",
+                    "primary": "#000000",
+                    "surface-container-low": "#f6f3f5",
+                    "outline-variant": "#c6c6cd",
+                    "on-surface": "#1b1b1d",
+                    "surface-bright": "#fcf8fa",
+                    "tertiary-fixed": "#fcdeb5",
+                    "inverse-primary": "#bec6e0",
+                    "inverse-surface": "#303032",
+                    "on-tertiary-container": "#98805d",
+                    "surface-container-high": "#eae7e9",
+                    "on-error-container": "#93000a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "stack-md": "1rem",
+                    "gutter": "1.5rem",
+                    "margin-desktop": "2.5rem",
+                    "container-max": "1280px",
+                    "stack-lg": "2rem",
+                    "margin-mobile": "1rem",
+                    "stack-sm": "0.5rem"
+            },
+            "fontFamily": {
+                    "label-caps": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "body-md": ["Inter"],
+                    "data-mono": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "headline-lg-mobile": ["Inter"],
+                    "headline-md": ["Inter"]
+            },
+            "fontSize": {
+                    "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "data-mono": ["13px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(8px);
+            border: 1px solid #E2E8F0;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 10px; }
+    </style>
+</head>
+<body class="bg-surface-gray text-on-surface">
+<!-- Sidebar Navigation Shell -->
+<aside class="h-full w-64 fixed left-0 top-0 bg-primary-container dark:bg-primary-container shadow-sm flex flex-col p-4 space-y-2 z-50">
+<div class="mb-8 px-4">
+<h1 class="text-headline-md font-headline-md font-bold text-on-secondary-container">GIIN Sentinel</h1>
+<p class="font-label-caps text-label-caps text-on-primary-container uppercase tracking-widest mt-1">Institutional Admin</p>
+</div>
+<nav class="flex-1 space-y-2">
+<a class="flex items-center gap-3 text-on-primary-container hover:bg-surface-variant/10 rounded-xl px-4 py-3 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-body-md text-body-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 text-on-primary-container hover:bg-surface-variant/10 rounded-xl px-4 py-3 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">how_to_reg</span>
+<span class="font-body-md text-body-md">Approval Center</span>
+</a>
+<a class="flex items-center gap-3 text-on-primary-container hover:bg-surface-variant/10 rounded-xl px-4 py-3 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-body-md text-body-md">Main Tracker</span>
+</a>
+<a class="flex items-center gap-3 text-on-primary-container hover:bg-surface-variant/10 rounded-xl px-4 py-3 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">notifications_active</span>
+<span class="font-body-md text-body-md">Reminders</span>
+</a>
+<a class="flex items-center gap-3 bg-secondary-container text-on-secondary-container rounded-xl px-4 py-3 opacity-90 transition-all" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-body-md text-body-md">Settings</span>
+</a>
+</nav>
+<div class="pt-4 border-t border-on-primary-container/20">
+<div class="flex items-center gap-3 px-4 py-3">
+<img class="w-10 h-10 rounded-full border-2 border-secondary-container object-cover" data-alt="A professional headshot of a senior financial administrator, focused and authoritative, set against a blurred corporate office background with cool blue tones, sharp focus on the face." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCBhDmSQhtBUIzMzwOfF6L0-aMJttUWSBedIoLGbo3USTsFWj-bKJKaj_oH-rWExxF2cSqIM7tC6z07BOeQp4v2V1yq4JwqUS83bqhDMgX47YkEeCvbhx0twM_KizeOdedWA5qnMyDBa7rawtGHREKnDZUyc7H3Eg1tMDWgPlvK5wI_TrURDrCRW1qgQ2ty2Gc4Ale5kASMLzU8tF2cmw1KrKgOFzCSYLqAHB_b-EU5iGR-Z03dLjh9anafOtKSxiPr3a1IeC4wuKXI"/>
+<div class="overflow-hidden">
+<p class="text-on-secondary-container font-semibold truncate">Admin User</p>
+<p class="text-on-primary-container text-xs truncate">admin@giin-sentinel.com</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Top Navigation Shell -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] z-40 h-16 px-8 bg-surface/80 backdrop-blur-md flex justify-between items-center border-b border-border-subtle dark:border-outline-variant">
+<div class="flex items-center gap-6 flex-1">
+<div class="relative w-full max-w-md group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-low rounded-full border-none focus:ring-2 focus:ring-secondary-container transition-all font-body-md text-body-md" placeholder="Search settings, users, or logs..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-on-surface-variant hover:text-secondary transition-colors">
+<span class="material-symbols-outlined">help</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-secondary transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-danger-coral rounded-full"></span>
+</button>
+<div class="h-8 w-px bg-border-subtle mx-2"></div>
+<p class="font-label-caps text-label-caps text-primary">Sentinel Admin Portal</p>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-64 pt-24 px-8 pb-12">
+<div class="max-w-7xl mx-auto">
+<div class="mb-10">
+<h2 class="font-headline-lg text-headline-lg text-primary">System Settings</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant mt-2">Manage global configurations, user roles, and platform parameters.</p>
+</div>
+<div class="grid grid-cols-12 gap-8">
+<!-- Left Column: Primary Configurations -->
+<div class="col-span-12 lg:col-span-8 space-y-8">
+<!-- Collateral Type Management -->
+<section class="glass-card rounded-xl p-6 shadow-sm">
+<div class="flex justify-between items-center mb-6">
+<div>
+<h3 class="font-headline-md text-headline-md text-primary">Collateral Type Management</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Define and manage valid asset types for loan backing.</p>
+</div>
+<button class="flex items-center gap-2 bg-secondary text-white px-4 py-2 rounded-lg font-label-caps text-label-caps hover:bg-secondary-container transition-all">
+<span class="material-symbols-outlined text-sm">add</span>
+                                Add New Type
+                            </button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead>
+<tr class="bg-surface-gray border-b border-border-subtle">
+<th class="px-4 py-3 font-label-caps text-label-caps text-on-surface-variant">Asset Class</th>
+<th class="px-4 py-3 font-label-caps text-label-caps text-on-surface-variant">Required Documentation</th>
+<th class="px-4 py-3 font-label-caps text-label-caps text-on-surface-variant">Status</th>
+<th class="px-4 py-3 font-label-caps text-label-caps text-on-surface-variant text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="font-body-md text-body-md">
+<tr class="border-b border-border-subtle hover:bg-secondary/5 transition-colors">
+<td class="px-4 py-4 flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary">smartphone</span>
+<span class="font-medium">Smartphone</span>
+</td>
+<td class="px-4 py-4 text-on-surface-variant">IMEI Cert, Receipt</td>
+<td class="px-4 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-success-emerald/10 text-success-emerald">Active</span>
+</td>
+<td class="px-4 py-4 text-right">
+<button class="text-on-surface-variant hover:text-secondary"><span class="material-symbols-outlined">edit</span></button>
+</td>
+</tr>
+<tr class="border-b border-border-subtle hover:bg-secondary/5 transition-colors">
+<td class="px-4 py-4 flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary">laptop_mac</span>
+<span class="font-medium">Laptop</span>
+</td>
+<td class="px-4 py-4 text-on-surface-variant">Serial Check, Warranty</td>
+<td class="px-4 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-success-emerald/10 text-success-emerald">Active</span>
+</td>
+<td class="px-4 py-4 text-right">
+<button class="text-on-surface-variant hover:text-secondary"><span class="material-symbols-outlined">edit</span></button>
+</td>
+</tr>
+<tr class="border-b border-border-subtle hover:bg-secondary/5 transition-colors">
+<td class="px-4 py-4 flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary">directions_car</span>
+<span class="font-medium">Vehicle</span>
+</td>
+<td class="px-4 py-4 text-on-surface-variant">Logbook, Insurance</td>
+<td class="px-4 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-alert-amber/10 text-alert-amber">Inactive</span>
+</td>
+<td class="px-4 py-4 text-right">
+<button class="text-on-surface-variant hover:text-secondary"><span class="material-symbols-outlined">edit</span></button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- User & Role Management -->
+<section class="glass-card rounded-xl p-6 shadow-sm">
+<div class="mb-6">
+<h3 class="font-headline-md text-headline-md text-primary">User &amp; Role Management</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Manage administrative access and permissions.</p>
+</div>
+<div class="space-y-4">
+<div class="flex items-center justify-between p-4 bg-surface-container-low rounded-xl border border-border-subtle">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 bg-primary-container rounded-full flex items-center justify-center text-white font-bold">JD</div>
+<div>
+<p class="font-medium">Jean Damascene</p>
+<p class="text-xs text-on-surface-variant">Institutional Admin</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary">more_vert</span>
+</div>
+<div class="flex items-center justify-between p-4 bg-surface-container-low rounded-xl border border-border-subtle">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 bg-secondary-container rounded-full flex items-center justify-center text-white font-bold">MK</div>
+<div>
+<p class="font-medium">Marie Kaliza</p>
+<p class="text-xs text-on-surface-variant">Reviewer</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary">more_vert</span>
+</div>
+</div>
+<div class="mt-6 pt-6 border-t border-border-subtle flex justify-end">
+<button class="text-secondary border border-secondary px-6 py-2 rounded-lg font-label-caps text-label-caps hover:bg-secondary hover:text-white transition-all">Save Permissions</button>
+</div>
+</section>
+</div>
+<!-- Right Column: Global Vars & System -->
+<div class="col-span-12 lg:col-span-4 space-y-8">
+<!-- Global Variables -->
+<section class="glass-card rounded-xl p-6 shadow-sm">
+<h3 class="font-headline-md text-headline-md text-primary mb-6">Financial Parameters</h3>
+<div class="space-y-5">
+<div>
+<label class="block font-label-caps text-label-caps text-on-surface-variant mb-2">CURRENCY SETTING</label>
+<select class="w-full bg-surface-gray border border-border-subtle rounded-lg px-4 py-2 font-body-md text-body-md focus:ring-2 focus:ring-secondary-container">
+<option>Rwandan Franc (RWF)</option>
+<option>US Dollar (USD)</option>
+<option>Kenyan Shilling (KES)</option>
+</select>
+</div>
+<div>
+<label class="block font-label-caps text-label-caps text-on-surface-variant mb-2">STANDARD APR (%)</label>
+<input class="w-full bg-surface-gray border border-border-subtle rounded-lg px-4 py-2 font-body-md text-body-md focus:ring-2 focus:ring-secondary-container" type="number" value="18.5"/>
+</div>
+<div>
+<label class="block font-label-caps text-label-caps text-on-surface-variant mb-2">LATE FEE PERCENTAGE (%)</label>
+<input class="w-full bg-surface-gray border border-border-subtle rounded-lg px-4 py-2 font-body-md text-body-md focus:ring-2 focus:ring-secondary-container" type="number" value="2.0"/>
+</div>
+</div>
+<div class="mt-6">
+<button class="w-full bg-secondary text-white py-3 rounded-lg font-label-caps text-label-caps hover:bg-secondary-container transition-all shadow-md">Update Variables</button>
+</div>
+</section>
+<!-- System Configurations -->
+<section class="glass-card rounded-xl p-6 shadow-sm">
+<h3 class="font-headline-md text-headline-md text-primary mb-6">System Configurations</h3>
+<div class="space-y-6">
+<div class="flex items-center justify-between">
+<div>
+<p class="font-medium">Email Notifications</p>
+<p class="text-xs text-on-surface-variant">Send alerts on status changes</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-secondary-container"></div>
+</label>
+</div>
+<div class="flex items-center justify-between">
+<div>
+<p class="font-medium">Push Notifications</p>
+<p class="text-xs text-on-surface-variant">Alert mobile borrowers</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-secondary-container"></div>
+</label>
+</div>
+<div class="pt-4 border-t border-border-subtle">
+<label class="block font-label-caps text-label-caps text-on-surface-variant mb-2">DATA BACKUP SCHEDULE</label>
+<select class="w-full bg-surface-gray border border-border-subtle rounded-lg px-4 py-2 font-body-md text-body-md">
+<option>Every 24 Hours</option>
+<option>Weekly (Sundays)</option>
+<option>Manual Only</option>
+</select>
+</div>
+</div>
+<div class="mt-6">
+<button class="w-full text-secondary font-label-caps text-label-caps flex items-center justify-center gap-2 hover:underline">
+<span class="material-symbols-outlined text-sm">download</span>
+                                Download Audit Logs
+                            </button>
+</div>
+</section>
+<!-- Branding Preview -->
+<section class="glass-card rounded-xl p-6 shadow-sm overflow-hidden relative">
+<div class="absolute top-0 left-0 w-full h-1 bg-secondary"></div>
+<h3 class="font-headline-md text-headline-md text-primary mb-4">Platform Branding</h3>
+<div class="flex items-center gap-4 p-4 bg-surface-gray rounded-xl">
+<div class="w-12 h-12 bg-primary-container rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-white">shield</span>
+</div>
+<div>
+<p class="font-medium">Current Logo</p>
+<p class="text-xs text-on-surface-variant">Sentinel_Shield_V2.svg</p>
+</div>
+</div>
+<button class="mt-4 w-full border border-dashed border-border-subtle py-4 rounded-xl text-on-surface-variant font-label-caps text-label-caps hover:bg-surface-gray transition-all">
+                            Upload New Branding
+                        </button>
+</section>
+</div>
+</div>
+</div>
+</main>
+<!-- Success Toast (Interactive Element) -->
+<div class="fixed bottom-8 right-8 bg-primary-container text-white px-6 py-4 rounded-xl shadow-2xl flex items-center gap-3 transform translate-y-24 transition-transform duration-300 z-50" id="saveToast">
+<span class="material-symbols-outlined text-success-emerald">check_circle</span>
+<div>
+<p class="font-bold">Changes Saved</p>
+<p class="text-xs opacity-80">Global configuration has been updated.</p>
+</div>
+</div>
+<script>
+        // Micro-interaction for Save Buttons
+        const saveButtons = document.querySelectorAll('button');
+        const toast = document.getElementById('saveToast');
+
+        saveButtons.forEach(btn => {
+            if (btn.innerText.toLowerCase().includes('save') || btn.innerText.toLowerCase().includes('update')) {
+                btn.addEventListener('click', () => {
+                    toast.classList.remove('translate-y-24');
+                    setTimeout(() => {
+                        toast.classList.add('translate-y-24');
+                    }, 3000);
+                });
+            }
+        });
+
+        // Hover effect for table rows
+        const tableRows = document.querySelectorAll('tbody tr');
+        tableRows.forEach(row => {
+            row.addEventListener('mouseenter', () => {
+                row.style.transform = 'scale(1.002)';
+                row.style.zIndex = '10';
+            });
+            row.addEventListener('mouseleave', () => {
+                row.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+</body></html>

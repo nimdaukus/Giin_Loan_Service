@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>GIIN Sentinel | Institutional Admin Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "success-emerald": "#10B981",
+                        "secondary-container": "#316bf3",
+                        "outline-variant": "#c6c6cd",
+                        "border-subtle": "#E2E8F0",
+                        "alert-amber": "#F59E0B",
+                        "error": "#ba1a1a",
+                        "surface-tint": "#565e74",
+                        "on-secondary-container": "#fefcff",
+                        "background": "#fcf8fa",
+                        "on-tertiary-container": "#98805d",
+                        "surface-gray": "#F8FAFC",
+                        "outline": "#76777d",
+                        "surface-variant": "#e4e2e4",
+                        "surface-dim": "#dcd9db",
+                        "danger-coral": "#F43F5E",
+                        "secondary-fixed": "#dbe1ff",
+                        "on-primary-container": "#7c839b",
+                        "on-secondary": "#ffffff",
+                        "on-surface-variant": "#45464d",
+                        "surface-container-low": "#f6f3f5",
+                        "on-tertiary-fixed-variant": "#574425",
+                        "on-primary": "#ffffff",
+                        "surface-container": "#f0edef",
+                        "tertiary-container": "#271901",
+                        "surface-bright": "#fcf8fa",
+                        "inverse-surface": "#303032",
+                        "surface": "#fcf8fa",
+                        "on-error": "#ffffff",
+                        "on-primary-fixed": "#131b2e",
+                        "secondary": "#0051d5",
+                        "on-surface": "#1b1b1d",
+                        "on-error-container": "#93000a",
+                        "primary": "#000000",
+                        "primary-container": "#131b2e",
+                        "inverse-primary": "#bec6e0",
+                        "tertiary-fixed": "#fcdeb5",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed": "#dae2fd",
+                        "primary-fixed-dim": "#bec6e0",
+                        "secondary-fixed-dim": "#b4c5ff",
+                        "on-secondary-fixed": "#00174b",
+                        "surface-container-highest": "#e4e2e4",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "inverse-on-surface": "#f3f0f2",
+                        "on-background": "#1b1b1d",
+                        "on-secondary-fixed-variant": "#003ea8",
+                        "on-tertiary-fixed": "#271901",
+                        "on-tertiary": "#ffffff",
+                        "tertiary": "#000000",
+                        "surface-container-high": "#eae7e9",
+                        "error-container": "#ffdad6",
+                        "tertiary-fixed-dim": "#dec29a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "stack-sm": "0.5rem",
+                        "container-max": "1280px",
+                        "stack-lg": "2rem",
+                        "margin-mobile": "1rem",
+                        "gutter": "1.5rem",
+                        "stack-md": "1rem",
+                        "margin-desktop": "2.5rem"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "data-mono": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "data-mono": ["13px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #F8FAFC; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .chart-bar { transition: height 1s ease-in-out; }
+    </style>
+</head>
+<body class="text-on-surface">
+<!-- Side Navigation Bar -->
+<aside class="h-full w-64 fixed left-0 top-0 bg-primary-container dark:bg-primary-container flex flex-col p-4 space-y-2 z-50 shadow-sm">
+<div class="mb-8 flex items-center gap-3 px-2">
+<img alt="GIIN Sentinel Logo" class="w-10 h-10 rounded-sm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJpjZvbXXKnzOyd4rJ_V2JKYIod2nPipXNmOt3snhh_RyU65lSKn50tT8MM_Jjm-wk1djOBVv4n0ZP3SwignK2ZpIK_XprDStgQkIquGdSuZsPjimWnfFgcd-oUJtbk4xcRCqErkZ1StSCNYNgzKMiNHu0w6oGrRnOOKWzrbqd3U81LnTJCm7-lAGgIBISlUYKu5JY1OqxPTYiirGqZNKzYboclVd8f_bz0-iDwpEjTDG1cb7kFDcoKIOHtTA6odcECiFyuUemrIHJ"/>
+<div class="flex flex-col">
+<span class="text-headline-md font-headline-md font-bold text-on-secondary-container">GIIN Sentinel</span>
+<span class="font-label-caps text-label-caps text-on-primary-container">Institutional Admin</span>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 bg-secondary-container text-on-secondary-container rounded-xl px-4 py-3 opacity-90 transition-all" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-body-md text-body-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 text-on-primary-container hover:bg-surface-variant/10 rounded-xl px-4 py-3 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">how_to_reg</span>
+<span class="font-body-md text-body-md">Approval Center</span>
+</a>
+<a class="flex items-center gap-3 text-on-primary-container hover:bg-surface-variant/10 rounded-xl px-4 py-3 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-body-md text-body-md">Main Tracker</span>
+</a>
+<a class="flex items-center gap-3 text-on-primary-container hover:bg-surface-variant/10 rounded-xl px-4 py-3 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">notifications_active</span>
+<span class="font-body-md text-body-md">Reminders</span>
+</a>
+<a class="flex items-center gap-3 text-on-primary-container hover:bg-surface-variant/10 rounded-xl px-4 py-3 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-body-md text-body-md">Settings</span>
+</a>
+</nav>
+<div class="pt-4 border-t border-on-primary-fixed-variant mt-auto">
+<div class="flex items-center gap-3 px-2">
+<div class="w-10 h-10 rounded-full bg-secondary-fixed flex items-center justify-center text-on-secondary-fixed font-bold">JD</div>
+<div class="flex flex-col">
+<span class="font-body-md text-body-md text-white font-semibold">Admin User</span>
+<span class="text-[10px] text-on-primary-container uppercase tracking-widest">Global Access</span>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-64 min-h-screen">
+<!-- Top App Bar -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] z-40 bg-surface/80 backdrop-blur-md flex justify-between items-center h-16 px-8 border-b border-border-subtle dark:border-outline-variant">
+<div class="flex items-center flex-1 max-w-md">
+<div class="relative w-full focus-within:ring-2 focus-within:ring-secondary-container rounded-lg">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full bg-surface-container border-none rounded-lg pl-10 py-2 text-body-md focus:ring-0" placeholder="Search applications, IDs, or borrowers..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<button class="text-on-surface-variant hover:text-secondary transition-colors">
+<span class="material-symbols-outlined">help</span>
+</button>
+<div class="relative">
+<button class="text-on-surface-variant hover:text-secondary transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-danger-coral rounded-full"></span>
+</button>
+</div>
+<div class="w-px h-6 bg-border-subtle"></div>
+<img class="w-8 h-8 rounded-full border border-border-subtle" data-alt="Professional headshot of a financial administrator in a corporate setting, soft studio lighting, high resolution, minimalist aesthetic background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuChP3FAwKgyi0Q32WlXKT11EnP9rCIJLuiawAkjvWsCFfx9fB102y5xDbt-3p8GKc_q33wc7OD7PugMfzt2sCpyDVk2aDPLNNZ7hqwrljEZdOJZKHngDnM0Pr9O3i9OtYDv0wewZRJmn7RXLjpgXjbfSiFK9yaQapTwaCofzVmVay0BIDh4LqRInAJCwAHn3Y0Ix8xL7adgOUy3SghVBbhYltXGzelGFxdg8xA0KIVH7_8YiPIujeGDnrcj8LxnKihfQ41J1IrRvy4H"/>
+</div>
+</header>
+<!-- Canvas -->
+<div class="pt-24 px-8 pb-12 space-y-8">
+<!-- Welcome Header -->
+<section>
+<h1 class="font-headline-lg text-headline-lg text-primary">Institutional Oversight</h1>
+<p class="text-on-surface-variant font-body-lg">Sentinel platform monitoring for active capital flows.</p>
+</section>
+<!-- KPI Cards Grid -->
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<!-- KPI 1 -->
+<div class="bg-surface-container-lowest border border-border-subtle p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined p-2 bg-secondary-container/10 text-secondary rounded-lg">account_balance</span>
+<span class="text-success-emerald font-label-caps text-label-caps flex items-center">+8.4% <span class="material-symbols-outlined text-[14px]">trending_up</span></span>
+</div>
+<p class="font-label-caps text-label-caps text-on-primary-container mb-1">Total Outstanding Principal</p>
+<h2 class="font-headline-lg text-headline-lg text-primary">$12,482,900</h2>
+<p class="text-[10px] text-on-surface-variant mt-2">Update: 2 mins ago</p>
+</div>
+<!-- KPI 2 -->
+<div class="bg-surface-container-lowest border border-border-subtle p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined p-2 bg-alert-amber/10 text-alert-amber rounded-lg">percent</span>
+<span class="text-success-emerald font-label-caps text-label-caps flex items-center">+2.1% <span class="material-symbols-outlined text-[14px]">trending_up</span></span>
+</div>
+<p class="font-label-caps text-label-caps text-on-primary-container mb-1">Expected Interest</p>
+<h2 class="font-headline-lg text-headline-lg text-primary">$842,500</h2>
+<p class="text-[10px] text-on-surface-variant mt-2">Accrued month-to-date</p>
+</div>
+<!-- KPI 3 -->
+<div class="bg-surface-container-lowest border border-border-subtle p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined p-2 bg-success-emerald/10 text-success-emerald rounded-lg">payments</span>
+<span class="text-danger-coral font-label-caps text-label-caps flex items-center">-1.2% <span class="material-symbols-outlined text-[14px]">trending_down</span></span>
+</div>
+<p class="font-label-caps text-label-caps text-on-primary-container mb-1">Total Repayment Expected</p>
+<h2 class="font-headline-lg text-headline-lg text-primary">$13,325,400</h2>
+<p class="text-[10px] text-on-surface-variant mt-2">Projected for Q3 closure</p>
+</div>
+<!-- KPI 4 -->
+<div class="bg-surface-container-lowest border border-border-subtle p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined p-2 bg-secondary-container/10 text-secondary rounded-lg">pending_actions</span>
+<div class="px-2 py-0.5 bg-danger-coral/10 text-danger-coral rounded text-[10px] font-bold">URGENT</div>
+</div>
+<p class="font-label-caps text-label-caps text-on-primary-container mb-1">Pending Approvals</p>
+<h2 class="font-headline-lg text-headline-lg text-primary">24</h2>
+<p class="text-[10px] text-on-surface-variant mt-2">Avg. wait time: 1.4 days</p>
+</div>
+</section>
+<!-- Main Dashboard Content -->
+<div class="grid grid-cols-12 gap-8">
+<!-- Left Column: Performance & Status -->
+<div class="col-span-12 lg:col-span-8 space-y-8">
+<!-- Monthly Performance Chart -->
+<div class="bg-surface-container-lowest border border-border-subtle rounded-xl p-6 shadow-sm">
+<div class="flex justify-between items-center mb-8">
+<div>
+<h3 class="font-headline-md text-headline-md text-primary">Monthly Performance</h3>
+<p class="text-body-md text-on-surface-variant">Loan volume and repayment trends</p>
+</div>
+<div class="flex gap-2">
+<button class="px-4 py-1.5 rounded-lg bg-surface-container text-label-caps text-on-surface font-bold text-[11px]">VOLUME</button>
+<button class="px-4 py-1.5 rounded-lg text-label-caps text-on-surface-variant font-bold text-[11px] hover:bg-surface-container">REPAYMENT</button>
+</div>
+</div>
+<!-- Visual Mockup for Chart -->
+<div class="h-64 flex items-end justify-between gap-4 px-2">
+<div class="flex-1 flex flex-col items-center gap-2">
+<div class="w-full bg-secondary-container/20 rounded-t-lg relative group h-32 chart-bar">
+<div class="absolute inset-x-0 bottom-0 bg-secondary-container rounded-t-lg h-3/4"></div>
+</div>
+<span class="text-[10px] font-bold text-on-surface-variant">JAN</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-2">
+<div class="w-full bg-secondary-container/20 rounded-t-lg relative h-48 chart-bar">
+<div class="absolute inset-x-0 bottom-0 bg-secondary-container rounded-t-lg h-1/2"></div>
+</div>
+<span class="text-[10px] font-bold text-on-surface-variant">FEB</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-2">
+<div class="w-full bg-secondary-container/20 rounded-t-lg relative h-64 chart-bar">
+<div class="absolute inset-x-0 bottom-0 bg-secondary-container rounded-t-lg h-4/5"></div>
+</div>
+<span class="text-[10px] font-bold text-on-surface-variant">MAR</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-2">
+<div class="w-full bg-secondary-container/20 rounded-t-lg relative h-56 chart-bar">
+<div class="absolute inset-x-0 bottom-0 bg-secondary-container rounded-t-lg h-2/3"></div>
+</div>
+<span class="text-[10px] font-bold text-on-surface-variant">APR</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-2">
+<div class="w-full bg-secondary-container/20 rounded-t-lg relative h-40 chart-bar">
+<div class="absolute inset-x-0 bottom-0 bg-secondary-container rounded-t-lg h-full"></div>
+</div>
+<span class="text-[10px] font-bold text-on-surface-variant">MAY</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-2">
+<div class="w-full bg-secondary-container/20 rounded-t-lg relative h-52 chart-bar">
+<div class="absolute inset-x-0 bottom-0 bg-secondary-container rounded-t-lg h-1/3"></div>
+</div>
+<span class="text-[10px] font-bold text-on-surface-variant">JUN</span>
+</div>
+</div>
+</div>
+<!-- Payment Status Breakdown Table -->
+<div class="bg-surface-container-lowest border border-border-subtle rounded-xl overflow-hidden shadow-sm">
+<div class="p-6 border-b border-border-subtle flex justify-between items-center">
+<h3 class="font-headline-md text-headline-md text-primary">Portfolio Status Overview</h3>
+<button class="text-secondary font-label-caps text-label-caps hover:underline">EXPORT REPORT</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead class="bg-surface-gray border-b border-border-subtle">
+<tr>
+<th class="px-6 py-4 font-label-caps text-label-caps text-on-surface-variant">TRANSACTION ID</th>
+<th class="px-6 py-4 font-label-caps text-label-caps text-on-surface-variant">RECIPIENT</th>
+<th class="px-6 py-4 font-label-caps text-label-caps text-on-surface-variant">AMOUNT</th>
+<th class="px-6 py-4 font-label-caps text-label-caps text-on-surface-variant">DATE</th>
+<th class="px-6 py-4 font-label-caps text-label-caps text-on-surface-variant">STATUS</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-subtle">
+<tr class="hover:bg-secondary-fixed/10 transition-colors">
+<td class="px-6 py-4 font-data-mono text-data-mono">#SN-48291</td>
+<td class="px-6 py-4 text-body-md font-semibold text-primary">Global Tech Sol.</td>
+<td class="px-6 py-4 text-body-md">$142,000</td>
+<td class="px-6 py-4 text-body-md text-on-surface-variant">Oct 12, 2023</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-success-emerald/10 text-success-emerald">
+                                                Completed
+                                            </span>
+</td>
+</tr>
+<tr class="hover:bg-secondary-fixed/10 transition-colors">
+<td class="px-6 py-4 font-data-mono text-data-mono">#SN-48292</td>
+<td class="px-6 py-4 text-body-md font-semibold text-primary">Urban Dev Fund</td>
+<td class="px-6 py-4 text-body-md">$89,500</td>
+<td class="px-6 py-4 text-body-md text-on-surface-variant">Oct 14, 2023</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-alert-amber/10 text-alert-amber">
+                                                Pending
+                                            </span>
+</td>
+</tr>
+<tr class="hover:bg-secondary-fixed/10 transition-colors">
+<td class="px-6 py-4 font-data-mono text-data-mono">#SN-48293</td>
+<td class="px-6 py-4 text-body-md font-semibold text-primary">Apex Logistics</td>
+<td class="px-6 py-4 text-body-md">$210,000</td>
+<td class="px-6 py-4 text-body-md text-on-surface-variant">Oct 15, 2023</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-success-emerald/10 text-success-emerald">
+                                                Completed
+                                            </span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- Right Column: Activity & Nearing Due -->
+<div class="col-span-12 lg:col-span-4 space-y-8">
+<!-- Live Activity List -->
+<div class="bg-surface-container-lowest border border-border-subtle rounded-xl p-6 shadow-sm">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-headline-md text-headline-md text-primary">Live Activity</h3>
+<span class="w-2 h-2 bg-success-emerald rounded-full animate-pulse"></span>
+</div>
+<div class="space-y-6">
+<div class="flex gap-4">
+<div class="shrink-0 w-10 h-10 rounded-full bg-secondary-container/10 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined">add_circle</span>
+</div>
+<div class="flex-1">
+<p class="text-body-md text-primary font-semibold">New Application Submitted</p>
+<p class="text-body-md text-on-surface-variant">Meridian Ventures filed for $500k extension.</p>
+<span class="text-[10px] text-on-primary-container">4 mins ago</span>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="shrink-0 w-10 h-10 rounded-full bg-success-emerald/10 flex items-center justify-center text-success-emerald">
+<span class="material-symbols-outlined">check_circle</span>
+</div>
+<div class="flex-1">
+<p class="text-body-md text-primary font-semibold">Repayment Received</p>
+<p class="text-body-md text-on-surface-variant">Summit Corp settled #SN-48210.</p>
+<span class="text-[10px] text-on-primary-container">12 mins ago</span>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="shrink-0 w-10 h-10 rounded-full bg-alert-amber/10 flex items-center justify-center text-alert-amber">
+<span class="material-symbols-outlined">warning</span>
+</div>
+<div class="flex-1">
+<p class="text-body-md text-primary font-semibold">Document Missing</p>
+<p class="text-body-md text-on-surface-variant">Incomplete collateral photo for ID #SN-4900.</p>
+<span class="text-[10px] text-on-primary-container">1 hour ago</span>
+</div>
+</div>
+</div>
+<button class="w-full mt-6 py-3 border border-border-subtle rounded-lg text-label-caps text-on-surface-variant font-bold text-[11px] hover:bg-surface-container transition-colors">VIEW ALL AUDITS</button>
+</div>
+<!-- Pending Borrowers (Nearing Due) -->
+<div class="bg-surface-container-lowest border border-border-subtle rounded-xl p-6 shadow-sm">
+<h3 class="font-headline-md text-headline-md text-primary mb-6">Action Required</h3>
+<div class="space-y-4">
+<!-- Borrower Item -->
+<div class="p-4 border border-border-subtle rounded-lg hover:border-secondary transition-colors cursor-pointer group">
+<div class="flex justify-between items-start mb-2">
+<span class="font-body-md text-primary font-bold">Jameson Brooks</span>
+<span class="text-danger-coral font-label-caps text-[10px]">DUE IN 2D</span>
+</div>
+<p class="text-body-md text-on-surface-variant mb-3">Balance: $12,450.00</p>
+<div class="flex gap-2">
+<button class="flex-1 py-2 bg-secondary text-white font-label-caps text-[10px] rounded hover:bg-secondary-container transition-colors">SEND REMINDER</button>
+<button class="px-3 py-2 border border-border-subtle rounded hover:bg-surface-container">
+<span class="material-symbols-outlined text-[18px]">call</span>
+</button>
+</div>
+</div>
+<!-- Borrower Item -->
+<div class="p-4 border border-border-subtle rounded-lg hover:border-secondary transition-colors cursor-pointer group">
+<div class="flex justify-between items-start mb-2">
+<span class="font-body-md text-primary font-bold">Elena Rodriguez</span>
+<span class="text-alert-amber font-label-caps text-[10px]">DUE IN 5D</span>
+</div>
+<p class="text-body-md text-on-surface-variant mb-3">Balance: $4,200.00</p>
+<div class="flex gap-2">
+<button class="flex-1 py-2 bg-secondary text-white font-label-caps text-[10px] rounded hover:bg-secondary-container transition-colors">SEND REMINDER</button>
+<button class="px-3 py-2 border border-border-subtle rounded hover:bg-surface-container">
+<span class="material-symbols-outlined text-[18px]">call</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Contextual Micro-Interactions -->
+<script>
+        document.querySelectorAll('.chart-bar').forEach(bar => {
+            bar.addEventListener('mouseenter', function() {
+                this.style.opacity = '0.8';
+                this.style.transform = 'scaleY(1.05)';
+            });
+            bar.addEventListener('mouseleave', function() {
+                this.style.opacity = '1';
+                this.style.transform = 'scaleY(1)';
+            });
+        });
+    </script>
+</body></html>

@@ -1,0 +1,534 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Main Tracker | GIIN Sentinel</title>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Google Fonts: Inter -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        /* Style adjustments for institutional feel */
+        tr:hover {
+            background-color: rgba(49, 107, 243, 0.04);
+            transition: background-color 0.2s ease;
+        }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "success-emerald": "#10B981",
+                    "surface-container": "#f0edef",
+                    "alert-amber": "#F59E0B",
+                    "on-secondary-container": "#fefcff",
+                    "on-primary-fixed-variant": "#3f465c",
+                    "primary-fixed": "#dae2fd",
+                    "tertiary-container": "#271901",
+                    "surface-tint": "#565e74",
+                    "tertiary-fixed-dim": "#dec29a",
+                    "danger-coral": "#F43F5E",
+                    "outline": "#76777d",
+                    "inverse-primary": "#bec6e0",
+                    "error-container": "#ffdad6",
+                    "on-tertiary-fixed": "#271901",
+                    "inverse-on-surface": "#f3f0f2",
+                    "border-subtle": "#E2E8F0",
+                    "error": "#ba1a1a",
+                    "surface-container-highest": "#e4e2e4",
+                    "primary-container": "#131b2e",
+                    "on-error": "#ffffff",
+                    "surface-bright": "#fcf8fa",
+                    "background": "#fcf8fa",
+                    "on-tertiary-container": "#98805d",
+                    "surface-variant": "#e4e2e4",
+                    "on-secondary-fixed-variant": "#003ea8",
+                    "on-surface": "#1b1b1d",
+                    "surface-container-low": "#f6f3f5",
+                    "on-tertiary": "#ffffff",
+                    "surface-gray": "#F8FAFC",
+                    "inverse-surface": "#303032",
+                    "surface": "#fcf8fa",
+                    "secondary-fixed-dim": "#b4c5ff",
+                    "surface-container-high": "#eae7e9",
+                    "tertiary": "#000000",
+                    "secondary": "#0051d5",
+                    "surface-container-lowest": "#ffffff",
+                    "primary": "#000000",
+                    "on-primary": "#ffffff",
+                    "on-primary-container": "#7c839b",
+                    "on-surface-variant": "#45464d",
+                    "surface-dim": "#dcd9db",
+                    "primary-fixed-dim": "#bec6e0",
+                    "on-tertiary-fixed-variant": "#574425",
+                    "tertiary-fixed": "#fcdeb5",
+                    "on-secondary-fixed": "#00174b",
+                    "on-primary-fixed": "#131b2e",
+                    "secondary-container": "#316bf3",
+                    "outline-variant": "#c6c6cd",
+                    "on-error-container": "#93000a",
+                    "on-secondary": "#ffffff",
+                    "secondary-fixed": "#dbe1ff",
+                    "on-background": "#1b1b1d"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "fontFamily": {
+                    "body-md": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "label-caps": ["Inter"]
+            },
+            "fontSize": {
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+</head>
+<body class="bg-surface-gray font-body-md text-on-surface">
+<!-- SIDE NAVIGATION BAR -->
+<nav class="h-full w-64 fixed left-0 top-0 bg-primary-container text-on-primary-container flex flex-col p-4 space-y-2 z-50">
+<div class="mb-8 px-2 flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-secondary-container flex items-center justify-center text-on-secondary-container shadow-sm">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">shield</span>
+</div>
+<div>
+<h1 class="text-headline-md font-headline-md font-bold text-on-secondary-container leading-none">GIIN Sentinel</h1>
+<p class="text-[10px] font-label-caps uppercase tracking-widest text-on-primary-container/60 mt-1">Institutional Admin</p>
+</div>
+</div>
+<div class="space-y-1 flex-1">
+<a class="flex items-center gap-3 text-on-primary-container hover:bg-surface-variant/10 rounded-xl px-4 py-3 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-body-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 text-on-primary-container hover:bg-surface-variant/10 rounded-xl px-4 py-3 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">how_to_reg</span>
+<span class="font-body-md">Approval Center</span>
+</a>
+<!-- ACTIVE TAB: Main Tracker -->
+<a class="flex items-center gap-3 bg-secondary-container text-on-secondary-container rounded-xl px-4 py-3 shadow-md" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">analytics</span>
+<span class="font-body-md font-semibold">Main Tracker</span>
+</a>
+<a class="flex items-center gap-3 text-on-primary-container hover:bg-surface-variant/10 rounded-xl px-4 py-3 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">notifications_active</span>
+<span class="font-body-md">Reminders</span>
+</a>
+<a class="flex items-center gap-3 text-on-primary-container hover:bg-surface-variant/10 rounded-xl px-4 py-3 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-body-md">Settings</span>
+</a>
+</div>
+<div class="mt-auto pt-6 border-t border-on-primary-container/10 px-2 flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-secondary-container">
+<img class="w-full h-full object-cover" data-alt="A professional studio portrait of a corporate administrator in his 40s wearing a dark navy suit and white shirt, set against a clean minimalist office background with soft lighting and a professional bokeh effect. The style is sharp and institutional." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDNUCbBUWjoZohSm92UfxxxJV7BaRGf_o5ttRUtEi-Wi7A_1fqysIEj1dymDsAUpDWSAqarlmpAqR2sqspJi8Ik6VrmiwZLbdXo_bkH-iWyBb9bQ_yh4rjE-66kBPFDMa_4iLXL2e8u5tnCwzk_4RKn-7eSltwMXDN-RhNFLWrmHm8MX2ZTx96eHl5Jvpi1dP7oxLOM6prp-alefSqzsjy4Yk3vCgOvsYOZjToBnehGpxl4HPkjhki_TmQBIPlGAV0kNnQc1OySp_0G">
+</div>
+<div>
+<p class="text-body-md font-semibold text-on-secondary-container">Admin User</p>
+<p class="text-[11px] text-on-primary-container/70">Level 4 Access</p>
+</div>
+</div>
+</nav>
+<!-- TOP APP BAR -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] z-40 bg-surface/80 backdrop-blur-md border-b border-border-subtle flex justify-between items-center h-16 px-8">
+<div class="flex items-center flex-1 max-w-xl">
+<div class="relative w-full focus-within:ring-2 focus-within:ring-secondary-container rounded-lg transition-all">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-low border-none rounded-lg text-body-md focus:ring-0 placeholder:text-on-surface-variant/50" placeholder="Search by Borrower Name, ID, or National ID..." type="text">
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4 border-r border-border-subtle pr-6"><button class="text-on-surface-variant hover:text-secondary transition-colors relative flex items-center gap-1" title="Monthly Tracker Reports"><span class="material-symbols-outlined">assessment</span><span class="text-label-caps font-semibold">Reports</span></button>
+<button class="text-on-surface-variant hover:text-secondary transition-colors relative">
+<span class="material-symbols-outlined">help</span>
+</button>
+<button class="text-on-surface-variant hover:text-secondary transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute -top-1 -right-1 w-2 h-2 bg-danger-coral rounded-full border border-surface"></span>
+</button>
+</div>
+<div class="flex items-center gap-3">
+<span class="text-label-caps text-on-surface font-semibold">Institutional Admin</span>
+<span class="material-symbols-outlined text-on-surface-variant">keyboard_arrow_down</span>
+</div>
+</div>
+</header>
+<!-- MAIN CONTENT AREA -->
+<main class="ml-64 pt-24 p-8 min-h-screen">
+<!-- Header Section -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-4">
+<div>
+<div class="flex items-center gap-3 mb-1">
+<span class="material-symbols-outlined text-secondary text-[28px]">analytics</span>
+<h2 class="font-headline-lg text-headline-lg text-primary">Main Tracker</h2>
+</div>
+<p class="text-on-surface-variant text-body-lg">
+                    Monitoring <span class="font-bold text-primary">142 Active Loans</span> across the institutional portfolio.
+                </p>
+</div>
+<div class="flex items-center gap-3">
+<button class="flex items-center gap-2 px-5 py-2.5 bg-surface-container border border-border-subtle text-on-surface font-semibold rounded-lg hover:bg-surface-variant/20 transition-all">
+<span class="material-symbols-outlined text-[20px]">file_download</span>
+                    Export Data
+                </button>
+<button class="flex items-center gap-2 px-5 py-2.5 bg-secondary text-on-secondary font-semibold rounded-lg shadow-lg shadow-secondary/20 hover:opacity-90 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-[20px]">add</span>
+                    Add Manual Entry
+                </button>
+</div>
+</div>
+<!-- Filter & Control Bar -->
+<div class="bg-surface-container-lowest border border-border-subtle rounded-xl p-4 mb-6 shadow-sm flex flex-wrap gap-4 items-center">
+<div class="flex items-center gap-2 px-3 py-1.5 bg-surface-gray border border-border-subtle rounded-lg">
+<span class="text-label-caps text-on-surface-variant uppercase">Status:</span>
+<select class="bg-transparent border-none text-body-md font-semibold text-primary focus:ring-0 cursor-pointer py-0">
+<option>All Loans</option>
+<option>Pending</option>
+<option>Completed</option>
+<option>Overdue</option>
+</select>
+</div>
+<div class="flex items-center gap-2 px-3 py-1.5 bg-surface-gray border border-border-subtle rounded-lg">
+<span class="text-label-caps text-on-surface-variant uppercase">Date Range:</span>
+<button class="text-body-md font-semibold text-primary flex items-center gap-2">
+                    Last 30 Days
+                    <span class="material-symbols-outlined text-[18px]">calendar_today</span>
+</button>
+</div>
+<div class="flex items-center gap-2 px-3 py-1.5 bg-surface-gray border border-border-subtle rounded-lg">
+<span class="text-label-caps text-on-surface-variant uppercase">Sort By:</span>
+<select class="bg-transparent border-none text-body-md font-semibold text-primary focus:ring-0 cursor-pointer py-0">
+<option>Due Date (Soonest)</option>
+<option>Amount (High-Low)</option>
+<option>Borrower Name</option>
+</select>
+</div>
+<div class="ml-auto text-on-surface-variant text-body-md">
+                Displaying 10 of 142 records
+            </div>
+</div>
+<!-- Main Data Table Container -->
+<div class="bg-surface-container-lowest border border-border-subtle rounded-xl shadow-sm overflow-hidden flex flex-col">
+<div class="overflow-x-auto custom-scrollbar">
+<table class="w-full text-left border-collapse">
+<thead class="bg-surface-gray sticky top-0 z-10 border-b border-border-subtle">
+<tr>
+<th class="px-6 py-4 text-label-caps font-bold text-on-surface-variant uppercase tracking-wider">Borrower</th>
+<th class="px-6 py-4 text-label-caps font-bold text-on-surface-variant uppercase tracking-wider">Loan Details</th>
+<th class="px-6 py-4 text-label-caps font-bold text-on-surface-variant uppercase tracking-wider">Timeline</th>
+<th class="px-6 py-4 text-label-caps font-bold text-on-surface-variant uppercase tracking-wider">Financials (RWF)</th>
+<th class="px-6 py-4 text-label-caps font-bold text-on-surface-variant uppercase tracking-wider">Collateral</th>
+<th class="px-6 py-4 text-label-caps font-bold text-on-surface-variant uppercase tracking-wider text-center">Status</th>
+<th class="px-6 py-4 text-label-caps font-bold text-on-surface-variant uppercase tracking-wider text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-subtle">
+<!-- Row 1 -->
+<tr>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-secondary-container/20 flex items-center justify-center text-secondary font-bold text-[14px]">
+                                        JK
+                                    </div>
+<div>
+<div class="text-body-md font-bold text-primary">Jean Kayishema</div>
+<div class="text-[11px] text-on-surface-variant">ID: 119988001223</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="text-body-md font-semibold text-primary">#LN-48291</div>
+<div class="text-[11px] text-on-surface-variant">Student Personal Loan</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex flex-col">
+<span class="text-[11px] text-on-surface-variant uppercase">Issued: Oct 12, 2023</span>
+<span class="text-body-md font-semibold text-danger-coral">Due: Nov 12, 2024</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex flex-col">
+<div class="text-body-md font-bold text-primary">1,200,000</div>
+<div class="text-[11px] text-on-surface-variant">Int: 4.5% (54,000)</div>
+<div class="text-[11px] font-semibold text-secondary">Total: 1,254,000</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant">laptop_mac</span>
+<span class="text-body-md text-on-surface">HP EliteBook 840</span>
+</div>
+</td>
+<td class="px-6 py-4 text-center">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-alert-amber/10 text-alert-amber uppercase tracking-tight">
+                                    Pending
+                                </span>
+</td>
+<td class="px-6 py-4 text-right">
+<a href="#" class="text-secondary font-bold hover:underline text-body-md transition-all">Manage</a>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-success-emerald/10 flex items-center justify-center text-success-emerald font-bold text-[14px]">
+                                        AM
+                                    </div>
+<div>
+<div class="text-body-md font-bold text-primary">Aline Mutoni</div>
+<div class="text-[11px] text-on-surface-variant">ID: 119947008811</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="text-body-md font-semibold text-primary">#LN-48285</div>
+<div class="text-[11px] text-on-surface-variant">Tuition Financing</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex flex-col">
+<span class="text-[11px] text-on-surface-variant uppercase">Issued: Sep 05, 2023</span>
+<span class="text-body-md font-semibold text-success-emerald">Paid: Aug 30, 2024</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex flex-col">
+<div class="text-body-md font-bold text-primary">850,000</div>
+<div class="text-[11px] text-on-surface-variant">Int: 3.2% (27,200)</div>
+<div class="text-[11px] font-semibold text-secondary">Total: 877,200</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant">smartphone</span>
+<span class="text-body-md text-on-surface">iPhone 13 Pro</span>
+</div>
+</td>
+<td class="px-6 py-4 text-center">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-success-emerald/10 text-success-emerald uppercase tracking-tight">
+                                    Completed
+                                </span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-secondary font-bold hover:underline text-body-md transition-all">Manage</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary-container/10 flex items-center justify-center text-primary-container font-bold text-[14px]">
+                                        BN
+                                    </div>
+<div>
+<div class="text-body-md font-bold text-primary">Blaise Nshuti</div>
+<div class="text-[11px] text-on-surface-variant">ID: 120014002234</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="text-body-md font-semibold text-primary">#LN-48302</div>
+<div class="text-[11px] text-on-surface-variant">Startup Equipment</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex flex-col">
+<span class="text-[11px] text-on-surface-variant uppercase">Issued: Oct 20, 2023</span>
+<span class="text-body-md font-semibold text-on-surface">Due: Nov 20, 2024</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex flex-col">
+<div class="text-body-md font-bold text-primary">2,450,000</div>
+<div class="text-[11px] text-on-surface-variant">Int: 5.0% (122,500)</div>
+<div class="text-[11px] font-semibold text-secondary">Total: 2,572,500</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant">camera_alt</span>
+<span class="text-body-md text-on-surface">Sony Alpha a7R IV</span>
+</div>
+</td>
+<td class="px-6 py-4 text-center">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-alert-amber/10 text-alert-amber uppercase tracking-tight">
+                                    Pending
+                                </span>
+</td>
+<td class="px-6 py-4 text-right">
+<a href="#" class="text-secondary font-bold hover:underline text-body-md transition-all">Manage</a>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center text-primary font-bold text-[14px]">
+                                        TU
+                                    </div>
+<div>
+<div class="text-body-md font-bold text-primary">Theoneste Umurerwa</div>
+<div class="text-[11px] text-on-surface-variant">ID: 119888005544</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="text-body-md font-semibold text-primary">#LN-48315</div>
+<div class="text-[11px] text-on-surface-variant">Final Project Grant</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex flex-col">
+<span class="text-[11px] text-on-surface-variant uppercase">Issued: Nov 01, 2023</span>
+<span class="text-body-md font-semibold text-on-surface">Due: Dec 01, 2024</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex flex-col">
+<div class="text-body-md font-bold text-primary">500,000</div>
+<div class="text-[11px] text-on-surface-variant">Int: 2.5% (12,500)</div>
+<div class="text-[11px] font-semibold text-secondary">Total: 512,500</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant">directions_bike</span>
+<span class="text-body-md text-on-surface">Bicycle - Trek Marlin</span>
+</div>
+</td>
+<td class="px-6 py-4 text-center">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-success-emerald/10 text-success-emerald uppercase tracking-tight">
+                                    Completed
+                                </span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-secondary font-bold hover:underline text-body-md transition-all">Manage</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Table Footer / Pagination -->
+<div class="px-6 py-4 bg-surface border-t border-border-subtle flex flex-col sm:flex-row justify-between items-center gap-4">
+<div class="flex items-center gap-4">
+<div class="text-body-md text-on-surface-variant">
+                        Showing 1 - 4 of 142 entries
+                    </div>
+<div class="flex items-center gap-2 border-l border-border-subtle pl-4">
+<span class="text-label-caps text-on-surface-variant uppercase">Items per page:</span>
+<select class="bg-surface border border-border-subtle rounded px-2 py-1 text-[12px] font-bold text-primary focus:ring-0">
+<option>10</option>
+<option>25</option>
+<option>50</option>
+<option>100</option>
+</select>
+</div>
+</div>
+<div class="flex items-center gap-1">
+<button class="w-9 h-9 flex items-center justify-center rounded-lg border border-border-subtle text-on-surface-variant hover:bg-surface-variant/10 transition-all disabled:opacity-30" disabled="">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="w-9 h-9 flex items-center justify-center rounded-lg bg-secondary text-on-secondary font-bold">1</button>
+<button class="w-9 h-9 flex items-center justify-center rounded-lg border border-border-subtle text-on-surface hover:bg-surface-variant/10 transition-all">2</button>
+<button class="w-9 h-9 flex items-center justify-center rounded-lg border border-border-subtle text-on-surface hover:bg-surface-variant/10 transition-all">3</button>
+<span class="px-2 text-on-surface-variant">...</span>
+<button class="w-9 h-9 flex items-center justify-center rounded-lg border border-border-subtle text-on-surface hover:bg-surface-variant/10 transition-all">15</button>
+<button class="w-9 h-9 flex items-center justify-center rounded-lg border border-border-subtle text-on-surface hover:bg-surface-variant/10 transition-all">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- System Overview Tiles (Mini KPIs) -->
+<div class="mt-8 grid grid-cols-1 md:grid-cols-4 gap-6">
+<div class="bg-surface-container-lowest p-5 rounded-xl border border-border-subtle shadow-sm">
+<div class="flex items-center justify-between mb-2">
+<span class="text-label-caps text-on-surface-variant uppercase font-bold tracking-wider">Total Portfolio</span>
+<span class="material-symbols-outlined text-secondary">account_balance_wallet</span>
+</div>
+<div class="text-headline-md font-bold text-primary">124.5M <span class="text-[12px] text-on-surface-variant font-normal">RWF</span></div>
+<div class="text-[11px] text-success-emerald mt-1 font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">trending_up</span> +8.2% vs last month
+                </div>
+</div>
+<div class="bg-surface-container-lowest p-5 rounded-xl border border-border-subtle shadow-sm">
+<div class="flex items-center justify-between mb-2">
+<span class="text-label-caps text-on-surface-variant uppercase font-bold tracking-wider">Avg Interest Rate</span>
+<span class="material-symbols-outlined text-secondary">percent</span>
+</div>
+<div class="text-headline-md font-bold text-primary">4.2%</div>
+<div class="text-[11px] text-on-surface-variant mt-1">Institutional cap set at 6.0%</div>
+</div>
+<div class="bg-surface-container-lowest p-5 rounded-xl border border-border-subtle shadow-sm">
+<div class="flex items-center justify-between mb-2">
+<span class="text-label-caps text-on-surface-variant uppercase font-bold tracking-wider">Repayment Rate</span>
+<span class="material-symbols-outlined text-secondary">task_alt</span>
+</div>
+<div class="text-headline-md font-bold text-primary">98.4%</div>
+<div class="text-[11px] text-success-emerald mt-1 font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">star</span> Peak Performance
+                </div>
+</div>
+<div class="bg-surface-container-lowest p-5 rounded-xl border border-border-subtle shadow-sm">
+<div class="flex items-center justify-between mb-2">
+<span class="text-label-caps text-on-surface-variant uppercase font-bold tracking-wider">Pending Alerts</span>
+<span class="material-symbols-outlined text-alert-amber">warning</span>
+</div>
+<div class="text-headline-md font-bold text-primary">12</div>
+<div class="text-[11px] text-danger-coral mt-1 font-bold">3 High Priority actions needed</div>
+</div>
+</div>
+</main>
+<!-- Micro-interaction Scripts -->
+<script>
+        document.querySelectorAll('tr').forEach(row => {
+            row.addEventListener('mouseenter', () => {
+                row.classList.add('shadow-inner');
+            });
+            row.addEventListener('mouseleave', () => {
+                row.classList.remove('shadow-inner');
+            });
+        });
+
+        // Simple search feedback simulation
+        const searchInput = document.querySelector('input[type="text"]');
+        searchInput.addEventListener('input', (e) => {
+            if(e.target.value.length > 2) {
+                // In a real app, this would trigger a filter
+                console.log('Searching for:', e.target.value);
+            }
+        });
+    </script>
+
+
+
+</body></html>

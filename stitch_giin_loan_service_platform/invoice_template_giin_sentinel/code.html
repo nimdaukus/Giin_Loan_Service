@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Invoice Preview - GIIN Sentinel</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+        @media print {
+            .no-print { display: none !important; }
+            .print-shadow-none { shadow: none !important; border: 1px solid #E2E8F0 !important; }
+            body { background: white !important; }
+            .invoice-canvas { margin: 0 !important; width: 100% !important; max-width: none !important; box-shadow: none !important; }
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                "surface-gray": "#F8FAFC",
+                "surface-container-low": "#f6f3f5",
+                "secondary-container": "#316bf3",
+                "inverse-on-surface": "#f3f0f2",
+                "surface-container-lowest": "#ffffff",
+                "error": "#ba1a1a",
+                "on-primary": "#ffffff",
+                "on-surface": "#1b1b1d",
+                "background": "#fcf8fa",
+                "secondary": "#0051d5",
+                "outline-variant": "#c6c6cd",
+                "tertiary-fixed": "#fcdeb5",
+                "border-subtle": "#E2E8F0",
+                "on-primary-container": "#7c839b",
+                "primary-container": "#131b2e",
+                "surface": "#fcf8fa",
+                "on-secondary-container": "#fefcff",
+                "primary": "#000000",
+                "success-emerald": "#10B981",
+                "danger-coral": "#F43F5E",
+                "on-surface-variant": "#45464d",
+              },
+              "borderRadius": {
+                "DEFAULT": "0.125rem",
+                "lg": "0.25rem",
+                "xl": "0.5rem",
+                "full": "0.75rem"
+              },
+              "fontFamily": {
+                "headline-lg": ["Inter"],
+                "label-caps": ["Inter"],
+                "headline-md": ["Inter"],
+                "body-md": ["Inter"],
+                "body-lg": ["Inter"]
+              },
+              "fontSize": {
+                "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+              }
+            }
+          }
+        }
+    </script>
+</head>
+<body class="bg-surface-gray font-body-md text-on-surface min-h-screen">
+<!-- Sidebar Navigation Shell -->
+<aside class="h-full w-64 fixed left-0 top-0 bg-primary-container z-50 no-print flex flex-col p-4 space-y-2">
+<div class="mb-8 px-4">
+<h1 class="text-headline-md font-headline-md font-bold text-on-secondary-container">GIIN Sentinel</h1>
+<p class="text-on-primary-container font-label-caps text-[10px] tracking-widest mt-1">INSTITUTIONAL ADMIN</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 text-on-primary-container hover:bg-surface-variant/10 rounded-xl px-4 py-3 transition-all" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-caps">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 bg-secondary-container text-on-secondary-container rounded-xl px-4 py-3 transition-all" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-label-caps">Main Tracker</span>
+</a>
+<a class="flex items-center gap-3 text-on-primary-container hover:bg-surface-variant/10 rounded-xl px-4 py-3 transition-all" href="#">
+<span class="material-symbols-outlined">how_to_reg</span>
+<span class="font-label-caps">Approval Center</span>
+</a>
+<a class="flex items-center gap-3 text-on-primary-container hover:bg-surface-variant/10 rounded-xl px-4 py-3 transition-all" href="#">
+<span class="material-symbols-outlined">notifications_active</span>
+<span class="font-label-caps">Reminders</span>
+</a>
+</nav>
+<div class="pt-4 border-t border-on-primary-container/20">
+<a class="flex items-center gap-3 text-on-primary-container hover:bg-surface-variant/10 rounded-xl px-4 py-3 transition-all" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-caps">Settings</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-64 min-h-screen pb-12">
+<!-- Top App Bar -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] z-40 bg-surface/80 backdrop-blur-md border-b border-border-subtle h-16 px-8 flex justify-between items-center no-print">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-primary-container">description</span>
+<span class="font-headline-md text-headline-md font-black text-primary uppercase">Invoice Preview</span>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-on-surface-variant hover:text-secondary transition-colors">
+<span class="material-symbols-outlined">help</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-secondary transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-danger-coral rounded-full"></span>
+</button>
+<div class="h-8 w-8 rounded-full overflow-hidden border border-border-subtle bg-surface-container ml-2">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a corporate financial administrator in a clean office setting, soft natural lighting, high resolution, minimalist aesthetic, GIIN Sentinel corporate style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCktpo_aZkTkjP1caGe_OaIfsN50z7Pd6Zu6C6yEN4BYVh9VRtTAi2qHjPo2cZhv3X5eDcpE1y7NVdOwSh1LZxrDqhLdgS-__2HhOuPG9Pw0OVkWARU-7t_3pDXMk7GvUwgX74S4ILRpsrU8BmhDKyyNRjJAnlU0ETXmjp9cwVH4ONwa-3w_XB_TiPF8egICSbpBkiphDzPtNvnnbwIO3K9d5rJmwTqMzcK0HVG1YJfjrwWAR-OUuUNJuewXwBws9qiRT5noGX7Ry6u"/>
+</div>
+</div>
+</header>
+<!-- Tool Bar / Actions -->
+<div class="mt-24 px-12 mb-8 flex justify-between items-end no-print">
+<div>
+<nav class="flex items-center gap-2 text-on-primary-container font-label-caps mb-2">
+<span>Tracker</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="text-secondary">INV-2024-001</span>
+</nav>
+<h2 class="font-headline-lg text-headline-lg text-primary">Review Document</h2>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center gap-2 px-5 py-2.5 border border-border-subtle rounded-xl font-label-caps text-on-surface hover:bg-white transition-all shadow-sm" onclick="window.print()">
+<span class="material-symbols-outlined">print</span>
+                    Print
+                </button>
+<button class="flex items-center gap-2 px-5 py-2.5 border border-border-subtle rounded-xl font-label-caps text-on-surface hover:bg-white transition-all shadow-sm">
+<span class="material-symbols-outlined">download</span>
+                    Download PDF
+                </button>
+<button class="flex items-center gap-2 px-6 py-2.5 bg-secondary text-white rounded-xl font-label-caps hover:bg-secondary/90 transition-all shadow-md">
+<span class="material-symbols-outlined">send</span>
+                    Send to Borrower
+                </button>
+</div>
+</div>
+<!-- Document Preview Canvas -->
+<div class="px-12 flex justify-center">
+<article class="invoice-canvas w-full max-w-[850px] bg-white shadow-xl rounded-xl overflow-hidden print-shadow-none border border-border-subtle">
+<!-- Invoice Header -->
+<div class="p-12 bg-primary-container text-white flex justify-between items-start">
+<div>
+<div class="flex items-center gap-2 mb-6">
+<div class="w-10 h-10 bg-secondary rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-white" style="font-variation-settings: 'FILL' 1;">shield</span>
+</div>
+<span class="text-headline-md font-bold tracking-tight">GIIN SENTINEL</span>
+</div>
+<h1 class="text-4xl font-black tracking-tighter mb-1">INVOICE</h1>
+<p class="text-on-primary-container font-data-mono uppercase">Reference: INV-2024-001</p>
+</div>
+<div class="text-right space-y-4">
+<div>
+<p class="font-label-caps text-on-primary-container opacity-70">DATE OF ISSUE</p>
+<p class="font-headline-md">October 24, 2024</p>
+</div>
+<div>
+<p class="font-label-caps text-on-primary-container opacity-70">DUE DATE</p>
+<p class="font-headline-md text-secondary-container">November 05, 2024</p>
+</div>
+</div>
+</div>
+<!-- Entity Details -->
+<div class="p-12 grid grid-cols-2 gap-12 border-b border-border-subtle">
+<div>
+<h3 class="font-label-caps text-on-primary-container mb-4">FROM</h3>
+<p class="font-bold text-primary mb-1">GIIN Sentinel Institutional Finance</p>
+<p class="text-on-surface-variant leading-relaxed">
+                            KG 541 St, Career Center Building<br/>
+                            Floor 4, Financial District<br/>
+                            Kigali, Rwanda<br/>
+                            finance@giinsentinel.com
+                        </p>
+</div>
+<div>
+<h3 class="font-label-caps text-on-primary-container mb-4">BILL TO</h3>
+<p class="font-bold text-primary mb-1">Jean Kayishema</p>
+<p class="text-on-surface-variant leading-relaxed">
+                            Student ID: 221000001<br/>
+                            National ID: 119988001223<br/>
+                            +250 788 000 111<br/>
+                            j.kayishema@university.ac.rw
+                        </p>
+</div>
+</div>
+<!-- Loan Summary Table -->
+<div class="px-12 py-8">
+<table class="w-full text-left">
+<thead>
+<tr class="border-b-2 border-primary">
+<th class="py-4 font-label-caps text-primary">DESCRIPTION</th>
+<th class="py-4 font-label-caps text-primary text-center">QTY</th>
+<th class="py-4 font-label-caps text-primary text-right">UNIT PRICE (RWF)</th>
+<th class="py-4 font-label-caps text-primary text-right">TOTAL (RWF)</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-subtle">
+<tr>
+<td class="py-6">
+<p class="font-bold text-primary">Tuition Loan Principal</p>
+<p class="text-sm text-on-surface-variant mt-1">Semester 1 academic installment - GIIN Education Credit Line</p>
+</td>
+<td class="py-6 text-center text-on-surface-variant">1</td>
+<td class="py-6 text-right font-data-mono">850,000</td>
+<td class="py-6 text-right font-data-mono font-bold">850,000</td>
+</tr>
+<tr>
+<td class="py-6">
+<p class="font-bold text-primary">Administrative Interest (3.5%)</p>
+<p class="text-sm text-on-surface-variant mt-1">Institutional service fee for the current billing cycle</p>
+</td>
+<td class="py-6 text-center text-on-surface-variant">1</td>
+<td class="py-6 text-right font-data-mono">29,750</td>
+<td class="py-6 text-right font-data-mono font-bold">29,750</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Financial Breakdown & Totals -->
+<div class="px-12 pb-12 flex justify-between items-start">
+<!-- Collateral Info -->
+<div class="max-w-xs">
+<div class="p-4 bg-surface-gray border border-border-subtle rounded-lg">
+<h4 class="font-label-caps text-primary mb-2 flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">inventory_2</span>
+                                Collateral Reference
+                            </h4>
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 bg-white border border-border-subtle rounded p-1">
+<img class="w-full h-full object-contain" data-alt="A professional high-resolution photograph of a silver HP EliteBook laptop on a clean white desk, technical studio lighting, institutional assets documentation style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCl187rQYDw6krUoERg-60tkUgR9G0CP1yAOHHkUxOoMQLzaqROJmFOC5GLRMjvqC3mm-cmfgmVpvDRwvmJCltuG8rvjuuN4nUOmK7Mc56Dz7dXrc-mKgMdN0a5eSR4xWNxhykAkHyynIq3V6T_fDMzf2H8XBuaha1QIHvI8MohgsPm9EEPDqXPWLaFOD9dGM1TACvQdcfWU9X-tcRwkUHH884ftBseXmhUBz7wyMl68RRIkeoCAhvr6q7PMQboQrZVwIkvnZUsRZWG"/>
+</div>
+<div>
+<p class="text-xs font-bold">HP EliteBook 840</p>
+<p class="text-[10px] text-on-surface-variant font-data-mono">S/N: HP-992-AL-023</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Totals -->
+<div class="w-64 space-y-3">
+<div class="flex justify-between text-on-surface-variant">
+<span class="font-label-caps">SUBTOTAL</span>
+<span class="font-data-mono">879,750 RWF</span>
+</div>
+<div class="flex justify-between text-on-surface-variant">
+<span class="font-label-caps">TAX (0%)</span>
+<span class="font-data-mono">0 RWF</span>
+</div>
+<div class="pt-4 mt-2 border-t border-primary flex justify-between items-center">
+<span class="font-bold text-primary">TOTAL DUE</span>
+<span class="text-2xl font-black text-secondary font-data-mono">879,750</span>
+</div>
+<div class="text-right">
+<span class="text-[10px] font-label-caps text-secondary-container bg-secondary-container/10 px-2 py-1 rounded">RWF CURRENCY</span>
+</div>
+</div>
+</div>
+<!-- Payment Instructions -->
+<div class="mx-12 mb-12 p-6 bg-surface-container border-l-4 border-secondary rounded-r-xl">
+<h3 class="font-label-caps text-primary mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined">payments</span>
+                        PAYMENT INSTRUCTIONS
+                    </h3>
+<div class="grid grid-cols-3 gap-6">
+<div>
+<p class="text-[10px] text-on-primary-container font-label-caps">BANK NAME</p>
+<p class="font-bold text-primary">Bank of Kigali</p>
+</div>
+<div>
+<p class="text-[10px] text-on-primary-container font-label-caps">ACCOUNT NAME</p>
+<p class="font-bold text-primary">GIIN Sentinel Finance</p>
+</div>
+<div>
+<p class="text-[10px] text-on-primary-container font-label-caps">ACCOUNT NUMBER</p>
+<p class="font-bold font-data-mono text-secondary">001-99827-332-01</p>
+</div>
+</div>
+</div>
+<!-- Footer Sign-off -->
+<div class="px-12 py-8 bg-surface-gray border-t border-border-subtle flex justify-between items-center">
+<p class="text-xs text-on-surface-variant italic">
+                        "Enabling future leaders through institutional financial trust."
+                    </p>
+<div class="text-right">
+<p class="font-label-caps text-[10px] text-on-primary-container">AUTHORIZED BY</p>
+<div class="h-10 mt-1">
+<svg class="h-full inline-block" fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 100 40">
+<path class="text-primary opacity-40" d="M10,30 Q30,10 50,30 T90,10"></path>
+</svg>
+</div>
+<p class="font-bold text-primary text-xs">Director of Finance</p>
+</div>
+</div>
+</article>
+</div>
+<!-- Float Notification (Micro-interaction) -->
+<div class="fixed bottom-8 right-8 bg-primary text-white px-6 py-4 rounded-xl shadow-2xl flex items-center gap-4 translate-y-24 transition-transform duration-300 no-print" id="toast">
+<span class="material-symbols-outlined text-success-emerald">check_circle</span>
+<div>
+<p class="font-bold text-sm">Invoice generated</p>
+<p class="text-xs opacity-70">Ready for institutional distribution</p>
+</div>
+<button class="ml-4 hover:opacity-70" onclick="hideToast()">
+<span class="material-symbols-outlined text-sm">close</span>
+</button>
+</div>
+</main>
+<script>
+        // Micro-interactions
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                const toast = document.getElementById('toast');
+                toast.classList.remove('translate-y-24');
+            }, 1000);
+        });
+
+        function hideToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.add('translate-y-24');
+        }
+
+        // Simulating interactive states for buttons
+        const buttons = document.querySelectorAll('button');
+        buttons.forEach(btn => {
+            btn.addEventListener('mousedown', () => btn.classList.add('scale-95'));
+            btn.addEventListener('mouseup', () => btn.classList.remove('scale-95'));
+            btn.addEventListener('mouseleave', () => btn.classList.remove('scale-95'));
+        });
+    </script>
+</body></html>

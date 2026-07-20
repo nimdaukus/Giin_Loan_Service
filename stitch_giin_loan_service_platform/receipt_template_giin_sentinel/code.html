@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>GIIN Sentinel | Payment Receipt</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface": "#fcf8fa",
+                      "error-container": "#ffdad6",
+                      "surface-dim": "#dcd9db",
+                      "surface-bright": "#fcf8fa",
+                      "on-tertiary-fixed": "#271901",
+                      "tertiary": "#000000",
+                      "primary-container": "#131b2e",
+                      "secondary-container": "#316bf3",
+                      "outline-variant": "#c6c6cd",
+                      "on-primary-fixed-variant": "#3f465c",
+                      "secondary-fixed-dim": "#b4c5ff",
+                      "primary-fixed-dim": "#bec6e0",
+                      "border-subtle": "#E2E8F0",
+                      "secondary-fixed": "#dbe1ff",
+                      "surface-container": "#f0edef",
+                      "surface-tint": "#565e74",
+                      "on-surface-variant": "#45464d",
+                      "surface-container-lowest": "#ffffff",
+                      "alert-amber": "#F59E0B",
+                      "tertiary-container": "#271901",
+                      "error": "#ba1a1a",
+                      "on-primary-container": "#7c839b",
+                      "on-secondary-fixed": "#00174b",
+                      "outline": "#76777d",
+                      "surface-variant": "#e4e2e4",
+                      "surface-gray": "#F8FAFC",
+                      "surface-container-high": "#eae7e9",
+                      "on-tertiary": "#ffffff",
+                      "inverse-surface": "#303032",
+                      "secondary": "#0051d5",
+                      "on-primary-fixed": "#131b2e",
+                      "on-secondary-fixed-variant": "#003ea8",
+                      "on-surface": "#1b1b1d",
+                      "inverse-on-surface": "#f3f0f2",
+                      "danger-coral": "#F43F5E",
+                      "surface-container-highest": "#e4e2e4",
+                      "inverse-primary": "#bec6e0",
+                      "primary-fixed": "#dae2fd",
+                      "on-error-container": "#93000a",
+                      "on-primary": "#ffffff",
+                      "on-tertiary-fixed-variant": "#574425",
+                      "tertiary-fixed": "#fcdeb5",
+                      "on-secondary": "#ffffff",
+                      "primary": "#000000",
+                      "on-secondary-container": "#fefcff",
+                      "tertiary-fixed-dim": "#dec29a",
+                      "on-error": "#ffffff",
+                      "on-background": "#1b1b1d",
+                      "surface-container-low": "#f6f3f5",
+                      "success-emerald": "#10B981",
+                      "on-tertiary-container": "#98805d",
+                      "background": "#fcf8fa"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "stack-sm": "0.5rem",
+                      "gutter": "1.5rem",
+                      "stack-md": "1rem",
+                      "stack-lg": "2rem",
+                      "margin-mobile": "1rem",
+                      "margin-desktop": "2.5rem",
+                      "container-max": "1280px"
+              },
+              "fontFamily": {
+                      "headline-lg-mobile": ["Inter"],
+                      "data-mono": ["Inter"],
+                      "body-md": ["Inter"],
+                      "headline-md": ["Inter"],
+                      "body-lg": ["Inter"],
+                      "label-caps": ["Inter"],
+                      "headline-lg": ["Inter"]
+              },
+              "fontSize": {
+                      "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                      "data-mono": ["13px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                      "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                      "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                      "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .receipt-container {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            background-image: radial-gradient(circle at 2px 2px, #f1f5f9 1px, transparent 0);
+            background-size: 40px 40px;
+        }
+        .watermark {
+            transform: rotate(-30deg);
+            opacity: 0.08;
+            pointer-events: none;
+            user-select: none;
+        }
+        @media print {
+            .no-print { display: none !important; }
+            .print-only { display: block !important; }
+            .receipt-shadow { box-shadow: none !important; border: 1px solid #e2e8f0; }
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen flex">
+<!-- Sidebar Navigation -->
+<aside class="h-full w-64 fixed left-0 top-0 bg-primary-container flex flex-col p-4 space-y-2 no-print z-50">
+<div class="mb-8 px-4">
+<h1 class="text-headline-md font-headline-md font-bold text-on-secondary-container">GIIN Sentinel</h1>
+<p class="font-label-caps text-label-caps text-on-primary-container mt-1">Institutional Admin</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 text-on-primary-container hover:bg-surface-variant/10 rounded-xl px-4 py-3 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-body-md text-body-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 text-on-primary-container hover:bg-surface-variant/10 rounded-xl px-4 py-3 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="how_to_reg">how_to_reg</span>
+<span class="font-body-md text-body-md">Approval Center</span>
+</a>
+<a class="flex items-center gap-3 bg-secondary-container text-on-secondary-container rounded-xl px-4 py-3 opacity-90 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="font-body-md text-body-md">Main Tracker</span>
+</a>
+<a class="flex items-center gap-3 text-on-primary-container hover:bg-surface-variant/10 rounded-xl px-4 py-3 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="notifications_active">notifications_active</span>
+<span class="font-body-md text-body-md">Reminders</span>
+</a>
+<a class="flex items-center gap-3 text-on-primary-container hover:bg-surface-variant/10 rounded-xl px-4 py-3 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-body-md text-body-md">Settings</span>
+</a>
+</nav>
+<div class="mt-auto p-4 flex items-center gap-3 border-t border-on-primary-container/10">
+<div class="w-10 h-10 rounded-full bg-secondary-fixed flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Close up professional headshot of a finance administrator in a business suit with a neutral background, high-end corporate photography style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCYWiMsPStzfKzTqM7WXH-CmMPW8T3Zo0d-2y2lpyFKV9dW9HwZ78_5DVoT-GwziptdI4iPL6bGh4cc4ZJZ9t21jM3x3yz1Y7R9BgTgkFCvV5xpidAbQDtjd8bvPBj1WvPTTqxT1sJ5rJWjRA_bA5LkonGbkA2lVdfQaaTmkSY-w8SFfYXaKHUWI3Qrf5uiGRzl7bk-UB2EmrurlptvWqtuUFQB6TZOeQ7EYmBOA2PptNg9iw4GbjL5PlckscG_Ctx_b7YEjGkmZfUn"/>
+</div>
+<div>
+<p class="font-label-caps text-label-caps text-white">Admin User</p>
+<p class="text-[10px] text-on-primary-container">Finance Dept.</p>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 ml-64 bg-surface min-h-screen relative">
+<!-- Top App Bar -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] z-40 bg-surface/80 backdrop-blur-md flex justify-between items-center h-16 px-8 border-b border-border-subtle no-print">
+<div class="flex items-center gap-4">
+<nav class="flex items-center text-sm text-on-surface-variant space-x-2">
+<span class="hover:text-secondary cursor-pointer">Tracker</span>
+<span class="material-symbols-outlined text-xs">chevron_right</span>
+<span class="hover:text-secondary cursor-pointer">INV-2024-001</span>
+<span class="material-symbols-outlined text-xs">chevron_right</span>
+<span class="text-secondary font-bold border-b-2 border-secondary pb-1">Receipt</span>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-on-surface-variant hover:text-secondary transition-colors">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-secondary transition-colors relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-danger-coral rounded-full"></span>
+</button>
+<div class="h-8 w-px bg-border-subtle mx-2"></div>
+<button class="flex items-center gap-2 font-label-caps text-label-caps text-primary hover:text-secondary transition-colors">
+<span>ADMIN MODE</span>
+<span class="material-symbols-outlined text-lg">admin_panel_settings</span>
+</button>
+</div>
+</header>
+<!-- Document Preview Area -->
+<div class="mt-16 p-8 lg:p-12 max-w-5xl mx-auto flex flex-col md:flex-row gap-8">
+<!-- Management Side Panel -->
+<div class="w-full md:w-64 space-y-4 no-print shrink-0">
+<div class="bg-surface-container-lowest border border-border-subtle rounded-xl p-6 space-y-4 shadow-sm">
+<h3 class="font-label-caps text-label-caps text-on-surface-variant">Management Actions</h3>
+<button class="w-full flex items-center justify-center gap-3 bg-secondary text-white font-label-caps text-label-caps py-3 rounded-lg hover:opacity-90 transition-all" onclick="window.print()">
+<span class="material-symbols-outlined">print</span>
+                        Print Receipt
+                    </button>
+<button class="w-full flex items-center justify-center gap-3 border border-secondary text-secondary font-label-caps text-label-caps py-3 rounded-lg hover:bg-secondary/5 transition-all">
+<span class="material-symbols-outlined">download</span>
+                        Download PDF
+                    </button>
+<button class="w-full flex items-center justify-center gap-3 border border-secondary text-secondary font-label-caps text-label-caps py-3 rounded-lg hover:bg-secondary/5 transition-all">
+<span class="material-symbols-outlined">mail</span>
+                        Email to Borrower
+                    </button>
+</div>
+<div class="bg-primary-container text-white rounded-xl p-6 shadow-sm">
+<div class="flex items-center gap-2 mb-2 text-success-emerald">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span class="text-[10px] font-bold tracking-widest uppercase">Verified Transaction</span>
+</div>
+<p class="text-[11px] leading-relaxed opacity-70">This receipt is a legally binding confirmation of payment processed through the GIIN Sentinel Blockchain Settlement Layer.</p>
+</div>
+</div>
+<!-- The Receipt Canvas -->
+<div class="flex-1 receipt-container receipt-shadow rounded-sm border border-border-subtle p-8 md:p-16 relative overflow-hidden bg-white min-h-[1056px]">
+<!-- Watermark -->
+<div class="absolute inset-0 flex items-center justify-center watermark">
+<span class="text-[120px] font-black text-on-surface">PAID</span>
+</div>
+<!-- Receipt Header -->
+<div class="relative flex justify-between items-start border-b-2 border-primary pb-8 mb-10">
+<div>
+<div class="flex items-center gap-2 mb-4">
+<div class="w-10 h-10 bg-primary flex items-center justify-center rounded-sm">
+<span class="text-white font-black text-xl">G</span>
+</div>
+<span class="font-headline-md text-headline-md font-black text-primary tracking-tighter">GIIN SENTINEL</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-primary">PAYMENT RECEIPT</h2>
+<p class="font-data-mono text-data-mono text-on-surface-variant mt-1">NO: RCP-2024-082</p>
+</div>
+<div class="text-right">
+<div class="font-label-caps text-label-caps text-on-surface-variant mb-1 uppercase tracking-widest">Date Issued</div>
+<div class="font-headline-md text-headline-md text-primary">Aug 14, 2024</div>
+<div class="mt-4 inline-block px-3 py-1 bg-success-emerald/10 text-success-emerald rounded-full font-label-caps text-[10px]">
+                            PAYMENT SUCCESSFUL
+                        </div>
+</div>
+</div>
+<!-- Details Grid -->
+<div class="relative grid grid-cols-2 gap-12 mb-12">
+<div>
+<h4 class="font-label-caps text-label-caps text-on-surface-variant mb-3 border-b border-border-subtle pb-1 uppercase tracking-wider">Borrower Information</h4>
+<div class="space-y-1">
+<p class="font-headline-md text-headline-md text-primary">Jean Kayishema</p>
+<p class="font-body-md text-body-md text-on-surface-variant">ID: GIIN-RW-8829-X</p>
+<p class="font-body-md text-body-md text-on-surface-variant">j.kayishema@email.rw</p>
+<p class="font-body-md text-body-md text-on-surface-variant">+250 788 123 456</p>
+</div>
+</div>
+<div>
+<h4 class="font-label-caps text-label-caps text-on-surface-variant mb-3 border-b border-border-subtle pb-1 uppercase tracking-wider">Transaction Summary</h4>
+<div class="space-y-2">
+<div class="flex justify-between">
+<span class="text-on-surface-variant text-sm">Payment Method</span>
+<span class="font-medium">Bank Transfer</span>
+</div>
+<div class="flex justify-between">
+<span class="text-on-surface-variant text-sm">Reference No.</span>
+<span class="font-data-mono">TXN-9982-KJW-01</span>
+</div>
+<div class="flex justify-between">
+<span class="text-on-surface-variant text-sm">Invoice Ref.</span>
+<span class="font-medium">INV-2024-001</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Financial Table -->
+<div class="relative mb-12">
+<table class="w-full border-collapse">
+<thead>
+<tr class="bg-surface-gray border-y border-border-subtle">
+<th class="text-left py-4 px-4 font-label-caps text-label-caps text-primary uppercase">Description</th>
+<th class="text-right py-4 px-4 font-label-caps text-label-caps text-primary uppercase">Amount (RWF)</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-subtle">
+<tr>
+<td class="py-5 px-4">
+<div class="font-headline-md text-[16px] text-primary">Principal Repayment</div>
+<div class="text-xs text-on-surface-variant mt-1">Installment #4 of 12</div>
+</td>
+<td class="py-5 px-4 text-right font-data-mono text-lg">850,000</td>
+</tr>
+<tr>
+<td class="py-5 px-4">
+<div class="font-headline-md text-[16px] text-primary">Accrued Interest</div>
+<div class="text-xs text-on-surface-variant mt-1">3.5% Annual Equivalent Rate</div>
+</td>
+<td class="py-5 px-4 text-right font-data-mono text-lg">29,750</td>
+</tr>
+<tr>
+<td class="py-5 px-4">
+<div class="font-headline-md text-[16px] text-primary">Late Fees</div>
+<div class="text-xs text-on-surface-variant mt-1">N/A</div>
+</td>
+<td class="py-5 px-4 text-right font-data-mono text-lg">0</td>
+</tr>
+</tbody>
+<tfoot>
+<tr class="border-t-2 border-primary">
+<td class="py-6 px-4">
+<span class="font-headline-lg text-[20px] text-primary">Total Amount Paid</span>
+</td>
+<td class="py-6 px-4 text-right">
+<span class="font-headline-lg text-headline-lg text-secondary">879,750 RWF</span>
+</td>
+</tr>
+</tfoot>
+</table>
+</div>
+<!-- Footer & Verification -->
+<div class="relative mt-auto pt-12">
+<div class="grid grid-cols-2 gap-8 items-end">
+<div class="space-y-6">
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                                Thank you for your prompt repayment. Consistent on-time payments contribute positively to your institutional credit score and future borrowing eligibility.
+                            </p>
+<div class="flex items-center gap-4">
+<div class="w-16 h-16 rounded-full border-2 border-primary/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary/30 text-4xl">verified_user</span>
+</div>
+<div class="text-[10px] text-on-surface-variant font-mono uppercase tracking-tighter">
+                                    Auth Hash: 0x82f...d921<br/>
+                                    Node Verifier: Sentinel-KGL-04<br/>
+                                    Timestamp: 2024-08-14T14:22:01Z
+                                </div>
+</div>
+</div>
+<div class="text-right space-y-6">
+<div class="inline-block border-b border-primary/40 pb-1 mb-2">
+<img class="h-16 ml-auto grayscale brightness-50" data-alt="A clean, minimalist digital signature in blue ink style on a transparent background, depicting a professional cursive script of a high-level executive signature." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDR1QY_DyreqnLClPTEP_kNWNUeii5q3JiILnOB-0_8iduGIdht0uIroWagyZyGeuQSYVYYEMZDh1asNln85wRYB4JOcqiAdQqjzHt0ERKpcIcXi3G2EK0yuwrAlZnIxupXjbbqbgrhuPgasOKgOtB1cyR3qMVePa-fnbNMFdOf0fO5hBdu7tOc6cxXXjcHyk-mbvwbDHO6lcncJkg7EKmd3dGxd5CFN1phTFNkP_HvtFQWulbSUxuLNufS_ZSzHkeWOOzQIeK_LiZ7"/>
+</div>
+<div>
+<p class="font-headline-md text-[16px] text-primary">Director of Finance</p>
+<p class="font-label-caps text-[10px] text-on-surface-variant uppercase tracking-widest">GIIN Sentinel Financial Services</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Decorative Border -->
+<div class="absolute bottom-0 left-0 w-full h-2 bg-gradient-to-r from-primary via-secondary to-primary"></div>
+</div>
+</div>
+<!-- Float Decoration for Atmosphere -->
+<div class="fixed bottom-8 right-8 no-print group">
+<button class="w-14 h-14 bg-primary text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-transform active:scale-95">
+<span class="material-symbols-outlined">support_agent</span>
+</button>
+<div class="absolute bottom-full right-0 mb-4 bg-white border border-border-subtle p-3 rounded-xl shadow-xl w-48 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+<p class="text-[11px] text-on-surface-variant">Need assistance with this receipt? Connect with Support.</p>
+</div>
+</div>
+</main>
+<script>
+        // Simple micro-interaction for action buttons
+        document.querySelectorAll('button').forEach(button => {
+            button.addEventListener('mousedown', () => {
+                button.classList.add('scale-95');
+            });
+            button.addEventListener('mouseup', () => {
+                button.classList.remove('scale-95');
+            });
+            button.addEventListener('mouseleave', () => {
+                button.classList.remove('scale-95');
+            });
+        });
+    </script>
+</body></html>

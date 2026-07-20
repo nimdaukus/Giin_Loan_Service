@@ -1,0 +1,449 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>GIIN Sentinel - Approval Center</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-fixed-dim": "#dec29a",
+                    "surface": "#fcf8fa",
+                    "danger-coral": "#F43F5E",
+                    "surface-dim": "#dcd9db",
+                    "error": "#ba1a1a",
+                    "on-surface": "#1b1b1d",
+                    "on-secondary-fixed": "#00174b",
+                    "primary": "#000000",
+                    "on-secondary": "#ffffff",
+                    "on-tertiary-container": "#98805d",
+                    "surface-container": "#f0edef",
+                    "on-background": "#1b1b1d",
+                    "inverse-surface": "#303032",
+                    "tertiary-container": "#271901",
+                    "surface-container-low": "#f6f3f5",
+                    "primary-fixed": "#dae2fd",
+                    "on-primary-fixed": "#131b2e",
+                    "border-subtle": "#E2E8F0",
+                    "primary-container": "#131b2e",
+                    "on-tertiary": "#ffffff",
+                    "background": "#fcf8fa",
+                    "on-secondary-fixed-variant": "#003ea8",
+                    "on-primary-container": "#7c839b",
+                    "inverse-on-surface": "#f3f0f2",
+                    "primary-fixed-dim": "#bec6e0",
+                    "on-error-container": "#93000a",
+                    "outline-variant": "#c6c6cd",
+                    "surface-tint": "#565e74",
+                    "surface-bright": "#fcf8fa",
+                    "surface-container-high": "#eae7e9",
+                    "surface-container-lowest": "#ffffff",
+                    "on-primary-fixed-variant": "#3f465c",
+                    "secondary": "#0051d5",
+                    "tertiary": "#000000",
+                    "on-error": "#ffffff",
+                    "surface-gray": "#F8FAFC",
+                    "surface-container-highest": "#e4e2e4",
+                    "surface-variant": "#e4e2e4",
+                    "on-surface-variant": "#45464d",
+                    "secondary-fixed": "#dbe1ff",
+                    "on-secondary-container": "#fefcff",
+                    "error-container": "#ffdad6",
+                    "on-primary": "#ffffff",
+                    "on-tertiary-fixed-variant": "#574425",
+                    "secondary-container": "#316bf3",
+                    "success-emerald": "#10B981",
+                    "alert-amber": "#F59E0B",
+                    "on-tertiary-fixed": "#271901",
+                    "inverse-primary": "#bec6e0",
+                    "tertiary-fixed": "#fcdeb5",
+                    "secondary-fixed-dim": "#b4c5ff",
+                    "outline": "#76777d"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "fontFamily": {
+                    "body-lg": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "label-caps": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "headline-lg-mobile": ["Inter"],
+                    "data-mono": ["Inter"],
+                    "body-md": ["Inter"]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .active-row {
+            background-color: #f0f7ff;
+            border-left: 4px solid #316bf3;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="bg-surface-gray font-body-md text-on-surface flex overflow-hidden">
+<!-- SideNavBar Anchor Component -->
+<aside class="h-full w-64 fixed left-0 top-0 bg-primary-container dark:bg-primary-container shadow-sm flex flex-col p-4 space-y-2 z-50">
+<div class="flex items-center gap-3 px-2 mb-8 mt-2">
+<img alt="GIIN Sentinel Logo" class="w-10 h-10 rounded-sm" src="https://lh3.googleusercontent.com/aida/AP1WRLuSAqfIr83AZ60iJT2yvrKW7sv_ctjumGQPeZe7m45xUChSIUtvJLS--1nAZfwUHk-MOqlGoY0V0nV40rmfGrSaI2Nbea_vTuLFYngldug2pO-WhaImtucyI3tinrmNxfXJ-Yf6JM9qswhrZe4r2OMQ65unE1uBteY8ENYzY9l_OflOr-Ack9riVwuQS-pAVBmIHb5Iin-pYc9YEnjSRjNnZXx9bZMrvsNnmKBWCP-I9vprFDJVD0X09sDk">
+<div>
+<h1 class="text-on-secondary-container font-headline-md text-headline-md font-bold leading-tight">GIIN Sentinel</h1>
+<p class="text-on-primary-container font-label-caps text-[10px] tracking-widest">INSTITUTIONAL ADMIN</p>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 text-on-primary-container hover:bg-surface-variant/10 rounded-xl px-4 py-3 transition-colors duration-200" href="#dashboard">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-caps text-label-caps">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 bg-secondary-container text-on-secondary-container rounded-xl px-4 py-3 opacity-90 transition-all" href="{{DATA:SCREEN:SCREEN_21}}">
+<span class="material-symbols-outlined">how_to_reg</span>
+<span class="font-label-caps text-label-caps">Approval Center</span>
+</a>
+<a class="flex items-center gap-3 text-on-primary-container hover:bg-surface-variant/10 rounded-xl px-4 py-3 transition-colors duration-200" href="#tracker">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-label-caps text-label-caps">Main Tracker</span>
+</a>
+<a class="flex items-center gap-3 text-on-primary-container hover:bg-surface-variant/10 rounded-xl px-4 py-3 transition-colors duration-200" href="#reminders">
+<span class="material-symbols-outlined">notifications_active</span>
+<span class="font-label-caps text-label-caps">Reminders</span>
+</a>
+<div class="pt-4 mt-4 border-t border-white/10">
+<a class="flex items-center gap-3 text-on-primary-container hover:bg-surface-variant/10 rounded-xl px-4 py-3 transition-colors duration-200" href="#settings">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-caps text-label-caps">Settings</span>
+</a>
+</div>
+</nav>
+<div class="mt-auto flex items-center gap-3 p-2 bg-white/5 rounded-xl">
+<div class="w-10 h-10 rounded-full overflow-hidden bg-secondary-fixed-dim flex items-center justify-center text-primary font-bold">
+                AD
+            </div>
+<div class="flex-1 overflow-hidden">
+<p class="text-white text-xs font-semibold truncate">Admin User</p>
+<p class="text-on-primary-container text-[10px] truncate">admin@giin.sentinel</p>
+</div>
+<span class="material-symbols-outlined text-on-primary-container cursor-pointer">logout</span>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-64 flex-1 flex flex-col h-screen overflow-hidden">
+<!-- TopAppBar Anchor Component -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] z-40 bg-surface/80 backdrop-blur-md border-b border-border-subtle flex justify-between items-center h-16 px-8">
+<div class="flex items-center gap-4 flex-1 max-w-xl">
+<div class="relative w-full focus-within:ring-2 focus-within:ring-secondary-container rounded-lg overflow-hidden">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">search</span>
+<input class="w-full bg-surface-container-low border-none pl-10 pr-4 py-2 text-sm focus:ring-0" placeholder="Search applications, ID numbers..." type="text">
+</div>
+</div>
+<div class="flex items-center gap-6 ml-4">
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant hover:text-secondary transition-colors">
+<span class="material-symbols-outlined">help</span>
+</button>
+<button class="text-on-surface-variant hover:text-secondary transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-danger-coral rounded-full"></span>
+</button>
+</div>
+<div class="h-8 w-[1px] bg-border-subtle"></div>
+<div class="flex items-center gap-3">
+<div class="text-right">
+<p class="text-xs font-bold text-primary">Sentinel Admin</p>
+<p class="text-[10px] text-on-surface-variant font-label-caps">HQ OFFICE</p>
+</div>
+<div class="w-8 h-8 rounded-full bg-surface-container-highest border border-border-subtle flex items-center justify-center">
+<span class="material-symbols-outlined text-sm">person</span>
+</div>
+</div>
+</div>
+</header>
+<!-- Page Content Section -->
+<section class="mt-16 p-8 flex gap-8 h-[calc(100vh-64px)] overflow-hidden">
+<!-- Left Side: Queue (Bento Card Layout) -->
+<div class="flex-[1.5] flex flex-col space-y-6 overflow-hidden">
+<div class="flex items-center justify-between">
+<div>
+<h2 class="font-headline-md text-headline-md text-primary tracking-tight">Pending Approvals</h2>
+<p class="text-on-surface-variant text-body-md">Review and action new loan applications</p>
+</div>
+<div class="flex gap-2">
+<button class="px-4 py-2 bg-surface-container-highest text-primary font-semibold text-xs rounded-lg hover:bg-surface-variant transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">filter_list</span> Filter
+                        </button>
+<div class="bg-secondary/10 text-secondary px-3 py-2 rounded-lg font-bold text-xs flex items-center gap-1">
+                            8 Active Applications
+                        </div>
+</div>
+</div>
+<!-- Applications Table/List -->
+<div class="bg-surface-container-lowest border border-border-subtle rounded-xl flex-1 overflow-hidden flex flex-col">
+<div class="grid grid-cols-12 gap-4 px-6 py-4 bg-surface-gray border-b border-border-subtle text-on-surface-variant font-label-caps text-[11px] sticky top-0 uppercase tracking-widest font-bold">
+<div class="col-span-4">Borrower Details</div>
+<div class="col-span-3">Requested Amount</div>
+<div class="col-span-3">Collateral Type</div>
+<div class="col-span-2 text-right">Action</div>
+</div>
+<div class="flex-1 overflow-y-auto custom-scrollbar">
+<!-- Table Row 1 (Selected/Active) -->
+<div class="grid grid-cols-12 gap-4 px-6 py-5 border-b border-border-subtle active-row cursor-pointer group transition-all" onclick="selectApplication('Jean Paul K.')">
+<div class="col-span-4 flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-secondary-fixed flex items-center justify-center text-on-secondary-fixed font-bold">JK</div>
+<div>
+<p class="font-bold text-primary group-hover:text-secondary transition-colors">Jean Paul K.</p>
+<p class="text-[11px] text-on-surface-variant">ID: 1198780005423</p>
+</div>
+</div>
+<div class="col-span-3 flex flex-col justify-center">
+<p class="font-data-mono text-data-mono font-bold text-primary">550,000 RWF</p>
+<p class="text-[10px] text-on-surface-variant font-medium">12 Months term</p>
+</div>
+<div class="col-span-3 flex items-center">
+<span class="bg-surface-container-highest text-primary px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">laptop_mac</span> Laptop
+                                </span>
+</div>
+<div class="col-span-2 flex items-center justify-end">
+<a href="{{DATA:SCREEN:SCREEN_19}}" class="px-4 py-2 bg-secondary text-white text-xs font-bold rounded-lg hover:shadow-lg transition-all active:scale-95 inline-block text-center">Review</a>
+</div>
+</div>
+<!-- Table Row 2 -->
+<div class="grid grid-cols-12 gap-4 px-6 py-5 border-b border-border-subtle hover:bg-surface-gray cursor-pointer group transition-all">
+<div class="col-span-4 flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-tertiary-fixed-dim flex items-center justify-center text-on-tertiary-fixed font-bold">MN</div>
+<div>
+<p class="font-bold text-primary group-hover:text-secondary transition-colors">Marie Noella U.</p>
+<p class="text-[11px] text-on-surface-variant">ID: 1199270001221</p>
+</div>
+</div>
+<div class="col-span-3 flex flex-col justify-center">
+<p class="font-data-mono text-data-mono font-bold text-primary">120,000 RWF</p>
+<p class="text-[10px] text-on-surface-variant font-medium">3 Months term</p>
+</div>
+<div class="col-span-3 flex items-center">
+<span class="bg-surface-container-highest text-primary px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">smartphone</span> Smartphone
+                                </span>
+</div>
+<div class="col-span-2 flex items-center justify-end">
+<a href="{{DATA:SCREEN:SCREEN_19}}" class="px-4 py-2 bg-white border border-secondary text-secondary text-xs font-bold rounded-lg hover:bg-secondary/5 transition-all inline-block text-center">Review</a>
+</div>
+</div>
+<!-- Table Row 3 -->
+<div class="grid grid-cols-12 gap-4 px-6 py-5 border-b border-border-subtle hover:bg-surface-gray cursor-pointer group transition-all">
+<div class="col-span-4 flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-secondary-fixed-dim flex items-center justify-center text-on-secondary-fixed font-bold">EG</div>
+<div>
+<p class="font-bold text-primary group-hover:text-secondary transition-colors">Emmanuel G.</p>
+<p class="text-[11px] text-on-surface-variant">ID: 1198580009987</p>
+</div>
+</div>
+<div class="col-span-3 flex flex-col justify-center">
+<p class="font-data-mono text-data-mono font-bold text-primary">2,100,000 RWF</p>
+<p class="text-[10px] text-on-surface-variant font-medium">24 Months term</p>
+</div>
+<div class="col-span-3 flex items-center">
+<span class="bg-surface-container-highest text-primary px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">directions_car</span> Motorcycle
+                                </span>
+</div>
+<div class="col-span-2 flex items-center justify-end">
+<a href="{{DATA:SCREEN:SCREEN_19}}" class="px-4 py-2 bg-white border border-secondary text-secondary text-xs font-bold rounded-lg hover:bg-secondary/5 transition-all inline-block text-center">Review</a>
+</div>
+</div>
+<!-- Table Row 4 -->
+<div class="grid grid-cols-12 gap-4 px-6 py-5 border-b border-border-subtle hover:bg-surface-gray cursor-pointer group transition-all">
+<div class="col-span-4 flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary-fixed flex items-center justify-center text-on-primary-fixed font-bold">BT</div>
+<div>
+<p class="font-bold text-primary group-hover:text-secondary transition-colors">Beatrice T.</p>
+<p class="text-[11px] text-on-surface-variant">ID: 1199080004556</p>
+</div>
+</div>
+<div class="col-span-3 flex flex-col justify-center">
+<p class="font-data-mono text-data-mono font-bold text-primary">85,000 RWF</p>
+<p class="text-[10px] text-on-surface-variant font-medium">1 Month term</p>
+</div>
+<div class="col-span-3 flex items-center">
+<span class="bg-surface-container-highest text-primary px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">monitor</span> Television
+                                </span>
+</div>
+<div class="col-span-2 flex items-center justify-end">
+<a href="{{DATA:SCREEN:SCREEN_19}}" class="px-4 py-2 bg-white border border-secondary text-secondary text-xs font-bold rounded-lg hover:bg-secondary/5 transition-all inline-block text-center">Review</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Side: Review Drawer / Detail Card -->
+<div class="flex-1 bg-white border border-border-subtle rounded-2xl shadow-xl flex flex-col overflow-hidden" id="review-panel">
+<!-- Detail Header -->
+<div class="p-6 border-b border-border-subtle bg-primary-container relative">
+<div class="flex justify-between items-start">
+<div>
+<span class="font-label-caps text-[10px] text-on-primary-container tracking-widest uppercase mb-1 block">Application Details</span>
+<h3 class="text-white font-headline-md text-headline-md font-black" id="review-name">Jean Paul K.</h3>
+</div>
+<div class="bg-alert-amber/20 text-alert-amber px-3 py-1 rounded-full text-[10px] font-bold border border-alert-amber/30">
+                            PENDING REVIEW
+                        </div>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto custom-scrollbar p-6 space-y-8">
+<!-- Borrower Info Section -->
+<section>
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-secondary text-lg">person_search</span>
+<h4 class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Borrower Identity</h4>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="p-3 bg-surface-gray rounded-lg border border-border-subtle">
+<p class="text-[10px] text-on-surface-variant font-bold uppercase mb-1">National ID</p>
+<p class="text-sm font-semibold text-primary font-data-mono">1 1987 8 0005423 0 12</p>
+</div>
+<div class="p-3 bg-surface-gray rounded-lg border border-border-subtle">
+<p class="text-[10px] text-on-surface-variant font-bold uppercase mb-1">Phone Number</p>
+<p class="text-sm font-semibold text-primary">+250 788 123 456</p>
+</div>
+<div class="p-3 bg-surface-gray rounded-lg border border-border-subtle col-span-2">
+<p class="text-[10px] text-on-surface-variant font-bold uppercase mb-1">Email Address</p>
+<p class="text-sm font-semibold text-primary">jean.paul.k@example.rw</p>
+</div>
+</div>
+</section>
+<!-- Loan Info Section -->
+<section>
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-secondary text-lg">account_balance_wallet</span>
+<h4 class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Loan Summary</h4>
+</div>
+<div class="flex items-center justify-between p-4 bg-secondary-fixed/30 rounded-xl border border-secondary-fixed">
+<div>
+<p class="text-[10px] text-on-secondary-fixed-variant font-bold uppercase">Requested Principal</p>
+<p class="text-xl font-black text-secondary">550,000 RWF</p>
+</div>
+<div class="text-right">
+<p class="text-[10px] text-on-secondary-fixed-variant font-bold uppercase">Duration</p>
+<p class="text-lg font-bold text-primary">12 Months</p>
+</div>
+</div>
+</section>
+<!-- Collateral Section -->
+<section>
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-lg">inventory_2</span>
+<h4 class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Collateral Evidence</h4>
+</div>
+<span class="text-[10px] font-bold text-success-emerald uppercase">Verified Asset</span>
+</div>
+<div class="space-y-4">
+<p class="text-sm text-on-surface-variant leading-relaxed">
+<span class="font-bold text-primary">Description:</span> Macbook Pro 2021, M1 Chip, 16GB RAM. Excellent condition with original charger. Estimated market value: 850,000 RWF.
+                            </p>
+<div class="grid grid-cols-2 gap-3">
+<div class="relative group cursor-zoom-in aspect-video rounded-xl overflow-hidden border border-border-subtle bg-surface-container-high">
+<img class="w-full h-full object-cover" data-alt="A sharp, high-quality photograph of a silver MacBook Pro laptop placed on a clean white desk. The lighting is professional and bright, emphasizing the sleek textures and premium metallic finish of the device. The image is framed as a close-up product shot, showcasing institutional reliability and precision. The overall aesthetic is minimalist, modern, and high-trust, consistent with a professional financial service dashboard." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCbak3vdXQ5VJaRWQF3g60caeKkxKPpr0zwy-tjRyRLXa2NB8FCpQCMAbuNzEMoUdr9ZU_kP7r7ZYLDjmurmy-QWziownDoTidAdrQTzCKvt6z1ZkqYFBcHgfygID-hm5-irdOIAmqiBkvblK9NZz9gwOEV753xQhzceTH8Mnj2Tu7bdvU2tvl__5ShHbf8TuTn5QasgKx2rMTCz8wN9FT-FvsvloxBdryjSe1sw5PvGqMJ6lss90KRJ3WRTj_bU9q8AYASXu4jE-YU">
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+<span class="material-symbols-outlined text-white">zoom_in</span>
+</div>
+</div>
+<div class="relative group cursor-zoom-in aspect-video rounded-xl overflow-hidden border border-border-subtle bg-surface-container-high">
+<img class="w-full h-full object-cover" data-alt="A detailed close-up shot of the serial number and identification tags on the back of a high-end laptop. The image is captured with macro-level precision, showing the fine text and metallic texture under soft, diffused lighting. The background is slightly out of focus, keeping the primary attention on the authentication details. The visual style is technical, secure, and methodical, designed to inspire trust in an institutional auditing context." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBr4QA54xFEM5L1rmgLF1f3Y2vQRF0FbvtD-XNIB0BL07NXGh8Hr7k9tnGRo0CQwv2mytaon2THfJ3XF-DUoaGwzRENkb2fuWEq_BrR5I-H7nSiiFKzZ4p6i8DZkXA9mNCgIVPCROJT4xMA6Kp-Yaqjifg7MuwZ99EYj5sPRfiJl06-KfHEke9ijnO73G0FKSs7DIe86h_cvvWXS_-x-KlG9I1GYzNwIVbazEWms_AetxXI31YJBtyeOwNS2p5QKQs46QvJBoTj8Q9f">
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+<span class="material-symbols-outlined text-white">zoom_in</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Detail Footer Actions -->
+<div class="p-6 border-t border-border-subtle bg-surface-gray">
+<div class="grid grid-cols-2 gap-4">
+<button class="px-4 py-3 bg-white border border-danger-coral text-danger-coral font-bold rounded-xl hover:bg-danger-coral/5 transition-all text-sm flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">cancel</span> Reject / Request Info
+                        </button>
+<button class="px-4 py-3 bg-secondary text-white font-bold rounded-xl hover:bg-secondary-container transition-all text-sm shadow-md flex items-center justify-center gap-2 group" onclick="approveApplication()">
+<span class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">verified</span> Approve Application
+                        </button>
+</div>
+<p class="text-[10px] text-center text-on-surface-variant mt-4 font-medium italic">
+                        * Approving will auto-calculate 14% APR and move this record to the Main Tracker.
+                    </p>
+</div>
+</div>
+</section>
+</main>
+<!-- Success Modal Overlay -->
+<div class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] hidden items-center justify-center p-4" id="success-modal">
+<div class="bg-white rounded-3xl p-10 max-w-sm w-full text-center shadow-2xl scale-95 transition-transform duration-300">
+<div class="w-20 h-20 bg-success-emerald/20 text-success-emerald rounded-full flex items-center justify-center mx-auto mb-6">
+<span class="material-symbols-outlined text-4xl">check_circle</span>
+</div>
+<h2 class="text-2xl font-black text-primary mb-2">Loan Approved</h2>
+<p class="text-on-surface-variant mb-8 text-sm">Interest has been calculated and the borrower has been notified. The record is now available in the Main Tracker.</p>
+<button class="w-full py-4 bg-primary text-white font-bold rounded-2xl hover:opacity-90 transition-opacity" onclick="closeModal()">
+                Back to Queue
+            </button>
+</div>
+</div>
+<script>
+        function selectApplication(name) {
+            document.getElementById('review-name').innerText = name;
+            // Simple visual feedback for row selection
+            const rows = document.querySelectorAll('.grid-cols-12.cursor-pointer');
+            rows.forEach(row => row.classList.remove('active-row'));
+            event.currentTarget.classList.add('active-row');
+        }
+
+        function approveApplication() {
+            const modal = document.getElementById('success-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            
+            // Animate scale
+            setTimeout(() => {
+                modal.querySelector('div').classList.remove('scale-95');
+                modal.querySelector('div').classList.add('scale-100');
+            }, 10);
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('success-modal');
+            modal.querySelector('div').classList.remove('scale-100');
+            modal.querySelector('div').classList.add('scale-95');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }, 200);
+        }
+    </script>
+
+
+
+</body></html>

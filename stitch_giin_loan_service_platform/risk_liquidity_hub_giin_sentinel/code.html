@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>GIIN Sentinel | Risk Management &amp; Analytics</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-highest": "#e4e2e4",
+                        "secondary-fixed-dim": "#b4c5ff",
+                        "on-secondary-fixed-variant": "#003ea8",
+                        "on-error-container": "#93000a",
+                        "outline": "#76777d",
+                        "error-container": "#ffdad6",
+                        "error": "#ba1a1a",
+                        "surface": "#fcf8fa",
+                        "outline-variant": "#c6c6cd",
+                        "on-surface": "#1b1b1d",
+                        "secondary-container": "#316bf3",
+                        "on-error": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "on-background": "#1b1b1d",
+                        "primary": "#000000",
+                        "on-tertiary-fixed": "#271901",
+                        "alert-amber": "#F59E0B",
+                        "surface-dim": "#dcd9db",
+                        "primary-fixed": "#dae2fd",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-fixed": "#fcdeb5",
+                        "on-primary-fixed": "#131b2e",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "surface-variant": "#e4e2e4",
+                        "success-emerald": "#10B981",
+                        "surface-container-high": "#eae7e9",
+                        "primary-fixed-dim": "#bec6e0",
+                        "surface-tint": "#565e74",
+                        "primary-container": "#131b2e",
+                        "tertiary": "#000000",
+                        "tertiary-container": "#271901",
+                        "tertiary-fixed-dim": "#dec29a",
+                        "border-subtle": "#E2E8F0",
+                        "inverse-surface": "#303032",
+                        "surface-bright": "#fcf8fa",
+                        "secondary": "#0051d5",
+                        "on-tertiary-fixed-variant": "#574425",
+                        "on-tertiary-container": "#98805d",
+                        "background": "#fcf8fa",
+                        "surface-gray": "#F8FAFC",
+                        "on-secondary-fixed": "#00174b",
+                        "secondary-fixed": "#dbe1ff",
+                        "inverse-on-surface": "#f3f0f2",
+                        "on-primary-container": "#7c839b",
+                        "on-secondary": "#ffffff",
+                        "on-secondary-container": "#fefcff",
+                        "inverse-primary": "#bec6e0",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-low": "#f6f3f5",
+                        "on-surface-variant": "#45464d",
+                        "surface-container": "#f0edef",
+                        "danger-coral": "#F43F5E"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "stack-md": "1rem",
+                        "stack-sm": "0.5rem",
+                        "stack-lg": "2rem",
+                        "margin-mobile": "1rem",
+                        "margin-desktop": "2.5rem",
+                        "gutter": "1.5rem",
+                        "container-max": "1280px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "data-mono": ["Inter"],
+                        "label-caps": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "data-mono": ["13px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                        "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .heatmap-cell:hover { opacity: 0.8; cursor: pointer; }
+        .chart-glow { filter: drop-shadow(0 0 8px rgba(0, 81, 213, 0.2)); }
+    </style>
+</head>
+<body class="bg-surface-gray text-on-surface flex h-screen overflow-hidden">
+<!-- SideNavBar (Authority Source: JSON) -->
+<aside class="hidden lg:flex flex-col h-full w-64 bg-surface-container-low border-r border-border-subtle p-stack-md space-y-4">
+<div class="mb-8">
+<h1 class="font-headline-md text-headline-md font-black text-primary">GIIN Sentinel</h1>
+<p class="font-label-caps text-label-caps text-on-surface-variant">Institutional Portal</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-caps text-label-caps">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">description</span>
+<span class="font-label-caps text-label-caps">Loan Applications</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 bg-secondary-container text-on-secondary-container rounded-lg active:scale-95 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">account_balance</span>
+<span class="font-label-caps text-label-caps">Portfolio</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">business</span>
+<span class="font-label-caps text-label-caps">Institutional Profile</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">verified_user</span>
+<span class="font-label-caps text-label-caps">Security</span>
+</a>
+</nav>
+<div class="pt-4 border-t border-border-subtle space-y-1">
+<button class="w-full bg-secondary text-on-secondary py-2 rounded-lg font-label-caps text-label-caps mb-4">New Application</button>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high rounded-lg" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-label-caps text-label-caps">Support</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-high rounded-lg" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-caps text-label-caps">Settings</span>
+</a>
+</div>
+</aside>
+<div class="flex-1 flex flex-col overflow-hidden">
+<!-- TopAppBar (Authority Source: JSON) -->
+<header class="sticky top-0 z-50 bg-surface border-b border-border-subtle flex justify-between items-center px-margin-desktop py-4 w-full">
+<div class="flex items-center gap-4">
+<h2 class="font-headline-md text-headline-md font-bold text-primary">Portfolio Analytics</h2>
+</div>
+<div class="flex items-center gap-gutter">
+<div class="hidden md:flex items-center gap-6">
+<span class="text-secondary font-semibold border-b-2 border-secondary font-body-md text-body-md">Overview</span>
+<span class="text-on-surface-variant hover:text-secondary transition-colors font-body-md text-body-md cursor-pointer">Risk Metrics</span>
+<span class="text-on-surface-variant hover:text-secondary transition-colors font-body-md text-body-md cursor-pointer">Stress Tests</span>
+</div>
+<div class="flex items-center gap-4 text-secondary">
+<span class="material-symbols-outlined cursor-pointer hover:opacity-80 transition-opacity">notifications</span>
+<span class="material-symbols-outlined cursor-pointer hover:opacity-80 transition-opacity">account_circle</span>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="flex-1 overflow-y-auto p-margin-desktop bg-surface-gray scroll-smooth">
+<div class="max-w-container-max mx-auto space-y-gutter">
+<!-- KPI Widgets Row -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter">
+<!-- Total Portfolio Value -->
+<div class="bg-surface-container-lowest border border-border-subtle p-stack-md rounded-xl">
+<div class="flex justify-between items-start mb-2">
+<span class="font-label-caps text-label-caps text-on-surface-variant">Total Exposure</span>
+<span class="material-symbols-outlined text-secondary">account_balance_wallet</span>
+</div>
+<p class="font-headline-lg text-headline-lg text-primary">$1.42B</p>
+<p class="font-body-md text-body-md text-success-emerald flex items-center mt-1">
+<span class="material-symbols-outlined text-sm mr-1">trending_up</span>
+                            +3.2% vs Last Quarter
+                        </p>
+</div>
+<!-- Portfolio Health -->
+<div class="bg-surface-container-lowest border border-border-subtle p-stack-md rounded-xl">
+<div class="flex justify-between items-start mb-2">
+<span class="font-label-caps text-label-caps text-on-surface-variant">Portfolio Health</span>
+<span class="material-symbols-outlined text-success-emerald">verified</span>
+</div>
+<p class="font-headline-lg text-headline-lg text-primary">94.8%</p>
+<p class="font-body-md text-body-md text-on-surface-variant flex items-center mt-1">
+                            Standard Low Risk Level
+                        </p>
+</div>
+<!-- System Uptime -->
+<div class="bg-surface-container-lowest border border-border-subtle p-stack-md rounded-xl">
+<div class="flex justify-between items-start mb-2">
+<span class="font-label-caps text-label-caps text-on-surface-variant">System Latency</span>
+<span class="material-symbols-outlined text-secondary">dns</span>
+</div>
+<p class="font-headline-lg text-headline-lg text-primary">12ms</p>
+<div class="flex gap-1 mt-2">
+<div class="h-1 flex-1 bg-success-emerald rounded-full"></div>
+<div class="h-1 flex-1 bg-success-emerald rounded-full"></div>
+<div class="h-1 flex-1 bg-success-emerald rounded-full"></div>
+<div class="h-1 flex-1 bg-success-emerald rounded-full opacity-40"></div>
+</div>
+</div>
+<!-- Liquidity Ratio -->
+<div class="bg-surface-container-lowest border border-border-subtle p-stack-md rounded-xl">
+<div class="flex justify-between items-start mb-2">
+<span class="font-label-caps text-label-caps text-on-surface-variant">Liquidity Ratio</span>
+<span class="material-symbols-outlined text-alert-amber">water_drop</span>
+</div>
+<p class="font-headline-lg text-headline-lg text-primary">1.84x</p>
+<p class="font-body-md text-body-md text-alert-amber flex items-center mt-1">
+                            Approaching Alert Threshold
+                        </p>
+</div>
+</div>
+<!-- Bento Grid for Analytics -->
+<div class="grid grid-cols-12 gap-gutter">
+<!-- Risk Heatmap (Large Card) -->
+<div class="col-span-12 lg:col-span-8 bg-surface-container-lowest border border-border-subtle rounded-xl p-stack-lg shadow-sm">
+<div class="flex justify-between items-center mb-6">
+<div>
+<h3 class="font-headline-md text-headline-md text-primary">Risk Concentration Heatmap</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Loan concentration by borrower grade vs collateral type</p>
+</div>
+<div class="flex gap-2">
+<button class="px-3 py-1 border border-border-subtle rounded text-label-caps font-label-caps hover:bg-surface-container-low transition-colors">By Collateral</button>
+<button class="px-3 py-1 bg-secondary text-on-secondary rounded text-label-caps font-label-caps">By Region</button>
+</div>
+</div>
+<div class="grid grid-cols-6 grid-rows-5 gap-2 h-80">
+<!-- Heatmap Cells - Mock representation -->
+<div class="bg-danger-coral/20 border border-danger-coral/30 rounded flex items-center justify-center font-data-mono text-data-mono heatmap-cell">42%</div>
+<div class="bg-danger-coral/60 border border-danger-coral rounded flex items-center justify-center font-data-mono text-data-mono text-white heatmap-cell">88%</div>
+<div class="bg-success-emerald/10 border border-success-emerald/20 rounded heatmap-cell"></div>
+<div class="bg-success-emerald/20 border border-success-emerald/30 rounded heatmap-cell"></div>
+<div class="bg-alert-amber/40 border border-alert-amber/50 rounded heatmap-cell"></div>
+<div class="bg-success-emerald/5 border border-success-emerald/10 rounded heatmap-cell"></div>
+<div class="bg-alert-amber/20 border border-alert-amber/30 rounded heatmap-cell"></div>
+<div class="bg-danger-coral/10 border border-danger-coral/20 rounded heatmap-cell"></div>
+<div class="col-span-2 bg-success-emerald/40 border border-success-emerald/50 rounded flex items-center justify-center font-data-mono text-data-mono heatmap-cell">12%</div>
+<div class="bg-success-emerald/5 border border-success-emerald/10 rounded heatmap-cell"></div>
+<div class="bg-alert-amber/60 border border-alert-amber rounded flex items-center justify-center font-data-mono text-data-mono heatmap-cell">65%</div>
+<div class="bg-success-emerald/5 border border-success-emerald/10 rounded heatmap-cell"></div>
+<div class="bg-success-emerald/5 border border-success-emerald/10 rounded heatmap-cell"></div>
+<div class="bg-success-emerald/5 border border-success-emerald/10 rounded heatmap-cell"></div>
+<div class="bg-success-emerald/5 border border-success-emerald/10 rounded heatmap-cell"></div>
+<div class="bg-success-emerald/5 border border-success-emerald/10 rounded heatmap-cell"></div>
+<div class="bg-success-emerald/5 border border-success-emerald/10 rounded heatmap-cell"></div>
+<div class="col-span-3 bg-secondary/10 border border-secondary/20 rounded flex items-center justify-center font-data-mono text-data-mono heatmap-cell">Target Zone</div>
+<div class="bg-success-emerald/5 border border-success-emerald/10 rounded heatmap-cell"></div>
+<div class="bg-success-emerald/5 border border-success-emerald/10 rounded heatmap-cell"></div>
+<div class="bg-success-emerald/5 border border-success-emerald/10 rounded heatmap-cell"></div>
+<div class="bg-success-emerald/5 border border-success-emerald/10 rounded heatmap-cell"></div>
+<div class="bg-success-emerald/5 border border-success-emerald/10 rounded heatmap-cell"></div>
+<div class="col-span-4 bg-secondary/5 border border-secondary/10 rounded heatmap-cell"></div>
+</div>
+<div class="mt-4 flex justify-between items-center text-on-surface-variant">
+<span class="font-label-caps text-label-caps">Low Risk (AAA)</span>
+<div class="flex-1 mx-4 h-1 bg-gradient-to-r from-success-emerald via-alert-amber to-danger-coral rounded-full"></div>
+<span class="font-label-caps text-label-caps">High Risk (C)</span>
+</div>
+</div>
+<!-- Diversification KPIs (Vertical Card) -->
+<div class="col-span-12 lg:col-span-4 bg-surface-container-lowest border border-border-subtle rounded-xl p-stack-lg flex flex-col justify-between shadow-sm">
+<div>
+<h3 class="font-headline-md text-headline-md text-primary mb-2">Collateral Mix</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6">Diversification across asset classes</p>
+</div>
+<div class="space-y-6">
+<div class="space-y-2">
+<div class="flex justify-between items-center">
+<span class="font-body-md text-body-md text-primary font-medium flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-secondary"></span> Real Estate
+                                    </span>
+<span class="font-data-mono text-data-mono">45%</span>
+</div>
+<div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden">
+<div class="bg-secondary h-full" style="width: 45%"></div>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between items-center">
+<span class="font-body-md text-body-md text-primary font-medium flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-success-emerald"></span> Tech Infrastructure
+                                    </span>
+<span class="font-data-mono text-data-mono">32%</span>
+</div>
+<div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden">
+<div class="bg-success-emerald h-full" style="width: 32%"></div>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between items-center">
+<span class="font-body-md text-body-md text-primary font-medium flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-alert-amber"></span> Vehicle Fleets
+                                    </span>
+<span class="font-data-mono text-data-mono">18%</span>
+</div>
+<div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden">
+<div class="bg-alert-amber h-full" style="width: 18%"></div>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between items-center">
+<span class="font-body-md text-body-md text-primary font-medium flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-on-surface-variant"></span> Other
+                                    </span>
+<span class="font-data-mono text-data-mono">5%</span>
+</div>
+<div class="w-full bg-surface-container-high h-2 rounded-full overflow-hidden">
+<div class="bg-on-surface-variant h-full" style="width: 5%"></div>
+</div>
+</div>
+</div>
+<button class="mt-8 w-full border border-secondary text-secondary py-2 rounded font-label-caps text-label-caps hover:bg-secondary-container/10 transition-colors">Generate Compliance Report</button>
+</div>
+<!-- Stress Testing Module (Glassmorphic Task Card) -->
+<div class="col-span-12 lg:col-span-7 bg-surface-container-lowest border border-border-subtle rounded-xl p-stack-lg shadow-sm relative overflow-hidden">
+<div class="relative z-10">
+<h3 class="font-headline-md text-headline-md text-primary mb-2">Stress Simulation Engine</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6">Model the impact of macro-economic shifts on portfolio collateral</p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+<div class="space-y-4">
+<div>
+<label class="block font-label-caps text-label-caps text-on-surface-variant mb-2">Market Volatility (VIX)</label>
+<input class="w-full accent-secondary" max="100" min="0" type="range" value="40"/>
+<div class="flex justify-between text-data-mono text-[10px] mt-1">
+<span>Baseline</span>
+<span>Crisis Level</span>
+</div>
+</div>
+<div>
+<label class="block font-label-caps text-label-caps text-on-surface-variant mb-2">Interest Rate Hike (bps)</label>
+<select class="w-full border border-border-subtle rounded px-3 py-2 text-body-md bg-surface-container-low focus:ring-secondary focus:border-secondary">
+<option>+25 bps</option>
+<option selected="">+50 bps</option>
+<option>+75 bps</option>
+<option>+100 bps</option>
+</select>
+</div>
+</div>
+<div class="bg-surface-container-low p-4 rounded-lg border border-border-subtle flex flex-col items-center justify-center text-center">
+<span class="font-label-caps text-label-caps text-on-surface-variant mb-1">Projected Loss at Margin</span>
+<p class="font-headline-lg text-headline-lg text-danger-coral">-$18.4M</p>
+<p class="font-body-md text-body-md text-on-surface-variant mt-2">Portfolio Value: $1.40B</p>
+<button class="mt-4 px-6 py-2 bg-primary text-on-primary rounded font-label-caps text-label-caps">Run Full Simulation</button>
+</div>
+</div>
+</div>
+<!-- Background Decorative Element -->
+<div class="absolute -right-16 -bottom-16 w-64 h-64 bg-secondary/5 rounded-full blur-3xl pointer-events-none"></div>
+</div>
+<!-- Liquidity Monitoring (Data Visualization) -->
+<div class="col-span-12 lg:col-span-5 bg-surface-container-lowest border border-border-subtle rounded-xl p-stack-lg shadow-sm">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-headline-md text-headline-md text-primary">Liquidity Tracking</h3>
+<span class="font-label-caps text-label-caps bg-secondary-container/20 text-secondary px-2 py-1 rounded">Live</span>
+</div>
+<div class="h-48 flex items-end gap-2 px-2">
+<!-- Placeholder Bar Chart -->
+<div class="flex-1 bg-secondary/20 h-1/2 rounded-t transition-all hover:bg-secondary/40 relative group">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-primary text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">$12M</div>
+</div>
+<div class="flex-1 bg-secondary/20 h-3/4 rounded-t transition-all hover:bg-secondary/40"></div>
+<div class="flex-1 bg-secondary/20 h-2/3 rounded-t transition-all hover:bg-secondary/40"></div>
+<div class="flex-1 bg-secondary h-[90%] rounded-t transition-all hover:bg-secondary/80"></div>
+<div class="flex-1 bg-secondary/20 h-1/3 rounded-t transition-all hover:bg-secondary/40"></div>
+<div class="flex-1 bg-secondary/20 h-1/2 rounded-t transition-all hover:bg-secondary/40"></div>
+<div class="flex-1 bg-secondary/20 h-2/3 rounded-t transition-all hover:bg-secondary/40"></div>
+<div class="flex-1 bg-danger-coral h-[95%] rounded-t transition-all hover:bg-danger-coral/80 relative group">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-danger-coral text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">Peak Need</div>
+</div>
+</div>
+<div class="flex justify-between mt-2 text-data-mono text-on-surface-variant">
+<span>MON</span>
+<span>TUE</span>
+<span>WED</span>
+<span>THU</span>
+<span>FRI</span>
+<span>SAT</span>
+<span>SUN</span>
+<span>MON</span>
+</div>
+<div class="mt-6 pt-6 border-t border-border-subtle flex justify-between items-center">
+<div>
+<p class="font-label-caps text-label-caps text-on-surface-variant uppercase">Projected Need</p>
+<p class="font-headline-md text-headline-md text-primary">$45.2M</p>
+</div>
+<div>
+<p class="font-label-caps text-label-caps text-on-surface-variant uppercase">Available Cache</p>
+<p class="font-headline-md text-headline-md text-secondary">$82.1M</p>
+</div>
+</div>
+</div>
+<!-- System Uptime & Availability Dashboard -->
+<div class="col-span-12 bg-surface-container-lowest border border-border-subtle rounded-xl p-stack-lg shadow-sm">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+<div>
+<h3 class="font-headline-md text-headline-md text-primary">Technical Infrastructure Monitor</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Real-time health of sentinel API nodes and underwriting engines</p>
+</div>
+<div class="flex items-center gap-3">
+<div class="flex items-center gap-2 px-3 py-1 bg-success-emerald/10 text-success-emerald rounded-full">
+<div class="w-2 h-2 rounded-full bg-success-emerald animate-pulse"></div>
+<span class="font-label-caps text-label-caps">All Systems Operational</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<div class="flex items-center gap-4 p-4 border border-border-subtle rounded-lg">
+<div class="w-12 h-12 rounded bg-surface-container-low flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary">cloud_done</span>
+</div>
+<div>
+<p class="font-label-caps text-label-caps text-on-surface-variant">Global Availability</p>
+<p class="font-headline-md text-headline-md text-primary">99.998%</p>
+</div>
+</div>
+<div class="flex items-center gap-4 p-4 border border-border-subtle rounded-lg">
+<div class="w-12 h-12 rounded bg-surface-container-low flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary">speed</span>
+</div>
+<div>
+<p class="font-label-caps text-label-caps text-on-surface-variant">P99 Latency</p>
+<p class="font-headline-md text-headline-md text-primary">142ms</p>
+</div>
+</div>
+<div class="flex items-center gap-4 p-4 border border-border-subtle rounded-lg">
+<div class="w-12 h-12 rounded bg-surface-container-low flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary">security</span>
+</div>
+<div>
+<p class="font-label-caps text-label-caps text-on-surface-variant">Encrypted Nodes</p>
+<p class="font-headline-md text-headline-md text-primary">1,240/1,240</p>
+</div>
+</div>
+</div>
+<div class="mt-8 overflow-x-auto">
+<table class="w-full text-left">
+<thead class="bg-surface-gray border-b border-border-subtle">
+<tr>
+<th class="p-4 font-label-caps text-label-caps text-on-surface-variant">Service Node</th>
+<th class="p-4 font-label-caps text-label-caps text-on-surface-variant">Region</th>
+<th class="p-4 font-label-caps text-label-caps text-on-surface-variant">Status</th>
+<th class="p-4 font-label-caps text-label-caps text-on-surface-variant">Load</th>
+<th class="p-4 font-label-caps text-label-caps text-on-surface-variant">Last Ping</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-subtle">
+<tr class="hover:bg-secondary-container/5 transition-colors">
+<td class="p-4 font-body-md text-body-md font-medium text-primary">Sentinel-Core-01</td>
+<td class="p-4 font-body-md text-body-md">US-East-1</td>
+<td class="p-4">
+<span class="bg-success-emerald/10 text-success-emerald text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">Healthy</span>
+</td>
+<td class="p-4 font-data-mono text-data-mono">24%</td>
+<td class="p-4 font-body-md text-body-md text-on-surface-variant">2s ago</td>
+</tr>
+<tr class="hover:bg-secondary-container/5 transition-colors">
+<td class="p-4 font-body-md text-body-md font-medium text-primary">Underwriting-AI-B</td>
+<td class="p-4 font-body-md text-body-md">EU-West-1</td>
+<td class="p-4">
+<span class="bg-success-emerald/10 text-success-emerald text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">Healthy</span>
+</td>
+<td class="p-4 font-data-mono text-data-mono">68%</td>
+<td class="p-4 font-body-md text-body-md text-on-surface-variant">1s ago</td>
+</tr>
+<tr class="hover:bg-secondary-container/5 transition-colors">
+<td class="p-4 font-body-md text-body-md font-medium text-primary">Auth-Vault-Primary</td>
+<td class="p-4 font-body-md text-body-md">Global Edge</td>
+<td class="p-4">
+<span class="bg-alert-amber/10 text-alert-amber text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">High Traffic</span>
+</td>
+<td class="p-4 font-data-mono text-data-mono">89%</td>
+<td class="p-4 font-body-md text-body-md text-on-surface-variant">5s ago</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer (Authority Source: JSON) -->
+<footer class="w-full py-stack-lg px-margin-desktop bg-surface-container-lowest border-t border-border-subtle flex flex-col md:flex-row justify-between items-center gap-gutter">
+<div>
+<span class="font-label-caps text-label-caps font-bold text-primary">GIIN Sentinel</span>
+<p class="font-body-md text-body-md text-on-surface-variant">© 2024 GIIN Sentinel. Secure Institutional Lending.</p>
+</div>
+<div class="flex gap-6">
+<a class="text-on-surface-variant hover:text-secondary transition-colors font-label-caps text-label-caps" href="#">Privacy Policy</a>
+<a class="text-on-surface-variant hover:text-secondary transition-colors font-label-caps text-label-caps" href="#">Terms of Service</a>
+<a class="text-on-surface-variant hover:text-secondary transition-colors font-label-caps text-label-caps" href="#">Security Whitepaper</a>
+</div>
+</footer>
+</div>
+<!-- Mobile Navigation (Responsive Pivot) -->
+<nav class="md:hidden fixed bottom-0 left-0 right-0 bg-surface border-t border-border-subtle flex justify-around items-center h-16 px-4 z-[100]">
+<a class="flex flex-col items-center text-secondary" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-[10px] font-medium">Home</span>
+</a>
+<a class="flex flex-col items-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">description</span>
+<span class="text-[10px] font-medium">Loans</span>
+</a>
+<a class="flex flex-col items-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">account_balance</span>
+<span class="text-[10px] font-medium">Portfolio</span>
+</a>
+<a class="flex flex-col items-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">verified_user</span>
+<span class="text-[10px] font-medium">Security</span>
+</a>
+</nav>
+<script>
+        // Micro-interactions for heatmap cells
+        document.querySelectorAll('.heatmap-cell').forEach(cell => {
+            cell.addEventListener('mouseenter', () => {
+                cell.style.transform = 'scale(1.05)';
+                cell.style.zIndex = '10';
+            });
+            cell.addEventListener('mouseleave', () => {
+                cell.style.transform = 'scale(1)';
+                cell.style.zIndex = '1';
+            });
+        });
+    </script>
+</body></html>

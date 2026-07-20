@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Monthly Tracker | GIIN Sentinel</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-bright": "#fcf8fa",
+                    "tertiary-fixed": "#fcdeb5",
+                    "on-tertiary-container": "#98805d",
+                    "inverse-primary": "#bec6e0",
+                    "inverse-surface": "#303032",
+                    "surface-container-high": "#eae7e9",
+                    "on-error-container": "#93000a",
+                    "primary": "#000000",
+                    "surface-container-low": "#f6f3f5",
+                    "outline-variant": "#c6c6cd",
+                    "on-surface": "#1b1b1d",
+                    "on-tertiary-fixed-variant": "#574425",
+                    "surface-container-highest": "#e4e2e4",
+                    "background": "#fcf8fa",
+                    "error": "#ba1a1a",
+                    "surface-dim": "#dcd9db",
+                    "on-background": "#1b1b1d",
+                    "on-secondary-fixed": "#00174b",
+                    "secondary-fixed": "#dbe1ff",
+                    "surface-container": "#f0edef",
+                    "outline": "#76777d",
+                    "on-secondary-fixed-variant": "#003ea8",
+                    "error-container": "#ffdad6",
+                    "success-emerald": "#10B981",
+                    "danger-coral": "#F43F5E",
+                    "tertiary-fixed-dim": "#dec29a",
+                    "on-secondary": "#ffffff",
+                    "surface": "#fcf8fa",
+                    "on-secondary-container": "#fefcff",
+                    "primary-container": "#131b2e",
+                    "primary-fixed-dim": "#bec6e0",
+                    "primary-fixed": "#dae2fd",
+                    "on-primary-fixed-variant": "#3f465c",
+                    "surface-variant": "#e4e2e4",
+                    "on-primary-fixed": "#131b2e",
+                    "surface-gray": "#F8FAFC",
+                    "tertiary": "#000000",
+                    "alert-amber": "#F59E0B",
+                    "inverse-on-surface": "#f3f0f2",
+                    "secondary-container": "#316bf3",
+                    "on-primary": "#ffffff",
+                    "on-tertiary-fixed": "#271901",
+                    "on-primary-container": "#7c839b",
+                    "on-error": "#ffffff",
+                    "secondary": "#0051d5",
+                    "secondary-fixed-dim": "#b4c5ff",
+                    "on-surface-variant": "#45464d",
+                    "tertiary-container": "#271901",
+                    "border-subtle": "#E2E8F0",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-tint": "#565e74",
+                    "on-tertiary": "#ffffff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "stack-sm": "0.5rem",
+                    "stack-lg": "2rem",
+                    "margin-mobile": "1rem",
+                    "margin-desktop": "2.5rem",
+                    "container-max": "1280px",
+                    "gutter": "1.5rem",
+                    "stack-md": "1rem"
+            },
+            "fontFamily": {
+                    "headline-md": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "body-md": ["Inter"],
+                    "data-mono": ["Inter"],
+                    "label-caps": ["Inter"],
+                    "body-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "data-mono": ["13px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                    "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #F8FAFC; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-surface-gray text-on-surface">
+<!-- Institutional SideNav -->
+<aside class="h-full w-64 fixed left-0 top-0 bg-primary-container z-50 flex flex-col p-4 space-y-2 shadow-sm">
+<div class="mb-8 px-4 py-2">
+<h1 class="text-headline-md font-headline-md font-bold text-on-secondary-container">GIIN Sentinel</h1>
+<p class="font-label-caps text-label-caps text-on-primary-container opacity-70">Institutional Admin</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 text-on-primary-container hover:bg-surface-variant/10 rounded-xl px-4 py-3 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-body-md text-body-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 text-on-primary-container hover:bg-surface-variant/10 rounded-xl px-4 py-3 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">how_to_reg</span>
+<span class="font-body-md text-body-md">Approval Center</span>
+</a>
+<!-- Active State: Main Tracker -->
+<a class="flex items-center gap-3 bg-secondary-container text-on-secondary-container rounded-xl px-4 py-3 opacity-90 transition-all" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">analytics</span>
+<span class="font-body-md text-body-md">Main Tracker</span>
+</a>
+<a class="flex items-center gap-3 text-on-primary-container hover:bg-surface-variant/10 rounded-xl px-4 py-3 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">notifications_active</span>
+<span class="font-body-md text-body-md">Reminders</span>
+</a>
+<a class="flex items-center gap-3 text-on-primary-container hover:bg-surface-variant/10 rounded-xl px-4 py-3 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-body-md text-body-md">Settings</span>
+</a>
+</nav>
+<div class="mt-auto p-4 flex items-center gap-3 bg-white/5 rounded-xl">
+<img class="w-10 h-10 rounded-full object-cover" data-alt="A professional headshot of a financial administrator in a corporate setting, soft studio lighting, high resolution photography, wearing a dark suit, neutral background, reflecting expertise and institutional trust." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB5cVbY7KngyoCr0AvYUaUCtyxvWIERFTEGgZA9JWFo_CM-Ncyl_xseffYYYel2lReCYxVhnBVe6cOu28OOUuDvVGrwIoUFF5VKODQTihw_5ycTDeAXRkB49jmqavOYPXxpDiXT-RSa3XkqBImIXRor-cOk4gEGiE5dKDrOD0KwHZabC6YRUzXK73YdsVOAfF5t4gCLMzEWO4_KQ_mms_hRN_p_8I4g9ik_bmM7khrihGvWUyKiK6O7TbASYTcgvjyLSzF38rJ0pS2M"/>
+<div class="overflow-hidden">
+<p class="font-label-caps text-label-caps text-white truncate">Admin User</p>
+<p class="text-[10px] text-on-primary-container truncate">admin@giinsentinel.com</p>
+</div>
+</div>
+</aside>
+<!-- Top AppBar -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] z-40 bg-surface/80 backdrop-blur-md border-b border-border-subtle flex justify-between items-center h-16 px-8">
+<div class="flex items-center gap-4 flex-1">
+<div class="relative w-full max-w-md focus-within:ring-2 focus-within:ring-secondary-container rounded-lg">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-lg pl-10 pr-4 py-2 text-body-md focus:ring-0" placeholder="Search historical reports..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<button class="text-on-surface-variant hover:text-secondary transition-colors">
+<span class="material-symbols-outlined">help</span>
+</button>
+<div class="relative">
+<button class="text-on-surface-variant hover:text-secondary transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<span class="absolute -top-1 -right-1 w-2 h-2 bg-danger-coral rounded-full"></span>
+</div>
+<div class="h-8 w-[1px] bg-outline-variant"></div>
+<div class="flex items-center gap-2">
+<span class="font-label-caps text-label-caps text-primary">Monthly Tracker</span>
+<span class="material-symbols-outlined text-outline">calendar_month</span>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-64 pt-20 p-8 space-y-8">
+<!-- YTD Summary Cards (KPI Widgets) -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="bg-white border border-border-subtle p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start mb-2">
+<span class="font-label-caps text-label-caps text-on-surface-variant">Total Portfolio Growth</span>
+<span class="text-success-emerald flex items-center text-xs font-bold">
+<span class="material-symbols-outlined text-sm">trending_up</span> +14.2%
+                    </span>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-primary">RWF 1.2B</h2>
+<p class="text-[11px] text-outline mt-2 italic">YTD Cumulative Portfolio Value</p>
+</div>
+<div class="bg-white border border-border-subtle p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start mb-2">
+<span class="font-label-caps text-label-caps text-on-surface-variant">Avg. Collection Rate</span>
+<span class="text-success-emerald flex items-center text-xs font-bold">
+<span class="material-symbols-outlined text-sm">check_circle</span> Stable
+                    </span>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-primary">98.4%</h2>
+<p class="text-[11px] text-outline mt-2 italic">Performance against expected repayment</p>
+</div>
+<div class="bg-white border border-border-subtle p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start mb-2">
+<span class="font-label-caps text-label-caps text-on-surface-variant">Total Interest Earned</span>
+<span class="text-secondary flex items-center text-xs font-bold">
+<span class="material-symbols-outlined text-sm">account_balance</span> +8.5M
+                    </span>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-primary">RWF 42.8M</h2>
+<p class="text-[11px] text-outline mt-2 italic">Net interest accrued YTD</p>
+</div>
+</section>
+<!-- Trend Chart & Performance Overview -->
+<section class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+<!-- Collected vs Outstanding Chart -->
+<div class="lg:col-span-8 bg-white border border-border-subtle p-6 rounded-xl shadow-sm h-96 flex flex-col">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-headline-md text-headline-md text-primary">Collected vs Outstanding</h3>
+<div class="flex gap-4">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-secondary"></span>
+<span class="font-label-caps text-[10px]">Collected</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-outline-variant"></span>
+<span class="font-label-caps text-[10px]">Outstanding</span>
+</div>
+</div>
+</div>
+<div class="flex-1 flex items-end justify-between gap-4 px-2">
+<!-- Simple CSS bar chart simulation -->
+<div class="flex-1 flex flex-col items-center group cursor-help">
+<div class="w-full flex items-end gap-1 h-full">
+<div class="bg-secondary/40 w-1/2 rounded-t-sm transition-all group-hover:bg-secondary" style="height: 65%;"></div>
+<div class="bg-outline-variant/40 w-1/2 rounded-t-sm transition-all group-hover:bg-outline-variant" style="height: 10%;"></div>
+</div>
+<span class="font-label-caps text-[10px] mt-2">JAN</span>
+</div>
+<div class="flex-1 flex flex-col items-center group cursor-help">
+<div class="w-full flex items-end gap-1 h-full">
+<div class="bg-secondary/40 w-1/2 rounded-t-sm transition-all group-hover:bg-secondary" style="height: 72%;"></div>
+<div class="bg-outline-variant/40 w-1/2 rounded-t-sm transition-all group-hover:bg-outline-variant" style="height: 12%;"></div>
+</div>
+<span class="font-label-caps text-[10px] mt-2">FEB</span>
+</div>
+<div class="flex-1 flex flex-col items-center group cursor-help">
+<div class="w-full flex items-end gap-1 h-full">
+<div class="bg-secondary/40 w-1/2 rounded-t-sm transition-all group-hover:bg-secondary" style="height: 80%;"></div>
+<div class="bg-outline-variant/40 w-1/2 rounded-t-sm transition-all group-hover:bg-outline-variant" style="height: 8%;"></div>
+</div>
+<span class="font-label-caps text-[10px] mt-2">MAR</span>
+</div>
+<div class="flex-1 flex flex-col items-center group cursor-help">
+<div class="w-full flex items-end gap-1 h-full">
+<div class="bg-secondary/40 w-1/2 rounded-t-sm transition-all group-hover:bg-secondary" style="height: 55%;"></div>
+<div class="bg-outline-variant/40 w-1/2 rounded-t-sm transition-all group-hover:bg-outline-variant" style="height: 15%;"></div>
+</div>
+<span class="font-label-caps text-[10px] mt-2">APR</span>
+</div>
+<div class="flex-1 flex flex-col items-center group cursor-help">
+<div class="w-full flex items-end gap-1 h-full">
+<div class="bg-secondary/40 w-1/2 rounded-t-sm transition-all group-hover:bg-secondary" style="height: 90%;"></div>
+<div class="bg-outline-variant/40 w-1/2 rounded-t-sm transition-all group-hover:bg-outline-variant" style="height: 5%;"></div>
+</div>
+<span class="font-label-caps text-[10px] mt-2">MAY</span>
+</div>
+<div class="flex-1 flex flex-col items-center group cursor-help">
+<div class="w-full flex items-end gap-1 h-full">
+<div class="bg-secondary/40 w-1/2 rounded-t-sm transition-all group-hover:bg-secondary" style="height: 85%;"></div>
+<div class="bg-outline-variant/40 w-1/2 rounded-t-sm transition-all group-hover:bg-outline-variant" style="height: 7%;"></div>
+</div>
+<span class="font-label-caps text-[10px] mt-2">JUN</span>
+</div>
+</div>
+</div>
+<!-- Side Card: Quick Actions or Info -->
+<div class="lg:col-span-4 flex flex-col gap-6">
+<div class="bg-primary-container text-white p-6 rounded-xl shadow-sm flex flex-col justify-between overflow-hidden relative">
+
+<div class="relative z-10">
+<h4 class="font-headline-md text-headline-md mb-2">Export Monthly Report</h4>
+<p class="font-body-md text-body-md text-on-primary-container mb-6 opacity-90">Generate a comprehensive audit-ready PDF or XLSX for institutional stakeholders.</p>
+<button class="w-full bg-secondary-container hover:bg-secondary-container/90 text-white font-label-caps text-label-caps py-3 rounded-lg flex items-center justify-center gap-2 transition-all">
+<span class="material-symbols-outlined">download</span> Download Audit Pack
+                        </button>
+</div>
+</div>
+<div class="bg-white border border-border-subtle p-6 rounded-xl shadow-sm flex-1">
+<h4 class="font-label-caps text-label-caps text-on-surface-variant mb-4 uppercase">Institutional Alerts</h4>
+<div class="space-y-4">
+<div class="flex gap-3">
+<div class="w-8 h-8 rounded-full bg-alert-amber/10 flex items-center justify-center text-alert-amber shrink-0">
+<span class="material-symbols-outlined text-sm">priority_high</span>
+</div>
+<div>
+<p class="text-body-md font-semibold">Flagged Repayment</p>
+<p class="text-xs text-outline">Kigali Sector B showing 4% delay in collections.</p>
+</div>
+</div>
+<div class="flex gap-3">
+<div class="w-8 h-8 rounded-full bg-success-emerald/10 flex items-center justify-center text-success-emerald shrink-0">
+<span class="material-symbols-outlined text-sm">celebration</span>
+</div>
+<div>
+<p class="text-body-md font-semibold">Target Reached</p>
+<p class="text-xs text-outline">Yearly interest target surpassed by 1.2M RWF.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Historical Performance Table -->
+<section class="bg-white border border-border-subtle rounded-xl shadow-sm overflow-hidden">
+<div class="p-6 border-b border-border-subtle flex justify-between items-center">
+<h3 class="font-headline-md text-headline-md text-primary">Historical Performance Tracker</h3>
+<div class="flex gap-2">
+<button class="px-4 py-2 border border-border-subtle rounded-lg text-body-md hover:bg-surface-container-low transition-colors">Filters</button>
+<button class="px-4 py-2 border border-border-subtle rounded-lg text-body-md hover:bg-surface-container-low transition-colors">2023</button>
+<button class="px-4 py-2 bg-secondary text-white rounded-lg text-body-md hover:bg-secondary/90 transition-colors">2024</button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead class="bg-surface-container-low border-b border-border-subtle sticky top-0">
+<tr>
+<th class="px-6 py-4 font-label-caps text-label-caps text-on-surface-variant">Month</th>
+<th class="px-6 py-4 font-label-caps text-label-caps text-on-surface-variant">Total Loans</th>
+<th class="px-6 py-4 font-label-caps text-label-caps text-on-surface-variant">Borrowed (RWF)</th>
+<th class="px-6 py-4 font-label-caps text-label-caps text-on-surface-variant">Expected (RWF)</th>
+<th class="px-6 py-4 font-label-caps text-label-caps text-on-surface-variant">Collected (RWF)</th>
+<th class="px-6 py-4 font-label-caps text-label-caps text-on-surface-variant">Outstanding (RWF)</th>
+<th class="px-6 py-4 font-label-caps text-label-caps text-on-surface-variant">Total Interest</th>
+<th class="px-6 py-4 font-label-caps text-label-caps text-on-surface-variant">Status</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-subtle">
+<tr class="hover:bg-secondary-fixed/5 transition-colors group cursor-default">
+<td class="px-6 py-4 font-body-md text-primary font-semibold">June 2024</td>
+<td class="px-6 py-4 font-data-mono text-data-mono">142</td>
+<td class="px-6 py-4 font-data-mono text-data-mono">82,450,000</td>
+<td class="px-6 py-4 font-data-mono text-data-mono">90,695,000</td>
+<td class="px-6 py-4 font-data-mono text-data-mono text-success-emerald">88,200,000</td>
+<td class="px-6 py-4 font-data-mono text-data-mono text-danger-coral">2,495,000</td>
+<td class="px-6 py-4 font-data-mono text-data-mono">8,245,000</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-secondary/10 text-secondary">Active</span>
+</td>
+</tr>
+<tr class="hover:bg-secondary-fixed/5 transition-colors group cursor-default">
+<td class="px-6 py-4 font-body-md text-primary font-semibold">May 2024</td>
+<td class="px-6 py-4 font-data-mono text-data-mono">128</td>
+<td class="px-6 py-4 font-data-mono text-data-mono">75,000,000</td>
+<td class="px-6 py-4 font-data-mono text-data-mono">82,500,000</td>
+<td class="px-6 py-4 font-data-mono text-data-mono text-success-emerald">81,900,000</td>
+<td class="px-6 py-4 font-data-mono text-data-mono">600,000</td>
+<td class="px-6 py-4 font-data-mono text-data-mono">7,500,000</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-success-emerald/10 text-success-emerald">Closed</span>
+</td>
+</tr>
+<tr class="hover:bg-secondary-fixed/5 transition-colors group cursor-default">
+<td class="px-6 py-4 font-body-md text-primary font-semibold">April 2024</td>
+<td class="px-6 py-4 font-data-mono text-data-mono">156</td>
+<td class="px-6 py-4 font-data-mono text-data-mono">94,200,000</td>
+<td class="px-6 py-4 font-data-mono text-data-mono">103,620,000</td>
+<td class="px-6 py-4 font-data-mono text-data-mono text-success-emerald">103,620,000</td>
+<td class="px-6 py-4 font-data-mono text-data-mono text-outline">0</td>
+<td class="px-6 py-4 font-data-mono text-data-mono">9,420,000</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-success-emerald/10 text-success-emerald">Closed</span>
+</td>
+</tr>
+<tr class="hover:bg-secondary-fixed/5 transition-colors group cursor-default">
+<td class="px-6 py-4 font-body-md text-primary font-semibold">March 2024</td>
+<td class="px-6 py-4 font-data-mono text-data-mono">110</td>
+<td class="px-6 py-4 font-data-mono text-data-mono">62,000,000</td>
+<td class="px-6 py-4 font-data-mono text-data-mono">68,200,000</td>
+<td class="px-6 py-4 font-data-mono text-data-mono text-success-emerald">67,500,000</td>
+<td class="px-6 py-4 font-data-mono text-data-mono text-danger-coral">700,000</td>
+<td class="px-6 py-4 font-data-mono text-data-mono">6,200,000</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-success-emerald/10 text-success-emerald">Closed</span>
+</td>
+</tr>
+<tr class="hover:bg-secondary-fixed/5 transition-colors group cursor-default">
+<td class="px-6 py-4 font-body-md text-primary font-semibold">February 2024</td>
+<td class="px-6 py-4 font-data-mono text-data-mono">120</td>
+<td class="px-6 py-4 font-data-mono text-data-mono">68,000,000</td>
+<td class="px-6 py-4 font-data-mono text-data-mono">74,800,000</td>
+<td class="px-6 py-4 font-data-mono text-data-mono text-success-emerald">74,800,000</td>
+<td class="px-6 py-4 font-data-mono text-data-mono text-outline">0</td>
+<td class="px-6 py-4 font-data-mono text-data-mono">6,800,000</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-success-emerald/10 text-success-emerald">Closed</span>
+</td>
+</tr>
+<tr class="hover:bg-secondary-fixed/5 transition-colors group cursor-default">
+<td class="px-6 py-4 font-body-md text-primary font-semibold">January 2024</td>
+<td class="px-6 py-4 font-data-mono text-data-mono">95</td>
+<td class="px-6 py-4 font-data-mono text-data-mono">50,000,000</td>
+<td class="px-6 py-4 font-data-mono text-data-mono">55,000,000</td>
+<td class="px-6 py-4 font-data-mono text-data-mono text-success-emerald">55,000,000</td>
+<td class="px-6 py-4 font-data-mono text-data-mono text-outline">0</td>
+<td class="px-6 py-4 font-data-mono text-data-mono">5,000,000</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-success-emerald/10 text-success-emerald">Closed</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="px-6 py-4 bg-surface-container-low flex items-center justify-between">
+<span class="text-xs text-outline">Showing results for fiscal year 2024-Q1/Q2</span>
+<div class="flex gap-2">
+<button class="p-1 border border-border-subtle rounded hover:bg-white transition-colors">
+<span class="material-symbols-outlined text-sm">chevron_left</span>
+</button>
+<button class="p-1 border border-border-subtle rounded hover:bg-white transition-colors">
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+</button>
+</div>
+</div>
+</section>
+</main>
+<script>
+        // Micro-interactions and Tab/Chart effects
+        document.querySelectorAll('tr').forEach(row => {
+            row.addEventListener('mouseenter', () => {
+                row.classList.add('translate-x-1');
+            });
+            row.addEventListener('mouseleave', () => {
+                row.classList.remove('translate-x-1');
+            });
+        });
+
+        // Search Bar Focus Effect
+        const searchInput = document.querySelector('input[type="text"]');
+        searchInput.addEventListener('focus', () => {
+            searchInput.parentElement.classList.add('ring-2', 'ring-secondary-container');
+        });
+        searchInput.addEventListener('blur', () => {
+            searchInput.parentElement.classList.remove('ring-2', 'ring-secondary-container');
+        });
+    </script>
+</body></html>

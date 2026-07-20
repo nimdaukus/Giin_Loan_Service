@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Reset Password | GIIN Sentinel</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-high": "#eae7e9",
+                    "surface-gray": "#F8FAFC",
+                    "on-error": "#ffffff",
+                    "secondary-container": "#316bf3",
+                    "on-primary-container": "#7c839b",
+                    "secondary-fixed-dim": "#b4c5ff",
+                    "tertiary-fixed": "#fcdeb5",
+                    "tertiary": "#000000",
+                    "surface": "#fcf8fa",
+                    "tertiary-container": "#271901",
+                    "border-subtle": "#E2E8F0",
+                    "primary-fixed": "#dae2fd",
+                    "secondary-fixed": "#dbe1ff",
+                    "on-secondary-fixed-variant": "#003ea8",
+                    "on-tertiary-fixed-variant": "#574425",
+                    "inverse-surface": "#303032",
+                    "surface-container": "#f0edef",
+                    "on-tertiary-container": "#98805d",
+                    "inverse-on-surface": "#f3f0f2",
+                    "primary-container": "#131b2e",
+                    "surface-bright": "#fcf8fa",
+                    "on-error-container": "#93000a",
+                    "surface-container-highest": "#e4e2e4",
+                    "outline": "#76777d",
+                    "on-secondary-container": "#fefcff",
+                    "outline-variant": "#c6c6cd",
+                    "on-primary-fixed": "#131b2e",
+                    "alert-amber": "#F59E0B",
+                    "error": "#ba1a1a",
+                    "on-background": "#1b1b1d",
+                    "surface-container-lowest": "#ffffff",
+                    "on-secondary": "#ffffff",
+                    "success-emerald": "#10B981",
+                    "primary": "#000000",
+                    "error-container": "#ffdad6",
+                    "tertiary-fixed-dim": "#dec29a",
+                    "inverse-primary": "#bec6e0",
+                    "on-tertiary": "#ffffff",
+                    "surface-container-low": "#f6f3f5",
+                    "surface-tint": "#565e74",
+                    "on-secondary-fixed": "#00174b",
+                    "on-primary": "#ffffff",
+                    "surface-dim": "#dcd9db",
+                    "on-tertiary-fixed": "#271901",
+                    "danger-coral": "#F43F5E",
+                    "surface-variant": "#e4e2e4",
+                    "secondary": "#0051d5",
+                    "primary-fixed-dim": "#bec6e0",
+                    "on-surface": "#1b1b1d",
+                    "on-surface-variant": "#45464d",
+                    "on-primary-fixed-variant": "#3f465c",
+                    "background": "#fcf8fa"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "container-max": "1280px",
+                    "stack-md": "1rem",
+                    "margin-mobile": "1rem",
+                    "stack-lg": "2rem",
+                    "gutter": "1.5rem",
+                    "stack-sm": "0.5rem",
+                    "margin-desktop": "2.5rem"
+            },
+            "fontFamily": {
+                    "headline-lg": ["Inter", "sans-serif"],
+                    "headline-md": ["Inter", "sans-serif"],
+                    "body-lg": ["Inter", "sans-serif"],
+                    "body-md": ["Inter", "sans-serif"],
+                    "label-caps": ["Inter", "sans-serif"],
+                    "data-mono": ["Inter", "sans-serif"]
+            },
+            "fontSize": {
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "data-mono": ["13px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "500"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-surface-gray text-on-surface overflow-hidden">
+<main class="flex h-screen w-full">
+<!-- Left Side: Reset Password Form -->
+<div class="w-full lg:w-1/2 flex flex-col justify-between bg-surface-container-lowest p-margin-mobile md:p-margin-desktop relative z-10">
+<!-- Brand Logo -->
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary" style="font-size: 32px;">shield</span>
+<span class="font-headline-md text-headline-md font-black text-primary">GIIN Sentinel</span>
+</div>
+<!-- Recovery Content -->
+<div class="max-w-md w-full mx-auto flex flex-col gap-stack-lg">
+<div class="space-y-2">
+<h1 class="font-headline-lg text-headline-lg text-on-background">Reset Password</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Enter your institutional email to receive recovery instructions</p>
+</div>
+<form class="space-y-gutter" id="recovery-form">
+<div class="space-y-stack-sm">
+<label class="font-label-caps text-label-caps text-on-surface-variant uppercase" for="email">Institutional Email Address</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline">mail</span>
+<input class="w-full pl-12 pr-4 py-4 bg-surface-container-low border border-border-subtle rounded-lg focus:ring-2 focus:ring-secondary focus:border-secondary transition-all outline-none font-body-md text-body-md" id="email" name="email" placeholder="name@institution.com" required="" type="email"/>
+</div>
+</div>
+<button class="w-full bg-secondary hover:bg-secondary-container text-on-secondary py-4 rounded-lg font-headline-md text-headline-md shadow-lg shadow-secondary/20 transition-all flex items-center justify-center gap-2 group" type="submit">
+<span>Send Recovery Link</span>
+<span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</form>
+<div class="flex flex-col gap-4 pt-4">
+<a class="flex items-center justify-center gap-2 font-label-caps text-label-caps text-secondary hover:text-secondary-container transition-colors py-2 group" href="#">
+<span class="material-symbols-outlined text-sm">arrow_back</span>
+                        Back to Login
+                    </a>
+</div>
+</div>
+<!-- Footer / Trust Badges -->
+<div class="flex flex-col md:flex-row items-center justify-between gap-gutter border-t border-border-subtle pt-stack-md">
+<p class="font-label-caps text-label-caps text-outline-variant">© 2024 GIIN SENTINEL. SECURE INSTITUTIONAL LENDING.</p>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-1.5 px-3 py-1 bg-surface-container-high rounded-full border border-border-subtle">
+<span class="material-symbols-outlined text-success-emerald text-[14px]" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+<span class="font-label-caps text-[10px] text-on-surface-variant uppercase">AES-256 Encrypted</span>
+</div>
+<div class="flex items-center gap-1.5 px-3 py-1 bg-surface-container-high rounded-full border border-border-subtle">
+<span class="material-symbols-outlined text-secondary text-[14px]" style="font-variation-settings: 'FILL' 1;">security</span>
+<span class="font-label-caps text-[10px] text-on-surface-variant uppercase">ISO 27001</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Side: Imagery & Atmosphere -->
+<div class="hidden lg:block lg:w-1/2 relative bg-primary-container overflow-hidden">
+<!-- Hero Image Background -->
+<div class="absolute inset-0 z-0 opacity-60 grayscale hover:grayscale-0 transition-all duration-1000" data-alt="A wide-angle, high-end architectural photograph of a modern institutional finance office building interior. The scene features soaring glass ceilings, polished marble floors reflecting soft overhead lighting, and minimalist structural pillars. The atmosphere is quiet, professional, and secure, utilizing a sophisticated palette of deep navy blues, metallic silvers, and crisp white highlights. The mood is one of absolute institutional trust and technical precision." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA85EVM87eqE3FTGytKp_yWke6SE6mMC8dU6npGOTYYPE8c0piwzyAynJsxZtyuYtYSQCSp60_kqqeMUNCpCXhdAnkrszloHX999h0RAVGsB5QV4AQJuHLgCdeyUx4dTa8XrKoRC895AVce6won7KQANnlzzASKYeVMoYEk5Re42TLyenz5RTLiEwTrJFmxUd03AiglZQsEFEDAB_3GacS5CshyrSTvyV_2kJVUOOLUcg38iMdhgfGAbwGZIF8izAaKExVy6dB5wkho')">
+</div>
+<!-- Abstract Overlay Pattern -->
+<div class="absolute inset-0 bg-gradient-to-br from-secondary/30 to-transparent mix-blend-multiply"></div>
+<!-- Glassmorphism Card Info -->
+<div class="absolute bottom-margin-desktop left-margin-desktop right-margin-desktop glass-panel p-8 rounded-xl z-10">
+<div class="flex items-start gap-4">
+<div class="p-3 bg-secondary/20 rounded-lg">
+<span class="material-symbols-outlined text-on-secondary text-3xl">lock_reset</span>
+</div>
+<div>
+<h3 class="font-headline-md text-headline-md text-on-secondary mb-2">Secure Verification</h3>
+<p class="font-body-md text-body-md text-on-secondary-container/80 leading-relaxed">
+                            To protect institutional assets, recovery links are valid for 15 minutes and require verified multi-factor authentication upon reset. Sentinel utilizes bi-directional encryption for all identity management processes.
+                        </p>
+</div>
+</div>
+</div>
+<!-- Floating Decoration -->
+<div class="absolute top-20 right-20 w-64 h-64 border border-white/5 rounded-full animate-pulse"></div>
+<div class="absolute top-40 right-40 w-32 h-32 border border-white/10 rounded-full animate-pulse" style="animation-delay: 1s"></div>
+</div>
+</main>
+<!-- Micro-interaction Script -->
+<script>
+        document.getElementById('recovery-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            const originalContent = btn.innerHTML;
+            
+            // Visual feedback
+            btn.disabled = true;
+            btn.innerHTML = `
+                <span class="animate-spin material-symbols-outlined">sync</span>
+                <span>Processing...</span>
+            `;
+            
+            setTimeout(() => {
+                btn.classList.remove('bg-secondary');
+                btn.classList.add('bg-success-emerald');
+                btn.innerHTML = `
+                    <span class="material-symbols-outlined">check_circle</span>
+                    <span>Link Sent!</span>
+                `;
+                
+                // Show a toast or notification-like behavior in UI if needed
+                alert('A recovery link has been sent to your institutional email address if an account exists.');
+                
+                setTimeout(() => {
+                    btn.disabled = false;
+                    btn.classList.remove('bg-success-emerald');
+                    btn.classList.add('bg-secondary');
+                    btn.innerHTML = originalContent;
+                }, 3000);
+            }, 1500);
+        });
+    </script>
+</body></html>

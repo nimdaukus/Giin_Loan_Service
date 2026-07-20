@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>GIIN Sentinel | Help &amp; Support Center</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8FAFC;
+        }
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 1.5rem;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+            border: 1px solid #E2E8F0;
+        }
+        .search-gradient {
+            background: linear-gradient(135deg, #00174b 0%, #0051d5 100%);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-high": "#eae7e9",
+                        "surface-gray": "#F8FAFC",
+                        "on-error": "#ffffff",
+                        "secondary-container": "#316bf3",
+                        "on-primary-container": "#7c839b",
+                        "secondary-fixed-dim": "#b4c5ff",
+                        "tertiary-fixed": "#fcdeb5",
+                        "tertiary": "#000000",
+                        "surface": "#fcf8fa",
+                        "tertiary-container": "#271901",
+                        "border-subtle": "#E2E8F0",
+                        "primary-fixed": "#dae2fd",
+                        "secondary-fixed": "#dbe1ff",
+                        "on-secondary-fixed-variant": "#003ea8",
+                        "on-tertiary-fixed-variant": "#574425",
+                        "inverse-surface": "#303032",
+                        "surface-container": "#f0edef",
+                        "on-tertiary-container": "#98805d",
+                        "inverse-on-surface": "#f3f0f2",
+                        "primary-container": "#131b2e",
+                        "surface-bright": "#fcf8fa",
+                        "on-error-container": "#93000a",
+                        "surface-container-highest": "#e4e2e4",
+                        "outline": "#76777d",
+                        "on-secondary-container": "#fefcff",
+                        "outline-variant": "#c6c6cd",
+                        "on-primary-fixed": "#131b2e",
+                        "alert-amber": "#F59E0B",
+                        "error": "#ba1a1a",
+                        "on-background": "#1b1b1d",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "success-emerald": "#10B981",
+                        "primary": "#000000",
+                        "error-container": "#ffdad6",
+                        "tertiary-fixed-dim": "#dec29a",
+                        "inverse-primary": "#bec6e0",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-low": "#f6f3f5",
+                        "surface-tint": "#565e74",
+                        "on-secondary-fixed": "#00174b",
+                        "on-primary": "#ffffff",
+                        "surface-dim": "#dcd9db",
+                        "on-tertiary-fixed": "#271901",
+                        "danger-coral": "#F43F5E",
+                        "surface-variant": "#e4e2e4",
+                        "secondary": "#0051d5",
+                        "primary-fixed-dim": "#bec6e0",
+                        "on-surface": "#1b1b1d",
+                        "on-surface-variant": "#45464d",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "background": "#fcf8fa"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "container-max": "1280px",
+                        "stack-md": "1rem",
+                        "margin-mobile": "1rem",
+                        "stack-lg": "2rem",
+                        "gutter": "1.5rem",
+                        "stack-sm": "0.5rem",
+                        "margin-desktop": "2.5rem"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-caps": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-surface-gray">
+<div class="flex h-screen overflow-hidden">
+<!-- SideNavBar -->
+<aside class="hidden lg:flex flex-col h-full w-64 bg-surface-container-low border-r border-border-subtle p-stack-md space-y-4">
+<div class="mb-8 px-2">
+<h1 class="font-headline-md text-headline-md font-black text-primary">GIIN Sentinel</h1>
+<p class="font-label-caps text-label-caps text-on-surface-variant opacity-70">Institutional Portal</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-caps text-label-caps">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">description</span>
+<span class="font-label-caps text-label-caps">Loan Applications</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">account_balance</span>
+<span class="font-label-caps text-label-caps">Portfolio</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">business</span>
+<span class="font-label-caps text-label-caps">Institutional Profile</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">verified_user</span>
+<span class="font-label-caps text-label-caps">Security</span>
+</a>
+</nav>
+<div class="pt-4 border-t border-border-subtle space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 bg-secondary-container text-on-secondary-container rounded-lg font-semibold" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-label-caps text-label-caps">Support</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-caps text-label-caps">Settings</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 overflow-y-auto relative">
+<!-- TopAppBar -->
+<header class="sticky top-0 z-50 flex justify-between items-center px-margin-desktop py-4 bg-surface border-b border-border-subtle w-full max-w-container-max mx-auto">
+<div class="flex items-center gap-4">
+<h2 class="font-headline-md text-headline-md font-bold text-primary">Support Center</h2>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4 text-on-surface-variant">
+<span class="material-symbols-outlined cursor-pointer hover:text-secondary transition-colors">notifications</span>
+<div class="flex items-center gap-2 cursor-pointer group">
+<span class="material-symbols-outlined text-secondary">account_circle</span>
+<span class="font-body-md text-body-md font-semibold group-hover:text-secondary">Admin_Ops_04</span>
+</div>
+</div>
+</div>
+</header>
+<!-- Knowledge Base Hero -->
+<section class="search-gradient py-16 px-margin-desktop text-white">
+<div class="max-w-4xl mx-auto text-center">
+<h3 class="font-headline-lg text-headline-lg mb-4">How can we assist your operations?</h3>
+<p class="font-body-md text-body-md opacity-80 mb-8">Search across loan protocols, security documentation, and system manuals.</p>
+<div class="relative max-w-2xl mx-auto">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full pl-12 pr-4 py-4 rounded-xl text-on-surface focus:ring-2 focus:ring-secondary border-none shadow-lg" placeholder="Search documentation, updates, or protocol codes..." type="text"/>
+</div>
+</div>
+</section>
+<!-- Categorized Cards (Bento Layout) -->
+<section class="p-margin-desktop max-w-container-max mx-auto">
+<div class="bento-grid">
+<!-- Loan Processing -->
+<div class="col-span-12 md:col-span-8 bg-white border border-border-subtle p-stack-lg rounded-xl flex flex-col gap-4 hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start">
+<div>
+<span class="material-symbols-outlined text-secondary text-4xl mb-2">payments</span>
+<h4 class="font-headline-md text-headline-md">Loan Processing</h4>
+<p class="text-on-surface-variant font-body-md text-body-md mt-1">Lifecycle management from intake to final disbursement.</p>
+</div>
+<span class="bg-secondary-container/10 text-secondary text-[10px] font-bold px-2 py-1 rounded uppercase">Priority</span>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+<a class="p-4 bg-surface-container-low rounded-lg border border-transparent hover:border-secondary transition-all group" href="#">
+<p class="font-body-md text-body-md font-semibold group-hover:text-secondary">Disbursement Protocols</p>
+<p class="text-[12px] text-on-surface-variant">Step-by-step wire transfer safety.</p>
+</a>
+<a class="p-4 bg-surface-container-low rounded-lg border border-transparent hover:border-secondary transition-all group" href="#">
+<p class="font-body-md text-body-md font-semibold group-hover:text-secondary">KYC Verification Logic</p>
+<p class="text-[12px] text-on-surface-variant">Automated vs Manual checks.</p>
+</a>
+<a class="p-4 bg-surface-container-low rounded-lg border border-transparent hover:border-secondary transition-all group" href="#">
+<p class="font-body-md text-body-md font-semibold group-hover:text-secondary">Approval Hierarchies</p>
+<p class="text-[12px] text-on-surface-variant">Manager override procedures.</p>
+</a>
+<a class="p-4 bg-surface-container-low rounded-lg border border-transparent hover:border-secondary transition-all group" href="#">
+<p class="font-body-md text-body-md font-semibold group-hover:text-secondary">Post-Funding Audits</p>
+<p class="text-[12px] text-on-surface-variant">Compliance documentation guide.</p>
+</a>
+</div>
+</div>
+<!-- Collateral Guidelines -->
+<div class="col-span-12 md:col-span-4 bg-white border border-border-subtle p-stack-lg rounded-xl flex flex-col gap-4 hover:shadow-md transition-shadow">
+<span class="material-symbols-outlined text-alert-amber text-4xl mb-2">shield</span>
+<h4 class="font-headline-md text-headline-md">Collateral Guidelines</h4>
+<p class="text-on-surface-variant font-body-md text-body-md">Standardized asset valuation and verification methods.</p>
+<div class="flex flex-col gap-2 mt-auto">
+<div class="flex items-center justify-between py-2 border-b border-border-subtle hover:bg-surface-container-low px-2 rounded cursor-pointer">
+<span class="font-body-md text-body-md">Valuation API Reference</span>
+<span class="material-symbols-outlined text-sm">open_in_new</span>
+</div>
+<div class="flex items-center justify-between py-2 border-b border-border-subtle hover:bg-surface-container-low px-2 rounded cursor-pointer">
+<span class="font-body-md text-body-md">Acceptable Assets List</span>
+<span class="material-symbols-outlined text-sm">open_in_new</span>
+</div>
+<div class="flex items-center justify-between py-2 border-b border-border-subtle hover:bg-surface-container-low px-2 rounded cursor-pointer">
+<span class="font-body-md text-body-md">Lien Registration Flow</span>
+<span class="material-symbols-outlined text-sm">open_in_new</span>
+</div>
+</div>
+</div>
+<!-- Security Protocols -->
+<div class="col-span-12 md:col-span-5 bg-white border border-border-subtle p-stack-lg rounded-xl flex flex-col gap-4 hover:shadow-md transition-shadow relative overflow-hidden">
+<div class="absolute -right-8 -top-8 opacity-5">
+<span class="material-symbols-outlined text-[160px]">lock_person</span>
+</div>
+<span class="material-symbols-outlined text-danger-coral text-4xl mb-2">verified_user</span>
+<h4 class="font-headline-md text-headline-md">Security Protocols</h4>
+<p class="text-on-surface-variant font-body-md text-body-md">Mandatory administrative security requirements for system access.</p>
+<div class="mt-4 p-4 border-l-4 border-danger-coral bg-danger-coral/5">
+<p class="font-label-caps text-label-caps text-danger-coral mb-1">Alert</p>
+<p class="font-body-md text-body-md font-semibold">2FA reset procedures have been updated. Ensure all physical keys are re-synced.</p>
+</div>
+<button class="mt-auto w-full py-3 bg-primary text-white font-label-caps text-label-caps rounded-lg hover:bg-opacity-90 transition-all">View Full Protocol</button>
+</div>
+<!-- System Updates -->
+<div class="col-span-12 md:col-span-7 bg-white border border-border-subtle p-stack-lg rounded-xl flex flex-col gap-4 hover:shadow-md transition-shadow">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-success-emerald text-4xl">system_update_alt</span>
+<div>
+<h4 class="font-headline-md text-headline-md">System Updates</h4>
+<p class="text-on-surface-variant font-body-md text-body-md">Version 2.4.1 - "Sentinel Shield"</p>
+</div>
+</div>
+<div class="mt-4 space-y-4">
+<div class="flex gap-4">
+<div class="flex flex-col items-center">
+<div class="w-3 h-3 rounded-full bg-success-emerald"></div>
+<div class="w-0.5 h-full bg-border-subtle"></div>
+</div>
+<div class="pb-4">
+<p class="font-body-md text-body-md font-bold">New: Automated Appraisal Engine</p>
+<p class="text-on-surface-variant font-body-md text-body-md">Real-estate collateral now auto-syncs with national tax databases.</p>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="flex flex-col items-center">
+<div class="w-3 h-3 rounded-full bg-secondary"></div>
+<div class="w-0.5 h-full bg-border-subtle"></div>
+</div>
+<div class="pb-4">
+<p class="font-body-md text-body-md font-bold">Improvement: Dash Performance</p>
+<p class="text-on-surface-variant font-body-md text-body-md">Reduced load times for the Portfolio view by 40% using lazy-loading.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Support Footer -->
+<footer class="w-full py-stack-lg px-margin-desktop flex flex-col md:flex-row justify-between items-center gap-gutter border-t border-border-subtle bg-surface-container-lowest mt-12">
+<div class="flex flex-col gap-1">
+<p class="font-label-caps text-label-caps font-bold text-primary">GIIN SENTINEL</p>
+<p class="font-body-md text-body-md text-on-surface-variant">© 2024 GIIN Sentinel. Secure Institutional Lending.</p>
+</div>
+<div class="flex gap-6">
+<a class="text-on-surface-variant font-label-caps text-label-caps hover:text-secondary transition-colors" href="#">Privacy Policy</a>
+<a class="text-on-surface-variant font-label-caps text-label-caps hover:text-secondary transition-colors" href="#">Terms of Service</a>
+<a class="text-on-surface-variant font-label-caps text-label-caps hover:text-secondary transition-colors" href="#">Security Whitepaper</a>
+</div>
+</footer>
+</main>
+</div>
+<!-- Contact Technical Support FAB -->
+<div class="fixed bottom-8 right-8 z-[100] group" id="support-fab">
+<button class="bg-secondary text-white p-4 rounded-full shadow-2xl flex items-center gap-3 transition-all duration-300 hover:scale-110 active:scale-95">
+<span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">support_agent</span>
+<span class="max-w-0 overflow-hidden whitespace-nowrap group-hover:max-w-xs transition-all duration-500 font-label-caps text-label-caps">Contact Technical Support</span>
+</button>
+<!-- Expanded Quick Support Menu (Hidden by default) -->
+<div class="absolute bottom-20 right-0 w-64 bg-white border border-border-subtle rounded-xl shadow-2xl opacity-0 translate-y-4 pointer-events-none transition-all duration-300" id="support-menu">
+<div class="p-4 border-b border-border-subtle">
+<p class="font-headline-md text-[16px] font-bold">Quick Support</p>
+<p class="text-[12px] text-on-surface-variant">Average response: 4 mins</p>
+</div>
+<div class="p-2 space-y-1">
+<button class="w-full text-left p-3 hover:bg-surface-container-low rounded-lg flex items-center gap-3 transition-colors">
+<span class="material-symbols-outlined text-secondary">chat_bubble</span>
+<span class="font-body-md text-body-md">Live Admin Chat</span>
+</button>
+<button class="w-full text-left p-3 hover:bg-surface-container-low rounded-lg flex items-center gap-3 transition-colors">
+<span class="material-symbols-outlined text-secondary">mail</span>
+<span class="font-body-md text-body-md">Open Support Ticket</span>
+</button>
+<button class="w-full text-left p-3 hover:bg-surface-container-low rounded-lg flex items-center gap-3 transition-colors">
+<span class="material-symbols-outlined text-secondary">call</span>
+<span class="font-body-md text-body-md">Emergency Hotline</span>
+</button>
+</div>
+</div>
+</div>
+<script>
+        const fab = document.getElementById('support-fab');
+        const menu = document.getElementById('support-menu');
+        let isOpen = false;
+
+        fab.addEventListener('click', (e) => {
+            e.stopPropagation();
+            isOpen = !isOpen;
+            if (isOpen) {
+                menu.classList.remove('opacity-0', 'translate-y-4', 'pointer-events-none');
+            } else {
+                menu.classList.add('opacity-0', 'translate-y-4', 'pointer-events-none');
+            }
+        });
+
+        document.addEventListener('click', () => {
+            isOpen = false;
+            menu.classList.add('opacity-0', 'translate-y-4', 'pointer-events-none');
+        });
+
+        // Search bar micro-interaction
+        const searchInput = document.querySelector('input[type="text"]');
+        searchInput.addEventListener('focus', () => {
+            searchInput.parentElement.classList.add('scale-[1.02]');
+            searchInput.parentElement.style.transition = 'transform 0.3s ease';
+        });
+        searchInput.addEventListener('blur', () => {
+            searchInput.parentElement.classList.remove('scale-[1.02]');
+        });
+    </script>
+</body></html>

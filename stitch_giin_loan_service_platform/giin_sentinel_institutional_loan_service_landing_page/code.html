@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>GIIN Sentinel | Institutional Finance Ecosystem</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "on-background": "#1b1b1d",
+                "error": "#ba1a1a",
+                "alert-amber": "#F59E0B",
+                "on-tertiary": "#ffffff",
+                "inverse-primary": "#bec6e0",
+                "tertiary-fixed-dim": "#dec29a",
+                "primary": "#000000",
+                "error-container": "#ffdad6",
+                "success-emerald": "#10B981",
+                "on-secondary": "#ffffff",
+                "surface-container-lowest": "#ffffff",
+                "surface-dim": "#dcd9db",
+                "on-tertiary-fixed": "#271901",
+                "surface-tint": "#565e74",
+                "on-secondary-fixed": "#00174b",
+                "on-primary": "#ffffff",
+                "surface-container-low": "#f6f3f5",
+                "on-primary-fixed-variant": "#3f465c",
+                "background": "#fcf8fa",
+                "on-surface-variant": "#45464d",
+                "on-surface": "#1b1b1d",
+                "primary-fixed-dim": "#bec6e0",
+                "surface-variant": "#e4e2e4",
+                "secondary": "#0051d5",
+                "danger-coral": "#F43F5E",
+                "on-primary-container": "#7c839b",
+                "secondary-container": "#316bf3",
+                "on-error": "#ffffff",
+                "surface-gray": "#F8FAFC",
+                "surface-container-high": "#eae7e9",
+                "primary-fixed": "#dae2fd",
+                "tertiary-container": "#271901",
+                "border-subtle": "#E2E8F0",
+                "surface": "#fcf8fa",
+                "tertiary": "#000000",
+                "tertiary-fixed": "#fcdeb5",
+                "secondary-fixed-dim": "#b4c5ff",
+                "primary-container": "#131b2e",
+                "inverse-on-surface": "#f3f0f2",
+                "on-tertiary-container": "#98805d",
+                "surface-container": "#f0edef",
+                "on-tertiary-fixed-variant": "#574425",
+                "inverse-surface": "#303032",
+                "on-secondary-fixed-variant": "#003ea8",
+                "secondary-fixed": "#dbe1ff",
+                "on-primary-fixed": "#131b2e",
+                "outline-variant": "#c6c6cd",
+                "outline": "#76777d",
+                "on-secondary-container": "#fefcff",
+                "surface-container-highest": "#e4e2e4",
+                "surface-bright": "#fcf8fa",
+                "on-error-container": "#93000a"
+            },
+            "borderRadius": {
+                "DEFAULT": "0.125rem",
+                "lg": "0.25rem",
+                "xl": "0.5rem",
+                "full": "0.75rem"
+            },
+            "fontFamily": {
+                "headline-lg": ["Inter"],
+                "data-mono": ["Inter"],
+                "body-md": ["Inter"],
+                "headline-lg-mobile": ["Inter"],
+                "headline-md": ["Inter"],
+                "label-caps": ["Inter"],
+                "body-lg": ["Inter"]
+            },
+            "fontSize": {
+                "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                "data-mono": ["13px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .glass-card { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(226, 232, 240, 0.5); }
+        .hero-gradient { background: radial-gradient(circle at top right, #131b2e 0%, #000000 100%); }
+        .animate-float { animation: float 6s ease-in-out infinite; }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+    </style>
+</head>
+<body class="bg-background text-on-surface selection:bg-secondary-fixed selection:text-on-secondary-fixed">
+<!-- Top Navigation (Shell Implementation) -->
+<nav class="fixed top-0 left-0 w-full z-50 bg-surface/80 backdrop-blur-md border-b border-border-subtle h-16 px-8 flex justify-between items-center">
+<div class="flex items-center gap-2">
+<span class="font-headline-md text-headline-md font-black text-primary">GIIN Sentinel</span>
+</div>
+<div class="hidden md:flex items-center gap-8">
+<a class="font-label-caps text-label-caps text-secondary font-bold border-b-2 border-secondary pb-1" href="#">Home</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-colors" href="#">Platform</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-colors" href="#">Security</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary transition-colors" href="#">About</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="font-label-caps text-label-caps px-4 py-2 text-primary hover:text-secondary-container transition-all">Login</button>
+<button class="font-label-caps text-label-caps px-6 py-2 bg-secondary text-white rounded-xl shadow-lg hover:bg-secondary-container transition-all active:scale-95">Apply Now</button>
+</div>
+</nav>
+<main class="pt-16">
+<!-- Hero Section -->
+<section class="relative min-h-[921px] flex items-center overflow-hidden bg-primary-container">
+<div class="absolute inset-0 z-0">
+
+<div class="absolute inset-0 bg-gradient-to-r from-primary-container via-primary-container/80 to-transparent"></div>
+</div>
+<div class="container mx-auto px-margin-desktop relative z-10 grid md:grid-cols-2 gap-12 items-center">
+<div class="space-y-stack-lg">
+<div class="inline-flex items-center gap-2 px-3 py-1 bg-secondary/10 border border-secondary/20 rounded-full">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+<span class="font-label-caps text-label-caps text-secondary">Institutional Grade Infrastructure</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-white max-w-xl leading-tight md:text-5xl">
+                        Empowering Future Leaders through Institutional Finance
+                    </h1>
+<p class="font-body-lg text-body-lg text-on-primary-container max-w-lg">
+                        GIIN Sentinel bridge the gap between traditional credit structures and modern educational aspirations. Secure, transparent, and built for scale.
+                    </p>
+<div class="flex flex-wrap gap-stack-md pt-4">
+<button class="px-8 py-4 bg-secondary text-white font-headline-md text-headline-md rounded-xl hover:bg-secondary-container transition-all flex items-center gap-2 group">
+                            Start Application
+                            <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform" data-icon="arrow_forward">arrow_forward</span>
+</button>
+<button class="px-8 py-4 border border-outline-variant text-white font-headline-md text-headline-md rounded-xl hover:bg-white/10 transition-all">
+                            View Platform
+                        </button>
+</div>
+</div>
+<div class="relative hidden md:block">
+<div class="absolute -top-12 -left-12 w-64 h-64 bg-secondary/20 rounded-full blur-3xl"></div>
+<div class="relative z-10 rounded-2xl overflow-hidden shadow-2xl border border-white/10 animate-float">
+<img class="w-full aspect-[4/5] object-cover" data-alt="A professional and high-fidelity photograph of a modern, diverse group of young graduate students and financial professionals in a bright, minimalist university setting. The lighting is crisp and optimistic, with a color palette of deep navy, slate gray, and bright white. The composition highlights teamwork and future-oriented financial empowerment in a corporate-modern aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAwpqWDbzXHNqtwoeiKlV3G7_ezHfOoUKI9tk5qBfuNxn3UpdtyV-YdoQMqHxeVPlVL5ETCpPZmXRO2EzXqbDDPrWZk0edRoLFRICrAYxqnj0ffus0LAlRcoigs6A2gbaZL25oS6Fmec6zEIeycEzDEIOcvY5a63eX6NfX-QBwc8dr1eeCsuHe1VUsNiZBPCOBVw8yllQ9bu8Bq9jQO0pXtCVpFpDG0jl6KwMWIujHbuHV273NqoXKc7WnQf7rSH_s0vDmY50q_EI69"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+<div class="absolute bottom-8 left-8 right-8 p-6 glass-card rounded-xl">
+<div class="flex items-center gap-4 mb-4">
+<div class="w-12 h-12 rounded-full bg-success-emerald/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-success-emerald" data-icon="verified">verified</span>
+</div>
+<div>
+<p class="font-label-caps text-label-caps text-on-surface-variant">SECURE DISBURSEMENT</p>
+<p class="font-headline-md text-headline-md text-on-surface">$124.5M Managed</p>
+</div>
+</div>
+<div class="w-full h-2 bg-surface-variant rounded-full overflow-hidden">
+<div class="h-full bg-secondary w-3/4"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Pillars / Value Propositions -->
+<section class="py-stack-lg bg-surface relative overflow-hidden">
+<div class="container mx-auto px-margin-desktop">
+<div class="text-center max-w-3xl mx-auto mb-16">
+<h2 class="font-headline-lg text-headline-lg text-primary mb-4">Redefining Loan Management</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Our infrastructure is designed for high-density data and absolute precision, ensuring institutional trust at every touchpoint.</p>
+</div>
+<div class="grid md:grid-cols-3 gap-gutter">
+<!-- Pillar 1 -->
+<div class="p-10 rounded-2xl bg-white border border-border-subtle hover:shadow-xl transition-all group">
+<div class="w-16 h-16 rounded-2xl bg-primary-container/10 flex items-center justify-center mb-6 group-hover:bg-primary-container transition-colors">
+<span class="material-symbols-outlined text-primary-container text-3xl group-hover:text-white" data-icon="visibility">visibility</span>
+</div>
+<h3 class="font-headline-md text-headline-md mb-4">Transparent Terms</h3>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                            Full visibility into fee structures and repayment schedules. No hidden clauses, just clear, blockchain-verified documentation.
+                        </p>
+</div>
+<!-- Pillar 2 -->
+<div class="p-10 rounded-2xl bg-white border border-border-subtle hover:shadow-xl transition-all group">
+<div class="w-16 h-16 rounded-2xl bg-secondary/10 flex items-center justify-center mb-6 group-hover:bg-secondary transition-colors">
+<span class="material-symbols-outlined text-secondary text-3xl group-hover:text-white" data-icon="shield">shield</span>
+</div>
+<h3 class="font-headline-md text-headline-md mb-4">Collateral-Backed Security</h3>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                            Robust risk mitigation through diverse collateral pools, monitored 24/7 by our automated sentinel system for institutional peace of mind.
+                        </p>
+</div>
+<!-- Pillar 3 -->
+<div class="p-10 rounded-2xl bg-white border border-border-subtle hover:shadow-xl transition-all group">
+<div class="w-16 h-16 rounded-2xl bg-alert-amber/10 flex items-center justify-center mb-6 group-hover:bg-alert-amber transition-colors">
+<span class="material-symbols-outlined text-alert-amber text-3xl group-hover:text-white" data-icon="settings_suggest">settings_suggest</span>
+</div>
+<h3 class="font-headline-md text-headline-md mb-4">Automated Management</h3>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                            Streamlined lifecycle tracking from application to final repayment, powered by smart contracts to eliminate manual friction.
+                        </p>
+</div>
+</div>
+</div>
+</section>
+<!-- Institutional Trust Section -->
+<section class="py-24 bg-primary-container text-white overflow-hidden relative">
+<div class="absolute right-0 top-0 w-1/2 h-full opacity-10">
+
+</div>
+<div class="container mx-auto px-margin-desktop relative z-10">
+<div class="grid md:grid-cols-2 gap-16 items-center">
+<div>
+<h2 class="font-headline-lg text-headline-lg mb-8 md:text-5xl">Built for Institutional Rigor</h2>
+<div class="space-y-6">
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-secondary-fixed text-2xl" data-icon="database">database</span>
+<div>
+<h4 class="font-headline-md text-headline-md text-secondary-fixed">Immutable Record Keeping</h4>
+<p class="font-body-md text-body-md text-on-primary-container">Every transaction, approval, and document hash is stored on a private ledger for auditability.</p>
+</div>
+</div>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-secondary-fixed text-2xl" data-icon="lock_open">lock_open</span>
+<div>
+<h4 class="font-headline-md text-headline-md text-secondary-fixed">Zero-Knowledge Proofs</h4>
+<p class="font-body-md text-body-md text-on-primary-container">Maintain privacy while proving creditworthiness to institutional lenders through advanced crypto-primitives.</p>
+</div>
+</div>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-secondary-fixed text-2xl" data-icon="account_balance">account_balance</span>
+<div>
+<h4 class="font-headline-md text-headline-md text-secondary-fixed">Regulatory Compliance</h4>
+<p class="font-body-md text-body-md text-on-primary-container">Built-in KYC/AML modules ensuring every participant meets international financial standards.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="relative">
+<div class="glass-card p-1 rounded-2xl shadow-2xl">
+<img class="w-full rounded-xl object-cover shadow-inner" data-alt="A clean, minimalist high-tech dashboard interface showing financial charts, blockchain nodes connecting, and security verification symbols. The UI design is corporate and sleek, using dark navy and electric blue accents against a pristine white background. The aesthetic is institutional, high-fidelity, and technologically advanced, evoking trust and security." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCcgXMB3aI3sUIeZT_80YltuctR1RrNWdNrUn1Vajc8VQBghReVIB0yf-mzhv-EKKJ6Fi9ZD_Ub_T5tOGIRvi1MCFXFKXZnK0z9ElCs81Rl1_bi84zZn0f4W-z2_x8_d3be1qYNmptrju1Jlkzl_DZs2YhWzDf38WTze11TXb9uovEeDY3k-BEloro1TjRHLRtLEujEsQAME5K7TYHJn5VZ2UwDVXs9ha8wAk1f4KryJCeo2FyPACYDd8o5xYO6WryDfmesQemo4g7j"/>
+</div>
+<div class="absolute -bottom-6 -right-6 p-6 bg-white rounded-xl shadow-xl border border-border-subtle max-w-[240px]">
+<p class="text-on-surface font-label-caps text-label-caps mb-2">NETWORK STATUS</p>
+<div class="flex items-center gap-2 text-success-emerald">
+<span class="w-3 h-3 rounded-full bg-current animate-pulse"></span>
+<span class="font-data-mono text-data-mono">100% OPERATIONAL</span>
+</div>
+<p class="text-on-surface-variant font-body-md text-body-md mt-2">All nodes synchronized.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- How It Works -->
+<section class="py-stack-lg bg-surface-gray">
+<div class="container mx-auto px-margin-desktop">
+<div class="text-center max-w-2xl mx-auto mb-20">
+<h2 class="font-headline-lg text-headline-lg text-primary mb-4">Your Journey to Growth</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant">A streamlined three-step process designed for the modern borrower.</p>
+</div>
+<div class="grid md:grid-cols-3 gap-12 relative">
+<!-- Connector Line (Desktop Only) -->
+<div class="hidden md:block absolute top-24 left-[15%] right-[15%] h-px border-t border-dashed border-outline-variant z-0"></div>
+<!-- Step 1 -->
+<div class="relative z-10 flex flex-col items-center text-center">
+<div class="w-20 h-20 rounded-full bg-white shadow-lg border-4 border-surface flex items-center justify-center mb-8">
+<span class="font-headline-lg text-headline-lg text-secondary">01</span>
+</div>
+<h4 class="font-headline-md text-headline-md mb-3">Apply</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">Submit your application and collateral details through our secure portal.</p>
+</div>
+<!-- Step 2 -->
+<div class="relative z-10 flex flex-col items-center text-center">
+<div class="w-20 h-20 rounded-full bg-white shadow-lg border-4 border-surface flex items-center justify-center mb-8">
+<span class="font-headline-lg text-headline-lg text-secondary">02</span>
+</div>
+<h4 class="font-headline-md text-headline-md mb-3">Review</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">Institutional admins verify collateral via GIIN Sentinel's automated center.</p>
+</div>
+<!-- Step 3 -->
+<div class="relative z-10 flex flex-col items-center text-center">
+<div class="w-20 h-20 rounded-full bg-white shadow-lg border-4 border-surface flex items-center justify-center mb-8">
+<span class="font-headline-lg text-headline-lg text-secondary">03</span>
+</div>
+<h4 class="font-headline-md text-headline-md mb-3">Repay</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">Track your progress and automate repayments via our tracker dashboard.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Final CTA Section -->
+<section class="py-24">
+<div class="container mx-auto px-margin-desktop">
+<div class="relative rounded-[2.5rem] bg-secondary p-12 md:p-24 overflow-hidden text-center text-white">
+<div class="absolute inset-0 opacity-20 pointer-events-none">
+
+</div>
+<div class="relative z-10 max-w-3xl mx-auto space-y-8">
+<h2 class="font-headline-lg text-headline-lg md:text-5xl leading-tight">Ready to unlock institutional opportunities?</h2>
+<p class="font-body-lg text-body-lg text-secondary-fixed max-w-2xl mx-auto">
+                            Join hundreds of future leaders who are using GIIN Sentinel to fuel their educational and professional growth.
+                        </p>
+<div class="flex flex-col sm:flex-row gap-4 justify-center">
+<button class="px-10 py-5 bg-white text-secondary font-headline-md text-headline-md rounded-xl hover:shadow-2xl transition-all hover:-translate-y-1">
+                                Apply for a Loan
+                            </button>
+<button class="px-10 py-5 bg-secondary-container/30 border border-white/20 text-white font-headline-md text-headline-md rounded-xl hover:bg-secondary-container/50 transition-all">
+                                Contact Advisory
+                            </button>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface border-t border-border-subtle py-16">
+<div class="container mx-auto px-margin-desktop">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+<div class="col-span-1 md:col-span-1 space-y-6">
+<span class="font-headline-md text-headline-md font-black text-primary">GIIN Sentinel</span>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                        The world's first decentralized institutional loan platform for education and personal growth.
+                    </p>
+<div class="flex gap-4">
+<a class="w-10 h-10 rounded-full border border-outline-variant flex items-center justify-center hover:bg-secondary hover:text-white transition-all" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="public">public</span>
+</a>
+<a class="w-10 h-10 rounded-full border border-outline-variant flex items-center justify-center hover:bg-secondary hover:text-white transition-all" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="alternate_email">alternate_email</span>
+</a>
+<a class="w-10 h-10 rounded-full border border-outline-variant flex items-center justify-center hover:bg-secondary hover:text-white transition-all" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="share">share</span>
+</a>
+</div>
+</div>
+<div>
+<h5 class="font-label-caps text-label-caps text-primary mb-6">PLATFORM</h5>
+<ul class="space-y-4 font-body-md text-body-md text-on-surface-variant">
+<li><a class="hover:text-secondary transition-colors" href="#">Institutional Portal</a></li>
+<li><a class="hover:text-secondary transition-colors" href="#">Borrower Dashboard</a></li>
+<li><a class="hover:text-secondary transition-colors" href="#">Risk Analytics</a></li>
+<li><a class="hover:text-secondary transition-colors" href="#">Collateral Hub</a></li>
+</ul>
+</div>
+<div>
+<h5 class="font-label-caps text-label-caps text-primary mb-6">RESOURCES</h5>
+<ul class="space-y-4 font-body-md text-body-md text-on-surface-variant">
+<li><a class="hover:text-secondary transition-colors" href="#">Whitepaper</a></li>
+<li><a class="hover:text-secondary transition-colors" href="#">API Docs</a></li>
+<li><a class="hover:text-secondary transition-colors" href="#">Security Audit</a></li>
+<li><a class="hover:text-secondary transition-colors" href="#">Help Center</a></li>
+</ul>
+</div>
+<div>
+<h5 class="font-label-caps text-label-caps text-primary mb-6">TRUST &amp; LEGAL</h5>
+<ul class="space-y-4 font-body-md text-body-md text-on-surface-variant">
+<li><a class="hover:text-secondary transition-colors" href="#">Privacy Policy</a></li>
+<li><a class="hover:text-secondary transition-colors" href="#">Terms of Service</a></li>
+<li><a class="hover:text-secondary transition-colors" href="#">Compliance</a></li>
+<li><a class="hover:text-secondary transition-colors" href="#">Cookies</a></li>
+</ul>
+</div>
+</div>
+<div class="pt-8 border-t border-border-subtle flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="font-label-caps text-label-caps text-on-surface-variant">© 2024 GIIN Sentinel. All rights reserved.</p>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-success-emerald text-sm" data-icon="lock" style="font-variation-settings: 'FILL' 1;">lock</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant">AES-256 BANK GRADE ENCRYPTION</span>
+</div>
+</div>
+</div>
+</footer>
+<script>
+        // Micro-interactions and scroll effects
+        document.addEventListener('DOMContentLoaded', () => {
+            const observerOptions = {
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('opacity-100', 'translate-y-0');
+                        entry.target.classList.remove('opacity-0', 'translate-y-10');
+                    }
+                });
+            }, observerOptions);
+
+            // Adding animation classes to sections
+            const animatableItems = document.querySelectorAll('.grid > div, section h2, section p');
+            animatableItems.forEach(item => {
+                item.classList.add('transition-all', 'duration-700', 'opacity-0', 'translate-y-10');
+                observer.observe(item);
+            });
+        });
+    </script>
+</body></html>

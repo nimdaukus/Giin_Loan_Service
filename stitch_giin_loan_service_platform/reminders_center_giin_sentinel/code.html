@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Reminders Center | GIIN Sentinel</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary": "#ffffff",
+                    "secondary-fixed": "#dbe1ff",
+                    "on-background": "#1b1b1d",
+                    "tertiary-fixed": "#fcdeb5",
+                    "on-secondary-fixed": "#00174b",
+                    "on-primary-fixed": "#131b2e",
+                    "secondary-container": "#316bf3",
+                    "outline-variant": "#c6c6cd",
+                    "on-error-container": "#93000a",
+                    "primary-fixed-dim": "#bec6e0",
+                    "surface-dim": "#dcd9db",
+                    "on-tertiary-fixed-variant": "#574425",
+                    "on-surface-variant": "#45464d",
+                    "primary": "#000000",
+                    "on-primary-container": "#7c839b",
+                    "on-primary": "#ffffff",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-gray": "#F8FAFC",
+                    "inverse-surface": "#303032",
+                    "tertiary": "#000000",
+                    "secondary": "#0051d5",
+                    "surface-container-high": "#eae7e9",
+                    "surface": "#fcf8fa",
+                    "secondary-fixed-dim": "#b4c5ff",
+                    "on-surface": "#1b1b1d",
+                    "on-tertiary": "#ffffff",
+                    "surface-container-low": "#f6f3f5",
+                    "surface-variant": "#e4e2e4",
+                    "on-secondary-fixed-variant": "#003ea8",
+                    "on-tertiary-container": "#98805d",
+                    "background": "#fcf8fa",
+                    "on-error": "#ffffff",
+                    "surface-container-highest": "#e4e2e4",
+                    "primary-container": "#131b2e",
+                    "error": "#ba1a1a",
+                    "border-subtle": "#E2E8F0",
+                    "surface-bright": "#fcf8fa",
+                    "error-container": "#ffdad6",
+                    "on-tertiary-fixed": "#271901",
+                    "inverse-on-surface": "#f3f0f2",
+                    "inverse-primary": "#bec6e0",
+                    "outline": "#76777d",
+                    "danger-coral": "#F43F5E",
+                    "tertiary-fixed-dim": "#dec29a",
+                    "on-primary-fixed-variant": "#3f465c",
+                    "tertiary-container": "#271901",
+                    "surface-tint": "#565e74",
+                    "primary-fixed": "#dae2fd",
+                    "on-secondary-container": "#fefcff",
+                    "alert-amber": "#F59E0B",
+                    "surface-container": "#f0edef",
+                    "success-emerald": "#10B981"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "margin-desktop": "2.5rem",
+                    "gutter": "1.5rem",
+                    "margin-mobile": "1rem",
+                    "stack-lg": "2rem",
+                    "stack-md": "1rem",
+                    "stack-sm": "0.5rem",
+                    "container-max": "1280px"
+            },
+            "fontFamily": {
+                    "body-lg": ["Inter"],
+                    "label-caps": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "headline-lg-mobile": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "data-mono": ["Inter"],
+                    "body-md": ["Inter"]
+            },
+            "fontSize": {
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "data-mono": ["13px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #F8FAFC; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .active-tab { opacity: 1; transition: all 0.2s ease; }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
+    </style>
+</head>
+<body class="text-on-surface">
+<!-- Side Navigation Shell -->
+<aside class="h-full w-64 fixed left-0 top-0 bg-primary-container dark:bg-primary-container shadow-sm flex flex-col p-4 space-y-2 z-50">
+<div class="mb-8 px-4">
+<h1 class="text-headline-md font-headline-md font-bold text-on-secondary-container">GIIN Sentinel</h1>
+<p class="font-label-caps text-label-caps text-on-primary-container uppercase tracking-widest mt-1">Institutional Admin</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 text-on-primary-container hover:bg-surface-variant/10 rounded-xl px-4 py-3 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-body-md text-body-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 text-on-primary-container hover:bg-surface-variant/10 rounded-xl px-4 py-3 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="how_to_reg">how_to_reg</span>
+<span class="font-body-md text-body-md">Approval Center</span>
+</a>
+<a class="flex items-center gap-3 text-on-primary-container hover:bg-surface-variant/10 rounded-xl px-4 py-3 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="font-body-md text-body-md">Main Tracker</span>
+</a>
+<a class="flex items-center gap-3 bg-secondary-container text-on-secondary-container rounded-xl px-4 py-3 opacity-90 shadow-lg" href="#">
+<span class="material-symbols-outlined" data-icon="notifications_active">notifications_active</span>
+<span class="font-body-md text-body-md">Reminders</span>
+</a>
+<a class="flex items-center gap-3 text-on-primary-container hover:bg-surface-variant/10 rounded-xl px-4 py-3 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-body-md text-body-md">Settings</span>
+</a>
+</nav>
+<div class="pt-4 border-t border-on-primary-container/20">
+<div class="flex items-center gap-3 px-4">
+<div class="w-10 h-10 rounded-full bg-secondary overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Professional headshot of a senior financial administrator for an institutional loan platform, featuring a neutral background and sharp corporate attire in navy and white tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCfaiFfq6m48GaM-NXIFfy0dDXWn2yJQgRLn6jVvm2lufVpUz0hRS2aBP4QFMwD1RdHRXifwHJaaNUMm5ygrGQRf9omrbN7W0l4ahRsQXkPSk5CwFg-FeLxSn9jzIO5GD3AcbqVCmCRDQTtPlKurMu8SIaTHdOhKLQpPTbgVjz9N7uoWOSqcPeV6DPejoLUDm6BCnxAmDIJvX_KvpMvIyRZTHsEB1DacHTWVkj031Kf-jRZyN7YrDQViEeJU2ZNg9-3VUDhnLEkxFZv"/>
+</div>
+<div class="overflow-hidden">
+<p class="font-body-md text-body-md text-on-secondary-container truncate">Admin User</p>
+<p class="font-label-caps text-[10px] text-on-primary-container truncate">admin@giin-sentinel.com</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-64 min-h-screen">
+<!-- Top App Bar -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] z-40 flex justify-between items-center h-16 px-8 bg-surface/80 backdrop-blur-md border-b border-border-subtle">
+<div class="flex items-center gap-4 flex-1">
+<div class="relative w-full max-w-md focus-within:ring-2 focus-within:ring-secondary-container rounded-lg transition-all">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant" data-icon="search">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-low border-none rounded-lg text-body-md focus:ring-0" placeholder="Search borrowers or loan IDs..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<button class="text-on-surface-variant hover:text-secondary transition-colors">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+</button>
+<div class="relative">
+<button class="text-on-surface-variant hover:text-secondary transition-colors flex items-center">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute -top-1 -right-1 w-2 h-2 bg-danger-coral rounded-full"></span>
+</button>
+</div>
+</div>
+</header>
+<!-- Page Content -->
+<div class="pt-24 px-8 pb-12 max-w-container-max mx-auto space-y-8">
+<!-- Summary Header (KPI Widgets) -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-border-subtle shadow-sm flex flex-col justify-between">
+<div>
+<p class="font-label-caps text-label-caps text-on-surface-variant uppercase mb-2">Total Overdue</p>
+<h2 class="font-headline-lg text-headline-lg text-danger-coral">14</h2>
+</div>
+<div class="flex items-center gap-2 mt-4 text-danger-coral">
+<span class="material-symbols-outlined text-[18px]" data-icon="trending_up">trending_up</span>
+<span class="text-body-md font-medium">+2 since yesterday</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-border-subtle shadow-sm flex flex-col justify-between">
+<div>
+<p class="font-label-caps text-label-caps text-on-surface-variant uppercase mb-2">Next 7 Days Due</p>
+<h2 class="font-headline-lg text-headline-lg text-alert-amber">28</h2>
+</div>
+<div class="flex items-center gap-2 mt-4 text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]" data-icon="calendar_month">calendar_month</span>
+<span class="text-body-md">Institutional average trend</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-border-subtle shadow-sm flex flex-col justify-between">
+<div>
+<p class="font-label-caps text-label-caps text-on-surface-variant uppercase mb-2">Notifications Sent (Today)</p>
+<h2 class="font-headline-lg text-headline-lg text-secondary">142</h2>
+</div>
+<div class="flex items-center gap-2 mt-4 text-success-emerald">
+<span class="material-symbols-outlined text-[18px]" data-icon="check_circle">check_circle</span>
+<span class="text-body-md font-medium">98.4% Delivery rate</span>
+</div>
+</div>
+</div>
+<!-- Main Section: Active Loans & Automated Rules Bento -->
+<div class="grid grid-cols-12 gap-gutter">
+<!-- Primary Action List (Table) -->
+<div class="col-span-12 lg:col-span-8 bg-surface-container-lowest rounded-xl border border-border-subtle shadow-sm overflow-hidden">
+<div class="px-6 py-4 border-b border-border-subtle flex items-center justify-between">
+<h3 class="font-headline-md text-headline-md text-on-surface">Active Repayment Tracking</h3>
+<div class="flex gap-2">
+<button class="px-3 py-1.5 border border-border-subtle rounded-lg text-label-caps font-semibold hover:bg-surface-container-low transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]" data-icon="filter_list">filter_list</span> Filter
+                            </button>
+<button class="px-3 py-1.5 border border-border-subtle rounded-lg text-label-caps font-semibold hover:bg-surface-container-low transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]" data-icon="download">download</span> Export
+                            </button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low text-on-surface-variant font-label-caps text-label-caps uppercase tracking-wider">
+<th class="px-6 py-4 font-semibold">Borrower Name</th>
+<th class="px-6 py-4 font-semibold text-right">Repayment</th>
+<th class="px-6 py-4 font-semibold">Due Date</th>
+<th class="px-6 py-4 font-semibold">Status</th>
+<th class="px-6 py-4 font-semibold">Last Notified</th>
+<th class="px-6 py-4 font-semibold text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-subtle">
+<!-- Row 1: Overdue -->
+<tr class="hover:bg-primary/5 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-primary-fixed-dim text-on-primary-fixed flex items-center justify-center font-bold text-xs">JD</div>
+<div>
+<p class="font-body-md text-body-md font-semibold text-on-surface">Jonathan Devlin</p>
+<p class="text-[11px] text-on-surface-variant font-data-mono">LN-2023-8841</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-right font-data-mono text-body-md">$12,450.00</td>
+<td class="px-6 py-4 text-body-md">Oct 24, 2023</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-error/10 text-error">
+                                            Overdue 2 Days
+                                        </span>
+</td>
+<td class="px-6 py-4 text-body-md text-on-surface-variant">Oct 20, 2023</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2">
+<button class="p-2 text-secondary hover:bg-secondary/10 rounded-lg transition-all" title="Send Reminder">
+<span class="material-symbols-outlined text-[20px]" data-icon="send">send</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-variant/20 rounded-lg transition-all" title="View Invoice">
+<span class="material-symbols-outlined text-[20px]" data-icon="description">description</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2: Approaching -->
+<tr class="hover:bg-primary/5 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-secondary-fixed-dim text-on-secondary-fixed flex items-center justify-center font-bold text-xs">AS</div>
+<div>
+<p class="font-body-md text-body-md font-semibold text-on-surface">Amara Sterling</p>
+<p class="text-[11px] text-on-surface-variant font-data-mono">LN-2023-9012</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-right font-data-mono text-body-md">$8,900.00</td>
+<td class="px-6 py-4 text-body-md">Oct 29, 2023</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-alert-amber/10 text-alert-amber">
+                                            3 Days Left
+                                        </span>
+</td>
+<td class="px-6 py-4 text-body-md text-on-surface-variant">Oct 22, 2023</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2">
+<button class="p-2 text-secondary hover:bg-secondary/10 rounded-lg transition-all" title="Send Reminder">
+<span class="material-symbols-outlined text-[20px]" data-icon="send">send</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-variant/20 rounded-lg transition-all" title="View Invoice">
+<span class="material-symbols-outlined text-[20px]" data-icon="description">description</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3: Recently Notified -->
+<tr class="hover:bg-primary/5 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-tertiary-fixed-dim text-on-tertiary-fixed flex items-center justify-center font-bold text-xs">MT</div>
+<div>
+<p class="font-body-md text-body-md font-semibold text-on-surface">Marcus Thorne</p>
+<p class="text-[11px] text-on-surface-variant font-data-mono">LN-2023-7723</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-right font-data-mono text-body-md">$45,000.00</td>
+<td class="px-6 py-4 text-body-md">Nov 02, 2023</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-success-emerald/10 text-success-emerald">
+                                            Notified Today
+                                        </span>
+</td>
+<td class="px-6 py-4 text-body-md text-on-surface-variant">10:45 AM</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2">
+<button class="p-2 text-secondary hover:bg-secondary/10 rounded-lg transition-all" title="Send Reminder">
+<span class="material-symbols-outlined text-[20px]" data-icon="send">send</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-variant/20 rounded-lg transition-all" title="View Invoice">
+<span class="material-symbols-outlined text-[20px]" data-icon="description">description</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 4: Distant -->
+<tr class="hover:bg-primary/5 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-outline-variant text-on-surface flex items-center justify-center font-bold text-xs">EK</div>
+<div>
+<p class="font-body-md text-body-md font-semibold text-on-surface">Elena Kovic</p>
+<p class="text-[11px] text-on-surface-variant font-data-mono">LN-2023-1104</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-right font-data-mono text-body-md">$1,200.00</td>
+<td class="px-6 py-4 text-body-md">Nov 15, 2023</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-surface-variant text-on-surface-variant">
+                                            19 Days Left
+                                        </span>
+</td>
+<td class="px-6 py-4 text-body-md text-on-surface-variant">None</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2">
+<button class="p-2 text-secondary hover:bg-secondary/10 rounded-lg transition-all" title="Send Reminder">
+<span class="material-symbols-outlined text-[20px]" data-icon="send">send</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-variant/20 rounded-lg transition-all" title="View Invoice">
+<span class="material-symbols-outlined text-[20px]" data-icon="description">description</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="px-6 py-4 bg-surface-container-lowest border-t border-border-subtle flex justify-between items-center">
+<p class="text-body-md text-on-surface-variant">Showing 4 of 32 tracked loans</p>
+<div class="flex gap-1">
+<button class="p-2 border border-border-subtle rounded-lg hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined" data-icon="chevron_left">chevron_left</span>
+</button>
+<button class="p-2 border border-border-subtle rounded-lg hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Right Sidebar: Automated Rules & Stats -->
+<div class="col-span-12 lg:col-span-4 space-y-gutter">
+<!-- Notification Queue/Rules -->
+<div class="bg-surface-container-lowest rounded-xl border border-border-subtle shadow-sm overflow-hidden">
+<div class="px-6 py-4 border-b border-border-subtle bg-primary-container text-on-secondary-container">
+<h3 class="font-headline-md text-headline-md flex items-center gap-2">
+<span class="material-symbols-outlined" data-icon="auto_mode">auto_mode</span>
+                                Automated Rules
+                            </h3>
+</div>
+<div class="p-6 space-y-4">
+<div class="p-4 border border-border-subtle rounded-lg bg-surface-container-low flex gap-3">
+<div class="mt-1">
+<span class="material-symbols-outlined text-secondary" data-icon="schedule">schedule</span>
+</div>
+<div>
+<p class="font-body-md font-semibold">T-minus 7 Days</p>
+<p class="text-body-md text-on-surface-variant">First automated friendly reminder. Email + SMS.</p>
+<div class="mt-3 flex items-center gap-2">
+<span class="w-2 h-2 bg-success-emerald rounded-full"></span>
+<span class="text-xs font-semibold text-success-emerald uppercase">Active</span>
+</div>
+</div>
+</div>
+<div class="p-4 border border-border-subtle rounded-lg bg-surface-container-low flex gap-3">
+<div class="mt-1">
+<span class="material-symbols-outlined text-alert-amber" data-icon="warning">warning</span>
+</div>
+<div>
+<p class="font-body-md font-semibold">Due Date Morning</p>
+<p class="text-body-md text-on-surface-variant">Final day payment instruction sent via Push.</p>
+<div class="mt-3 flex items-center gap-2">
+<span class="w-2 h-2 bg-success-emerald rounded-full"></span>
+<span class="text-xs font-semibold text-success-emerald uppercase">Active</span>
+</div>
+</div>
+</div>
+<div class="p-4 border border-border-subtle rounded-lg bg-surface-container-low flex gap-3">
+<div class="mt-1">
+<span class="material-symbols-outlined text-danger-coral" data-icon="priority_high">priority_high</span>
+</div>
+<div>
+<p class="font-body-md font-semibold">Overdue Escallation</p>
+<p class="text-body-md text-on-surface-variant">T+3 Day urgent notice with penalty warning.</p>
+<div class="mt-3 flex items-center gap-2">
+<span class="w-2 h-2 bg-on-surface-variant/30 rounded-full"></span>
+<span class="text-xs font-semibold text-on-surface-variant uppercase">Disabled</span>
+</div>
+</div>
+</div>
+<button class="w-full py-3 border-2 border-dashed border-border-subtle rounded-xl text-on-surface-variant hover:border-secondary hover:text-secondary transition-all flex items-center justify-center gap-2 font-semibold">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+                                Create New Logic Rule
+                            </button>
+</div>
+</div>
+<!-- Performance Widget -->
+<div class="bg-secondary-container rounded-xl p-6 text-on-secondary shadow-lg">
+<p class="font-label-caps text-label-caps text-secondary-fixed opacity-80 uppercase mb-4">Repayment Efficiency</p>
+<div class="flex items-end gap-3 mb-4">
+<h4 class="font-headline-lg text-4xl">92.4%</h4>
+<span class="text-body-md text-secondary-fixed mb-1">+4.2% QoQ</span>
+</div>
+<div class="w-full bg-on-secondary/20 h-2 rounded-full overflow-hidden">
+<div class="bg-white h-full" style="width: 92.4%"></div>
+</div>
+<p class="text-xs mt-4 text-secondary-fixed/90 leading-relaxed italic">
+                            "Automated reminders have reduced manual follow-ups by 64% this quarter."
+                        </p>
+</div>
+</div>
+</div>
+<!-- Lower Section: Template Preview -->
+<div class="bg-surface-container-lowest rounded-xl border border-border-subtle shadow-sm">
+<div class="px-6 py-4 border-b border-border-subtle flex items-center justify-between">
+<h3 class="font-headline-md text-headline-md text-on-surface">Email Template Preview</h3>
+<select class="bg-surface-container-low border-border-subtle rounded-lg text-body-md py-1.5 pl-3 pr-8 focus:ring-secondary-container">
+<option>Urgent: Loan Repayment Reminder</option>
+<option>Friendly Reminder (7 Days Out)</option>
+<option>Payment Confirmation</option>
+</select>
+</div>
+<div class="p-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+<!-- Template Fields -->
+<div class="space-y-6">
+<div>
+<label class="block font-label-caps text-label-caps text-on-surface-variant uppercase mb-2">Email Subject</label>
+<input class="w-full border border-border-subtle bg-surface-container-low rounded-lg py-3 px-4 text-body-md font-medium text-on-surface cursor-default" readonly="" type="text" value="Urgent: Loan Repayment Reminder - [Loan_ID]"/>
+</div>
+<div>
+<label class="block font-label-caps text-label-caps text-on-surface-variant uppercase mb-2">Message Body</label>
+<div class="w-full h-64 border border-border-subtle bg-surface-container-low rounded-lg p-4 text-body-md overflow-y-auto custom-scrollbar text-on-surface-variant leading-relaxed">
+                                Dear <strong>[Borrower_Name]</strong>,<br/><br/>
+                                Our records indicate that your repayment for loan <strong>[Loan_ID]</strong> in the amount of <strong>[Repayment_Amount]</strong> was due on <strong>[Due_Date]</strong> and remains unpaid.<br/><br/>
+                                Please ensure that the funds are transferred to the designated institutional account immediately to avoid late payment penalties and potential impact on your GIIN Sentinel credit rating.<br/><br/>
+                                You can view your current invoice and payment instructions by clicking the button below.<br/><br/>
+                                If you have already made this payment, please disregard this notification.<br/><br/>
+                                Regards,<br/>
+<strong>GIIN Sentinel Admin Team</strong>
+</div>
+</div>
+<div class="flex gap-4">
+<button class="flex-1 bg-secondary text-on-secondary px-4 py-3 rounded-xl font-semibold hover:bg-secondary-container transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined" data-icon="edit">edit</span>
+                                Edit Template
+                            </button>
+<button class="flex-1 border border-secondary text-secondary px-4 py-3 rounded-xl font-semibold hover:bg-secondary/5 transition-all">
+                                Send Test Email
+                            </button>
+</div>
+</div>
+<!-- Live Visualization -->
+<div class="bg-surface-gray border border-border-subtle rounded-xl p-8 relative overflow-hidden flex flex-col items-center justify-center min-h-[400px]">
+<div class="absolute inset-0 opacity-10">
+<div class="w-full h-full bg-cover" data-alt="A sophisticated network pattern background with nodes and connections, representing a digital financial ecosystem, in light gray and institutional navy tones." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAeBxqTHR2sr5gFolZFYNSc0yEMAbsr_FDBAh-7nXguRiq3sV-mbXp79ae4b0Ak4-DG_e9QMHgbNg4W3YX16uAo_oI6AyuDzqga3WjU0QkibPCiq_HEDiBXkMA6zQOzEq-cPbONWTZv_t50aTw0VDA-VaFdoA8hcAihV2Ct_hoXpSuQOa6yS7QKvWaFGfhMclf0FogTv4jnuoXIomXkG_geyih1e7MLk7W2SnNbZBmJWc5MDjH33nTxUT16haGy2oVZGZfZNVdP65me')"></div>
+</div>
+<!-- Mockup Email Content -->
+<div class="relative z-10 w-full max-w-sm bg-white shadow-2xl rounded-lg overflow-hidden border border-border-subtle">
+<div class="bg-primary-container p-4 flex justify-between items-center">
+<span class="text-white font-bold text-sm tracking-tight">GIIN Sentinel</span>
+<span class="text-white/60 text-[10px] font-data-mono">System Notification</span>
+</div>
+<div class="p-6 space-y-4">
+<div class="w-12 h-1 bg-secondary rounded-full"></div>
+<h4 class="text-lg font-bold text-primary leading-tight">Urgent Action Required</h4>
+<p class="text-xs text-on-surface-variant leading-relaxed">
+                                    Your loan payment of <span class="font-bold">$12,450.00</span> was due 2 days ago. Please finalize your transaction to maintain account standing.
+                                </p>
+<div class="bg-secondary text-white text-center py-2.5 rounded-lg text-xs font-bold shadow-md cursor-pointer hover:bg-secondary-container transition-colors">
+                                    View Payment Portal
+                                </div>
+<p class="text-[10px] text-center text-on-surface-variant/60 pt-4">
+                                    GIIN Sentinel Institutional Finance | Unsubscribe Settings
+                                </p>
+</div>
+</div>
+<div class="mt-6 flex items-center gap-4 text-on-surface-variant">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]" data-icon="desktop_windows">desktop_windows</span>
+<span class="text-[11px] font-semibold">Desktop</span>
+</div>
+<div class="flex items-center gap-1 opacity-50">
+<span class="material-symbols-outlined text-[18px]" data-icon="smartphone">smartphone</span>
+<span class="text-[11px] font-semibold">Mobile</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Floating Action Button (Contextual for Dashboard/Reminders) -->
+<button class="fixed bottom-8 right-8 w-14 h-14 bg-secondary text-on-secondary rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-transform z-50 group">
+<span class="material-symbols-outlined text-[28px]" data-icon="outgoing_mail">outgoing_mail</span>
+<span class="absolute right-16 bg-primary-container text-white px-4 py-2 rounded-lg text-sm font-semibold opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
+            Mass Notify All Overdue
+        </span>
+</button>
+<script>
+        // Simple interactivity for the UI
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('GIIN Sentinel Reminders Center Initialized');
+            
+            // Hover effect for table rows
+            const rows = document.querySelectorAll('tbody tr');
+            rows.forEach(row => {
+                row.addEventListener('click', () => {
+                    // Logic to open details modal or similar
+                    console.log('Row clicked');
+                });
+            });
+        });
+    </script>
+</body></html>

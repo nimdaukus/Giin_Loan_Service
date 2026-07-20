@@ -1,0 +1,340 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Institutional Profile | GIIN Sentinel</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "surface-container-high": "#eae7e9",
+                "surface-gray": "#F8FAFC",
+                "on-error": "#ffffff",
+                "secondary-container": "#316bf3",
+                "on-primary-container": "#7c839b",
+                "secondary-fixed-dim": "#b4c5ff",
+                "tertiary-fixed": "#fcdeb5",
+                "tertiary": "#000000",
+                "surface": "#fcf8fa",
+                "tertiary-container": "#271901",
+                "border-subtle": "#E2E8F0",
+                "primary-fixed": "#dae2fd",
+                "secondary-fixed": "#dbe1ff",
+                "on-secondary-fixed-variant": "#003ea8",
+                "on-tertiary-fixed-variant": "#574425",
+                "inverse-surface": "#303032",
+                "surface-container": "#f0edef",
+                "on-tertiary-container": "#98805d",
+                "inverse-on-surface": "#f3f0f2",
+                "primary-container": "#131b2e",
+                "surface-bright": "#fcf8fa",
+                "on-error-container": "#93000a",
+                "surface-container-highest": "#e4e2e4",
+                "outline": "#76777d",
+                "on-secondary-container": "#fefcff",
+                "outline-variant": "#c6c6cd",
+                "on-primary-fixed": "#131b2e",
+                "alert-amber": "#F59E0B",
+                "error": "#ba1a1a",
+                "on-background": "#1b1b1d",
+                "surface-container-lowest": "#ffffff",
+                "on-secondary": "#ffffff",
+                "success-emerald": "#10B981",
+                "primary": "#000000",
+                "error-container": "#ffdad6",
+                "tertiary-fixed-dim": "#dec29a",
+                "inverse-primary": "#bec6e0",
+                "on-tertiary": "#ffffff",
+                "surface-container-low": "#f6f3f5",
+                "surface-tint": "#565e74",
+                "on-secondary-fixed": "#00174b",
+                "on-primary": "#ffffff",
+                "surface-dim": "#dcd9db",
+                "on-tertiary-fixed": "#271901",
+                "danger-coral": "#F43F5E",
+                "surface-variant": "#e4e2e4",
+                "secondary": "#0051d5",
+                "primary-fixed-dim": "#bec6e0",
+                "on-surface": "#1b1b1d",
+                "on-surface-variant": "#45464d",
+                "on-primary-fixed-variant": "#3f465c",
+                "background": "#fcf8fa"
+            },
+            "borderRadius": {
+                "DEFAULT": "0.125rem",
+                "lg": "0.25rem",
+                "xl": "0.5rem",
+                "full": "0.75rem"
+            },
+            "spacing": {
+                "container-max": "1280px",
+                "stack-md": "1rem",
+                "margin-mobile": "1rem",
+                "stack-lg": "2rem",
+                "gutter": "1.5rem",
+                "stack-sm": "0.5rem",
+                "margin-desktop": "2.5rem"
+            },
+            "fontFamily": {
+                "headline-lg-mobile": ["Inter"],
+                "headline-lg": ["Inter"],
+                "data-mono": ["Inter"],
+                "body-md": ["Inter"],
+                "body-lg": ["Inter"],
+                "headline-md": ["Inter"],
+                "label-caps": ["Inter"]
+            },
+            "fontSize": {
+                "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                "data-mono": ["13px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .glass-card { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(8px); }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #E2E8F0; border-radius: 10px; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface-gray min-h-screen text-on-surface pb-24">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky z-50 bg-surface dark:bg-surface-container-highest border-b border-border-subtle dark:border-outline-variant transition-colors duration-200">
+<div class="flex items-center justify-between px-margin-mobile md:px-margin-desktop w-full h-16 max-w-container-max mx-auto">
+<div class="flex items-center gap-stack-sm"><a href="{{DATA:SCREEN:SCREEN_16}}" class="flex items-center gap-stack-sm hover:opacity-80 transition-opacity"><span class="material-symbols-outlined text-secondary dark:text-secondary-fixed text-headline-md">security</span><h1 class="font-headline-md text-headline-md font-bold text-secondary dark:text-secondary-fixed">GIIN Sentinel</h1></a></div>
+<div class="hidden md:flex items-center gap-gutter">
+<button class="text-on-surface-variant font-label-caps text-label-caps hover:text-secondary transition-colors">DASHBOARD</button>
+<button class="text-on-surface-variant font-label-caps text-label-caps hover:text-secondary transition-colors">LOANS</button>
+<button class="text-secondary font-label-caps text-label-caps font-bold">PROFILE</button>
+</div>
+</div>
+</header>
+<main class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-stack-lg">
+<!-- Header Section -->
+<div class="mb-stack-lg">
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary">Institutional Profile</h2>
+<p class="text-on-surface-variant font-body-md text-body-md mt-1">Review and manage your institutional identification and security settings.</p>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Left Column: Identity and Contact -->
+<div class="lg:col-span-8 flex flex-col gap-gutter">
+<!-- Primary Contact Card -->
+<section class="bg-white border border-border-subtle rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
+<div class="flex items-center justify-between mb-stack-md">
+<div class="flex items-center gap-stack-sm">
+<span class="material-symbols-outlined text-secondary">contact_mail</span>
+<h3 class="font-headline-md text-headline-md">Primary Contact</h3>
+</div>
+<button class="flex items-center gap-1 text-secondary font-label-caps text-label-caps hover:underline">
+<span class="material-symbols-outlined text-sm">edit</span> EDIT
+                        </button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter mt-4">
+<div class="space-y-1">
+<p class="text-on-surface-variant font-label-caps text-label-caps">FULL NAME</p>
+<p class="font-body-lg text-body-lg font-medium">Alexander J. Sterling</p>
+</div>
+<div class="space-y-1">
+<p class="text-on-surface-variant font-label-caps text-label-caps">EMAIL ADDRESS</p>
+<p class="font-body-lg text-body-lg font-medium">a.sterling@institute.edu</p>
+</div>
+<div class="space-y-1">
+<p class="text-on-surface-variant font-label-caps text-label-caps">PHONE NUMBER</p>
+<p class="font-body-lg text-body-lg font-medium">+1 (555) 012-3456</p>
+</div>
+</div>
+</section>
+<!-- Institutional Identity Card -->
+<section class="bg-white border border-border-subtle rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
+<div class="flex items-center gap-stack-sm mb-stack-md">
+<span class="material-symbols-outlined text-secondary">badge</span>
+<h3 class="font-headline-md text-headline-md">Institutional Identity</h3>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+<div class="p-4 bg-surface-gray border border-border-subtle rounded-lg flex items-center justify-between">
+<div>
+<p class="text-on-surface-variant font-label-caps text-label-caps">STUDENT ID</p>
+<p class="font-data-mono text-data-mono text-lg mt-1 tracking-wider">STU-8829-0012</p>
+</div>
+<span class="material-symbols-outlined text-success-emerald" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+<div class="p-4 bg-surface-gray border border-border-subtle rounded-lg flex items-center justify-between">
+<div>
+<p class="text-on-surface-variant font-label-caps text-label-caps">NATIONAL ID (HIDDEN)</p>
+<p class="font-data-mono text-data-mono text-lg mt-1 tracking-wider">•••• •••• 9921</p>
+</div>
+<button class="text-secondary hover:bg-secondary-fixed px-2 py-1 rounded transition-colors">
+<span class="material-symbols-outlined">visibility</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Linked Devices List -->
+<section class="bg-white border border-border-subtle rounded-xl p-6 shadow-sm">
+<div class="flex items-center justify-between mb-gutter">
+<div class="flex items-center gap-stack-sm">
+<span class="material-symbols-outlined text-secondary">devices</span>
+<h3 class="font-headline-md text-headline-md">Linked Devices</h3>
+</div>
+<span class="px-3 py-1 bg-secondary-fixed text-on-secondary-fixed-variant rounded-full font-label-caps text-[10px]">3 ACTIVE</span>
+</div>
+<div class="space-y-stack-sm overflow-hidden">
+<!-- Device 1 -->
+<div class="flex items-center justify-between p-4 hover:bg-surface-gray transition-colors rounded-lg group">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-surface-container flex items-center justify-center rounded-lg">
+<span class="material-symbols-outlined text-on-surface-variant">laptop_mac</span>
+</div>
+<div>
+<p class="font-body-lg text-body-lg font-semibold">MacBook Pro 14"</p>
+<p class="text-on-surface-variant font-body-md text-body-md">Chrome • San Francisco, CA</p>
+</div>
+</div>
+<div class="flex items-center gap-stack-md">
+<span class="hidden md:block text-success-emerald font-label-caps text-label-caps">CURRENT SESSION</span>
+<button class="text-danger-coral opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined">logout</span>
+</button>
+</div>
+</div>
+<!-- Device 2 -->
+<div class="flex items-center justify-between p-4 hover:bg-surface-gray transition-colors rounded-lg group border-t border-border-subtle">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-surface-container flex items-center justify-center rounded-lg">
+<span class="material-symbols-outlined text-on-surface-variant">smartphone</span>
+</div>
+<div>
+<p class="font-body-lg text-body-lg font-semibold">iPhone 15 Pro</p>
+<p class="text-on-surface-variant font-body-md text-body-md">GIIN App • 2 hours ago</p>
+</div>
+</div>
+<button class="text-on-surface-variant hover:text-danger-coral transition-colors">
+<span class="material-symbols-outlined">logout</span>
+</button>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Column: Active Security & Stats -->
+<div class="lg:col-span-4 flex flex-col gap-gutter">
+<!-- Security Profile Card -->
+<section class="bg-primary-container text-white rounded-xl p-6 shadow-xl relative overflow-hidden">
+<!-- Subtle Background Decoration -->
+<div class="absolute -right-8 -top-8 w-32 h-32 bg-secondary opacity-20 rounded-full blur-3xl"></div>
+<div class="relative z-10">
+<div class="flex items-center gap-stack-sm mb-gutter">
+<span class="material-symbols-outlined text-secondary-fixed">shield_lock</span>
+<h3 class="font-headline-md text-headline-md">Active Security</h3>
+</div>
+<div class="bg-white/10 rounded-lg p-4 mb-gutter flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-2 h-2 bg-success-emerald rounded-full animate-pulse"></div>
+<span class="font-label-caps text-label-caps text-secondary-fixed">2FA ENABLED</span>
+</div>
+<span class="material-symbols-outlined text-success-emerald">check_circle</span>
+</div>
+<div class="space-y-stack-md">
+<button class="w-full py-3 bg-secondary hover:bg-secondary-container text-white rounded-lg font-label-caps text-label-caps transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">key</span> CHANGE PASSWORD
+                            </button>
+<button class="w-full py-3 bg-white/5 border border-white/20 hover:bg-white/10 text-white rounded-lg font-label-caps text-label-caps transition-all">
+                                VIEW SECURITY LOGS
+                            </button>
+</div>
+</div>
+</section>
+<!-- Profile Strength Widget -->
+<section class="bg-white border border-border-subtle rounded-xl p-6 shadow-sm">
+<h4 class="font-label-caps text-label-caps text-on-surface-variant mb-4">PROFILE COMPLETION</h4>
+<div class="relative pt-1">
+<div class="flex mb-2 items-center justify-between">
+<div>
+<span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-secondary bg-secondary-fixed">
+                                    Institutional Grade
+                                </span>
+</div>
+<div class="text-right">
+<span class="text-xs font-semibold inline-block text-secondary">
+                                    92%
+                                </span>
+</div>
+</div>
+<div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-surface-container">
+<div class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-secondary" style="width:92%"></div>
+</div>
+</div>
+<p class="text-on-surface-variant font-body-md text-body-md">Complete your 'Social Verification' to reach 100% and unlock lower interest rates.</p>
+</section>
+<!-- Visual Asset Placeholder -->
+<div class="rounded-xl overflow-hidden aspect-[4/3] bg-surface-container-high relative group">
+<img class="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500" data-alt="A clean, professional 3D abstract render of a secure data vault or digital lock mechanism. The lighting is crisp and modern with a color palette of deep navy blues, bright secondary blues, and subtle emerald accents. The composition is minimalist and institutional, suggesting high-tech financial security and trust." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCE6YJ45H62-n-UZlTgmpVJbZYJasNyYc-q338cLI6u9tpIcT7TTLU6iXTp3bWjPgwiDPuRlWJEig1VTAxnANddefddIGrLEcl3gGorwj5A59ewEQ_Qjy2Eqv1vOng6q_IoAf5YM-RcMnVyQ18t2hE1CXvsfGN54pJ9FiBNLsmSNG4yvhohRwyp7_qBjvdeFHioiVFOe0eGvH8YRRckJX5gHEDvnqOd2oPfd-JqHTN3PCMSUe03fuAPkLMecabTNmA7GZdhxwAKyNd9">
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex flex-col justify-end p-6">
+<span class="text-white/80 font-label-caps text-[10px]">VERIFIED BORROWER</span>
+<p class="text-white font-headline-md text-headline-md">Alexander Sterling</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-2 pb-safe bg-surface dark:bg-surface-container-highest border-t border-border-subtle dark:border-outline-variant shadow-md md:hidden">
+<a href="{{DATA:SCREEN:SCREEN_28}}" class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant p-2 hover:bg-surface-container-high dark:hover:bg-surface-container-lowest scale-95 active:scale-90 transition-all duration-150"><span class="material-symbols-outlined">edit_note</span><span class="font-label-caps text-[10px] mt-1">Apply</span></a>
+<a href="{{DATA:SCREEN:SCREEN_2}}" class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant p-2 hover:bg-surface-container-high dark:hover:bg-surface-container-lowest scale-95 active:scale-90 transition-all duration-150"><span class="material-symbols-outlined">account_balance_wallet</span><span class="font-label-caps text-[10px] mt-1">My Loans</span></a>
+<a href="{{DATA:SCREEN:SCREEN_15}}" class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed-dim bg-secondary-fixed dark:bg-primary-container rounded-full px-4 py-1 scale-95 active:scale-90 transition-all duration-150"><span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">person</span><span class="font-label-caps text-[10px] mt-1">Profile</span></a>
+</nav>
+<!-- Micro-interaction Scripts -->
+<script>
+        // Simple hover effect for devices to show log out button
+        document.querySelectorAll('.group').forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                const btn = item.querySelector('.opacity-0');
+                if(btn) btn.classList.replace('opacity-0', 'opacity-100');
+            });
+            item.addEventListener('mouseleave', () => {
+                const btn = item.querySelector('.opacity-100');
+                if(btn) btn.classList.replace('opacity-100', 'opacity-0');
+            });
+        });
+
+        // Toggle visibility for sensitive data
+        function toggleSensitiveData(el) {
+            const textEl = el.closest('div').querySelector('.font-data-mono');
+            const iconEl = el.querySelector('.material-symbols-outlined');
+            if (textEl.innerText.includes('•')) {
+                textEl.innerText = 'NAT-4412-9921';
+                iconEl.innerText = 'visibility_off';
+            } else {
+                textEl.innerText = '•••• •••• 9921';
+                iconEl.innerText = 'visibility';
+            }
+        }
+        
+        const visibilityBtn = document.querySelector('button .material-symbols-outlined:contains("visibility")')?.parentElement;
+        if(visibilityBtn) {
+            visibilityBtn.addEventListener('click', () => toggleSensitiveData(visibilityBtn));
+        }
+    </script>
+
+
+</body></html>
