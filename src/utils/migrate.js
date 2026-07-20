@@ -15,9 +15,6 @@ async function migrate() {
   console.log('Connected. Running migrations...');
 
   const schemaQuery = `
-    -- Drop existing users table to resolve UUID type mismatch
-    DROP TABLE IF EXISTS users CASCADE;
-
     -- Users Table
     CREATE TABLE IF NOT EXISTS users (
       id TEXT PRIMARY KEY,
@@ -27,9 +24,6 @@ async function migrate() {
       role TEXT NOT NULL,
       permissions TEXT[] DEFAULT '{}'
     );
-
-    -- Drop existing applications table to rebuild with headshot and consents
-    DROP TABLE IF EXISTS applications CASCADE;
 
     -- Applications Table
     CREATE TABLE IF NOT EXISTS applications (
