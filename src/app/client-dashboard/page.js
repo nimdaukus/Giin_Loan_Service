@@ -8,7 +8,7 @@ import { LayoutDashboard, Landmark, FileText, ArrowRight, ShieldCheck, Clock, Ca
 
 export default function ClientDashboard() {
   const router = useRouter();
-  const { currentUser, loans, applications, activities, formatCurrency } = useApp();
+  const { currentUser, setCurrentUser, loans, applications, activities, formatCurrency } = useApp();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -20,12 +20,33 @@ export default function ClientDashboard() {
   // Authorization Guard: client-only page
   if (!currentUser || currentUser.role !== 'Client') {
     return (
-      <div style={{ padding: '3rem', textAlign: 'center' }}>
-        <h2 style={{ color: 'var(--color-danger)' }}>Access Denied</h2>
-        <p>This portal is restricted to client accounts.</p>
-        <button onClick={() => router.push('/dashboard')} className="btn btn-primary" style={{ marginTop: '1rem' }}>
-          Go to Oversight
-        </button>
+      <div style={{ maxWidth: '500px', margin: '6rem auto', textAlign: 'center', padding: '2.5rem', border: '1px solid var(--border-color-dark)', borderRadius: '12px', backgroundColor: 'white', boxShadow: 'var(--shadow-md)' }}>
+        <h2 style={{ color: 'var(--color-danger)', fontWeight: '800', fontSize: '1.5rem', marginBottom: '0.75rem' }}>Access Denied</h2>
+        <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', marginBottom: '1.5rem' }}>
+          You are currently logged in as a <strong>{currentUser?.role || 'Guest'}</strong>. This section is restricted to borrower/client accounts.
+        </p>
+        <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center' }}>
+          {currentUser && (
+            <button 
+              onClick={() => router.push(currentUser.role === 'System Admin' || currentUser.role === 'Loan Officer' ? '/dashboard' : '/')}
+              className="btn btn-primary"
+              style={{ padding: '0.5rem 1rem', fontSize: '0.85rem' }}
+            >
+              Go to Dashboard
+            </button>
+          )}
+          <button 
+            type="button"
+            onClick={() => {
+              setCurrentUser(null);
+              router.push('/login');
+            }}
+            className="btn btn-outline"
+            style={{ padding: '0.5rem 1rem', fontSize: '0.85rem' }}
+          >
+            Log Out & Switch Accounts
+          </button>
+        </div>
       </div>
     );
   }
