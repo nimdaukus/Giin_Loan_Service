@@ -1,12 +1,50 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Key, ShieldCheck, Check, Clock, ShieldAlert, Cpu, ToggleLeft, ToggleRight, X, AlertCircle } from 'lucide-react';
+import { Key, ShieldCheck, Check, Clock, ShieldAlert, Cpu, ToggleLeft, ToggleRight, X, AlertCircle, Shield } from 'lucide-react';
+import { useApp } from '@/context/AppContext';
 
 export default function MultiSigAuth() {
+  const { currentUser } = useApp();
   const [maskData, setMaskData] = useState(true);
   const [activeQueueItem, setActiveQueueItem] = useState('LN-9012-XPT');
   const [signingStatus, setSigningStatus] = useState('idle'); // 'idle' | 'scanning' | 'success'
+
+  const isAuthorized = currentUser?.role === 'System Admin' || currentUser?.role === 'GLOBAL ACCESS';
+
+  if (!isAuthorized) {
+    return (
+      <div style={{
+        padding: '3rem',
+        textAlign: 'center',
+        maxWidth: '500px',
+        margin: '5rem auto',
+        backgroundColor: '#ffffff',
+        borderRadius: '12px',
+        border: '1px solid var(--border-color)',
+        boxShadow: 'var(--shadow-lg)',
+        fontFamily: 'Inter, sans-serif'
+      }}>
+        <div style={{
+          width: '64px',
+          height: '64px',
+          borderRadius: '50%',
+          backgroundColor: '#fef2f2',
+          color: '#ef4444',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          margin: '0 auto 1.5rem'
+        }}>
+          <Shield size={36} />
+        </div>
+        <h2 style={{ fontSize: '1.5rem', fontWeight: '800', marginBottom: '0.75rem', color: '#0f172a' }}>Access Denied</h2>
+        <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', lineHeight: '1.5', marginBottom: '1.5rem' }}>
+          Your current account role ({currentUser?.role || 'Guest'}) lacks System Admin clearance to perform Multi-Signature signing operations.
+        </p>
+      </div>
+    );
+  }
   
   // Dynamic queue list
   const [queue, setQueue] = useState([

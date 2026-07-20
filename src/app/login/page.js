@@ -3,19 +3,48 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { Mail, Lock, Eye, EyeOff, ShieldCheck, ArrowRight, Loader2 } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, ShieldCheck, ArrowRight, Loader2, Users, Briefcase, Shield } from 'lucide-react';
+import { useApp } from '@/context/AppContext';
 
 export default function InstitutionalLogin() {
   const router = useRouter();
+  const { setCurrentUser } = useApp();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [role, setRole] = useState('System Admin'); // 'Client' | 'Loan Officer' | 'System Admin'
 
   const handleLoginSubmit = (e) => {
     e.preventDefault();
     setIsLoading(true);
+    
+    let profile = {
+      name: 'Admin User',
+      role: 'System Admin',
+      initials: 'AD',
+      email: email
+    };
+    
+    if (role === 'Client') {
+      profile = {
+        name: 'Client Borrower',
+        role: 'Client',
+        initials: 'CB',
+        email: email
+      };
+    } else if (role === 'Loan Officer') {
+      profile = {
+        name: 'Officer Desk',
+        role: 'Loan Officer',
+        initials: 'LO',
+        email: email
+      };
+    }
+
+    setCurrentUser(profile);
+
     // Simulate network authentication delay
     setTimeout(() => {
       setIsLoading(false);
@@ -140,6 +169,52 @@ export default function InstitutionalLogin() {
               <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', lineHeight: '1.5' }}>
                 Please enter your credentials to access your secure institutional dashboard.
               </p>
+            </div>
+
+            {/* Role Selector Tabs */}
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: '1fr 1fr 1fr',
+              gap: '0.5rem',
+              backgroundColor: '#f1f5f9',
+              padding: '0.25rem',
+              borderRadius: '8px',
+              marginBottom: '1.5rem'
+            }}>
+              {[
+                { name: 'Client', icon: Users },
+                { name: 'Loan Officer', icon: Briefcase },
+                { name: 'System Admin', icon: Shield }
+              ].map(t => {
+                const Icon = t.icon;
+                const isSelected = role === t.name;
+                return (
+                  <button
+                    key={t.name}
+                    type="button"
+                    onClick={() => setRole(t.name)}
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      gap: '0.25rem',
+                      padding: '0.5rem 0.25rem',
+                      borderRadius: '6px',
+                      border: 'none',
+                      backgroundColor: isSelected ? '#ffffff' : 'transparent',
+                      color: isSelected ? 'var(--color-primary)' : 'var(--text-secondary)',
+                      fontWeight: isSelected ? '700' : '500',
+                      fontSize: '0.7rem',
+                      cursor: 'pointer',
+                      boxShadow: isSelected ? '0 1px 3px rgba(0, 0, 0, 0.1)' : 'none',
+                      transition: 'all 0.2s ease'
+                    }}
+                  >
+                    <Icon size={14} />
+                    {t.name}
+                  </button>
+                );
+              })}
             </div>
 
             {/* Form */}

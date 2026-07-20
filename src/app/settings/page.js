@@ -5,10 +5,46 @@ import { Smartphone, Laptop, Car, Plus, Edit, UserPlus, Save, CheckCircle, Downl
 import { useApp } from '@/context/AppContext';
 
 export default function SettingsPortal() {
-  const { currency, setCurrency, language, setLanguage } = useApp();
+  const { currency, setCurrency, language, setLanguage, currentUser } = useApp();
   const [apr, setApr] = useState(18.5);
   const [lateFee, setLateFee] = useState(2.0);
   const [toastMessage, setToastMessage] = useState(null);
+
+  const isAuthorized = currentUser?.role === 'System Admin' || currentUser?.role === 'GLOBAL ACCESS';
+
+  if (!isAuthorized) {
+    return (
+      <div style={{
+        padding: '3rem',
+        textAlign: 'center',
+        maxWidth: '500px',
+        margin: '5rem auto',
+        backgroundColor: '#ffffff',
+        borderRadius: '12px',
+        border: '1px solid var(--border-color)',
+        boxShadow: 'var(--shadow-lg)',
+        fontFamily: 'Inter, sans-serif'
+      }}>
+        <div style={{
+          width: '64px',
+          height: '64px',
+          borderRadius: '50%',
+          backgroundColor: '#fef2f2',
+          color: '#ef4444',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          margin: '0 auto 1.5rem'
+        }}>
+          <Shield size={36} />
+        </div>
+        <h2 style={{ fontSize: '1.5rem', fontWeight: '800', marginBottom: '0.75rem', color: '#0f172a' }}>Access Denied</h2>
+        <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', lineHeight: '1.5', marginBottom: '1.5rem' }}>
+          Your current account role ({currentUser?.role || 'Guest'}) lacks the required clearances to access or modify global settings.
+        </p>
+      </div>
+    );
+  }
 
   // Collateral categories state
   const [collaterals, setCollaterals] = useState([

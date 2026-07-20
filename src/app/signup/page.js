@@ -10,6 +10,7 @@ export default function InstitutionalSignUp() {
   const [step, setStep] = useState(1);
   const [isSuccess, setIsSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [role, setRole] = useState('System Admin'); // 'Client' | 'Loan Officer' | 'System Admin'
 
   // Form states
   const [fullName, setFullName] = useState('');
@@ -289,6 +290,30 @@ export default function InstitutionalSignUp() {
                         transition={{ duration: 0.25 }}
                         style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}
                       >
+                        <div>
+                          <label style={{ display: 'block', fontSize: '0.7rem', fontWeight: '700', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.375rem' }}>
+                            Account Type / Access Role
+                          </label>
+                          <select
+                            value={role}
+                            onChange={(e) => setRole(e.target.value)}
+                            style={{
+                              width: '100%',
+                              padding: '0.75rem',
+                              border: '1px solid #e2e8f0',
+                              borderRadius: '8px',
+                              fontSize: '0.85rem',
+                              backgroundColor: '#fafafa',
+                              outline: 'none',
+                              cursor: 'pointer'
+                            }}
+                          >
+                            <option value="Client">Client / Borrower</option>
+                            <option value="Loan Officer">Loan Officer / Staff</option>
+                            <option value="System Admin">System Admin / Institutional Admin</option>
+                          </select>
+                        </div>
+
                         <div>
                           <label style={{ display: 'block', fontSize: '0.7rem', fontWeight: '700', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.375rem' }}>
                             Full Legal Name

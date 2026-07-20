@@ -1000,6 +1000,10 @@ export default function MainTracker() {
                   </button>
                   <button 
                     onClick={() => {
+                      if (currentUser?.role !== 'System Admin' && currentUser?.role !== 'GLOBAL ACCESS') {
+                        alert('Access Denied: Only System Administrators can delete active accounts.');
+                        return;
+                      }
                       if (window.confirm(`Are you sure you want to delete ${activeSelectedLoan.borrowerName}'s loan record entirely? This action cannot be undone.`)) {
                         deleteLoanRecord(activeSelectedLoan.id);
                         setSelectedLoan(null);

@@ -12,22 +12,36 @@ export default function Sidebar() {
   const { metrics, currentUser, setCurrentUser, t } = useApp();
   const [showProfileMenu, setShowProfileMenu] = useState(false);
 
+  const isClient = currentUser.role === 'Client';
+  const isOfficer = currentUser.role === 'Loan Officer';
+
   const mainMenuItems = [
-    { name: t('dashboard'), path: '/dashboard', icon: LayoutDashboard },
-    { name: t('approvalCenter'), path: '/approval-center', icon: CheckSquare, badge: metrics.pendingApprovals },
-    { name: t('disbursements'), path: '/disbursements', icon: Landmark },
-    { name: t('mainTracker'), path: '/main-tracker', icon: BarChart2 },
-    { name: t('invoiceTemplate'), path: '/invoices', icon: FileText },
-    { name: t('receiptTemplate'), path: '/receipts', icon: Receipt },
-    { name: t('riskHub'), path: '/portfolio', icon: BarChart2 }, // PieChart or BarChart2
-    { name: t('auditCenter'), path: '/security', icon: Shield },
-    { name: t('reminders'), path: '/reminders', icon: Bell }
+    ...(isClient ? [{ name: 'Mobile Client Portal', path: '/mobile', icon: Smartphone, badge: 0 }] : []),
+    ...((!isClient) ? [
+      { name: t('dashboard'), path: '/dashboard', icon: LayoutDashboard },
+      { name: t('approvalCenter'), path: '/approval-center', icon: CheckSquare, badge: metrics.pendingApprovals },
+      { name: t('disbursements'), path: '/disbursements', icon: Landmark },
+      { name: t('mainTracker'), path: '/main-tracker', icon: BarChart2 },
+      { name: t('invoiceTemplate'), path: '/invoices', icon: FileText },
+      { name: t('receiptTemplate'), path: '/receipts', icon: Receipt },
+      { name: t('riskHub'), path: '/portfolio', icon: BarChart2 },
+      { name: t('auditCenter'), path: '/security', icon: Shield },
+      { name: t('reminders'), path: '/reminders', icon: Bell }
+    ] : [])
   ];
 
   const bottomMenuItems = [
     { name: t('support'), path: '/support', icon: HelpCircle },
     { name: t('settings'), path: '/settings', icon: Settings }
-  ];
+  ].filter(item => {
+    if (isClient) {
+      return item.path === '/support';
+    }
+    if (isOfficer && item.path === '/settings') {
+      return false; // Hide settings for Loan Officers
+    }
+    return true;
+  });
 
   return (
     <aside className="sidebar">

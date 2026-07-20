@@ -3,9 +3,11 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { ShieldCheck, Lock, ArrowRight, ArrowLeft, RefreshCw } from 'lucide-react';
+import { useApp } from '@/context/AppContext';
 
 export default function Verification() {
   const router = useRouter();
+  const { currentUser } = useApp();
   const [code, setCode] = useState(['', '', '', '', '', '']);
   const inputsRef = useRef([]);
 
@@ -63,8 +65,13 @@ export default function Verification() {
       return;
     }
 
-    alert('Verification Successful! Identity verified. Redirecting to Institutional Oversight Dashboard.');
-    router.push('/dashboard');
+    if (currentUser?.role === 'Client') {
+      alert('Verification Successful! Identity verified. Redirecting to Mobile Client Portal.');
+      router.push('/mobile');
+    } else {
+      alert('Verification Successful! Identity verified. Redirecting to Institutional Oversight Dashboard.');
+      router.push('/dashboard');
+    }
   };
 
   const handleResend = () => {
