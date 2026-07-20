@@ -117,12 +117,47 @@ export default function SettingsPortal() {
   const handleBrandingUpload = (e) => {
     const file = e.target.files[0];
     if (!file) return;
+    
     const reader = new FileReader();
     reader.onload = (event) => {
-      const base64 = event.target.result;
-      setBrandingLogo(base64);
-      localStorage.setItem('gls_branding_logo', base64);
-      showToast('Platform logo branding updated successfully!');
+      const img = new Image();
+      img.onload = () => {
+        // Create canvas to downscale the image to sidebar dimensions (max 128px)
+        const canvas = document.createElement('canvas');
+        const maxDim = 128;
+        let width = img.width;
+        let height = img.height;
+        
+        if (width > height) {
+          if (width > maxDim) {
+            height = Math.round((height * maxDim) / width);
+            width = maxDim;
+          }
+        } else {
+          if (height > maxDim) {
+            width = Math.round((width * maxDim) / height);
+            height = maxDim;
+          }
+        }
+        
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+        
+        // Export as compressed jpeg data url (quality 0.85)
+        const compressedBase64 = canvas.toDataURL('image/jpeg', 0.85);
+        
+        try {
+          setBrandingLogo(compressedBase64);
+          localStorage.setItem('gls_branding_logo', compressedBase64);
+          showToast('Platform logo branding updated and optimized successfully!');
+        } catch (err) {
+          console.error(err);
+          showToast('Error: Failed to write to browser storage.');
+        }
+      };
+      img.src = event.target.result;
     };
     reader.readAsDataURL(file);
   };
