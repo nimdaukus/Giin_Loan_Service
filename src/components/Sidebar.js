@@ -12,6 +12,8 @@ export default function Sidebar() {
   const { metrics, currentUser, setCurrentUser, t } = useApp();
   const [showProfileMenu, setShowProfileMenu] = useState(false);
 
+  if (!currentUser) return null;
+
   const isClient = currentUser.role === 'Client';
   const isOfficer = currentUser.role === 'Loan Officer';
 

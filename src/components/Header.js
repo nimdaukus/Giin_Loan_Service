@@ -10,6 +10,8 @@ export default function Header() {
   const { metrics, currentUser, setCurrentUser } = useApp();
   const [showHeaderMenu, setShowHeaderMenu] = useState(false);
 
+  if (!currentUser) return null;
+
   return (
     <header className="header" style={{ position: 'relative' }}>
       <div className="header-search">
