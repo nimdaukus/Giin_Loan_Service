@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useApp } from '@/context/AppContext';
-import { Mail, Phone, Edit, Send, CheckSquare, RefreshCw, Smartphone, Check, AlertCircle, AlertTriangle } from 'lucide-react';
+import { Mail, Phone, Edit, Send, CheckSquare, RefreshCw, Smartphone, Check, AlertCircle, AlertTriangle, CheckCircle2 } from 'lucide-react';
 
 export default function RemindersCenter() {
   const { loans, templates, updateTemplate, sendReminder } = useApp();

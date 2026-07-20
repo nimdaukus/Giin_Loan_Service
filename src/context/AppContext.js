@@ -105,166 +105,22 @@ export function AppProvider({ children }) {
     }
   };
   
-  // Pre-populated applications fallback
-  const [applications, setApplications] = useState([
-    {
-      id: 'APP-101',
-      name: 'Jean Paul H.',
-      phone: '+1 647 889 0123',
-      passport: 'A123456789',
-      email: 'jean.paul.h@example.com',
-      address: '572 West Rd, Toronto',
-      amount: 500000,
-      term: '12 Months',
-      type: 'Business Expansion Loan',
-      collateralDesc: 'Warehouse lease contract and heavy machinery ownership papers.',
-      status: 'Pending',
-      date: '2026-07-18',
-      collateralImages: ['/images/truck.jpg', '/images/warehouse.jpg']
-    },
-    {
-      id: 'APP-102',
-      name: 'Marie Keita',
-      phone: '+1 416 333 4444',
-      passport: 'B987654321',
-      email: 'marie.keita@example.com',
-      address: '12 Finch Ave, Toronto',
-      amount: 150000,
-      term: '6 Months',
-      type: 'Emergency Working Capital',
-      collateralDesc: 'Delivery truck logbook and commercial invoice records.',
-      status: 'Under Review',
-      date: '2026-07-15',
-      collateralImages: ['/images/van.jpg']
-    },
-    {
-      id: 'APP-103',
-      name: 'Emmanuel O.',
-      phone: '+1 647 111 2222',
-      passport: 'C456789012',
-      email: 'emmanuel.o@example.com',
-      address: '89 Yonge St, Toronto',
-      amount: 72000,
-      term: '3 Months',
-      type: 'Boiler Replacement',
-      collateralDesc: 'Industrial kitchen appliances and refrigeration system.',
-      status: 'Approved',
-      date: '2026-07-10',
-      contractId: '0x91c63db45a123',
-      repaymentDate: '2026-08-25',
-      collateralImages: []
-    },
-    {
-      id: 'APP-104',
-      name: 'Beatrice T.',
-      phone: '+1 416 555 6666',
-      passport: 'D789012345',
-      email: 'beatrice.t@example.com',
-      address: '344 Bay St, Toronto',
-      amount: 25000,
-      term: '12 Months',
-      type: 'Retail Shop Renovation',
-      collateralDesc: 'Store inventory invoice sheet and cash register reports.',
-      status: 'Under Review',
-      date: '2026-07-12',
-      collateralImages: []
-    }
-  ]);
+  // Pre-populated applications fallback (empty for clean start)
+  const [applications, setApplications] = useState([]);
 
-  // Pre-populated active loans fallback
-  const [loans, setLoans] = useState([
-    {
-      id: 'LOAN-103',
-      borrowerName: 'Emmanuel O.',
-      phone: '+1 647 111 2222',
-      email: 'emmanuel.o@example.com',
-      passport: 'National ID: C456789012',
-      address: '89 Yonge St, Toronto',
-      type: 'Boiler Replacement',
-      amount: 72000,
-      interestRate: '8.0%',
-      interestAmount: 5760,
-      totalRepayment: 77760,
-      loanDate: '2026-07-10',
-      contractId: '0x91c63db45a123',
-      repaymentDate: '2026-08-25',
-      status: 'Completed',
-      balance: 0,
-      paid: 77760,
-      daysLeft: 0,
-      collateralDesc: 'Industrial kitchen appliances and refrigeration system.'
-    },
-    {
-      id: 'LOAN-99',
-      borrowerName: 'Marie Keita',
-      phone: '+1 416 333 4444',
-      email: 'marie.keita@example.com',
-      passport: 'Passport ID: B987654321',
-      address: '12 Finch Ave, Toronto',
-      type: 'Emergency Working Capital',
-      amount: 150000,
-      interestRate: '9.5%',
-      interestAmount: 14250,
-      totalRepayment: 164250,
-      loanDate: '2026-07-15',
-      contractId: '0x90b52ac23e456',
-      repaymentDate: '2026-08-19',
-      status: 'Active',
-      balance: 138400,
-      paid: 25850,
-      daysLeft: 16,
-      collateralDesc: 'Delivery truck logbook and commercial invoice records.'
-    },
-    {
-      id: 'LOAN-98',
-      borrowerName: 'Beatrice T.',
-      phone: '+1 416 555 6666',
-      email: 'beatrice.t@example.com',
-      passport: 'National ID: D789012345',
-      address: '344 Bay St, Toronto',
-      type: 'Retail Shop Renovation',
-      amount: 25000,
-      interestRate: '11.5%',
-      interestAmount: 2875,
-      totalRepayment: 27875,
-      loanDate: '2026-07-12',
-      contractId: '0x92d74ab30c789',
-      repaymentDate: '2026-08-30',
-      status: 'Active',
-      balance: 27875,
-      paid: 0,
-      daysLeft: 27,
-      collateralDesc: 'Store inventory invoice sheet and cash register reports.'
-    }
-  ]);
+  // Pre-populated active loans fallback (empty for clean start)
+  const [loans, setLoans] = useState([]);
 
   // Portfolio Totals fallback
   const [metrics, setMetrics] = useState({
-    totalOutstanding: 12482900,
-    activeBorrowers: 5842500,
-    totalRepayments: 13325400,
-    pendingApprovals: 2
+    totalOutstanding: 0,
+    activeBorrowers: 0,
+    totalRepayments: 0,
+    pendingApprovals: 0
   });
 
-  // Pre-populated reminders fallback
-  const [reminders, setReminders] = useState([
-    {
-      id: 'REM-101',
-      borrowerName: 'Marie Keita',
-      dueDate: '2026-08-19',
-      daysLeft: 16,
-      type: 'Email',
-      status: 'Pending'
-    },
-    {
-      id: 'REM-102',
-      borrowerName: 'Beatrice T.',
-      dueDate: '2026-08-30',
-      daysLeft: 27,
-      type: 'SMS',
-      status: 'Sent'
-    }
-  ]);
+  // Pre-populated reminders fallback (empty for clean start)
+  const [reminders, setReminders] = useState([]);
 
   // Pre-populated templates fallback
   const [templates, setTemplates] = useState([
@@ -282,30 +138,8 @@ export function AppProvider({ children }) {
     }
   ]);
 
-  // Pre-populated live activities fallback
-  const [activities, setActivities] = useState([
-    {
-      id: 'ACT-101',
-      title: 'Manual Loan Created',
-      desc: 'Beatrice T. added with 25,000 MVP principal',
-      time: '2 hours ago',
-      type: 'submit'
-    },
-    {
-      id: 'ACT-102',
-      title: 'Repayment Received',
-      desc: 'Marie Keita settled 25,850 MVP',
-      time: '4 hours ago',
-      type: 'repayment'
-    },
-    {
-      id: 'ACT-103',
-      title: 'Loan Approved',
-      desc: 'Emmanuel O. approved for 72,000 MVP. Contract: 0x91c63db45a123',
-      time: '1 day ago',
-      type: 'submit'
-    }
-  ]);
+  // Pre-populated live activities fallback (empty for clean start)
+  const [activities, setActivities] = useState([]);
 
   // Load initial data from Supabase tables
   useEffect(() => {
