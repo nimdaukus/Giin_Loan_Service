@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { useApp } from '@/context/AppContext';
-import { User, Smartphone, CreditCard, Clipboard, ShieldCheck, HelpCircle, Send, CheckCircle, FileText, Landmark, Upload, Eye, EyeOff, Edit, ShieldAlert } from 'lucide-react';
+import { User, Smartphone, CreditCard, Clipboard, ShieldCheck, HelpCircle, Send, CheckCircle, FileText, Landmark, Upload, Eye, EyeOff, Edit, ShieldAlert, Check } from 'lucide-react';
 
 export default function MobileApp() {
   const { loans, submitApplication, makePayment, momoStatus, setMomoStatus } = useApp();
