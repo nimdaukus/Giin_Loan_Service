@@ -9,7 +9,7 @@ import { useApp } from '@/context/AppContext';
 export default function Sidebar() {
   const pathname = usePathname();
   const router = useRouter();
-  const { metrics, currentUser, setCurrentUser, t } = useApp();
+  const { metrics, currentUser, setCurrentUser, t, brandingLogo } = useApp();
   const [showProfileMenu, setShowProfileMenu] = useState(false);
 
   if (!currentUser) return null;
@@ -20,7 +20,8 @@ export default function Sidebar() {
   const mainMenuItems = isClient ? [
     { name: 'Dashboard', path: '/client-dashboard', icon: LayoutDashboard },
     { name: 'Apply for Loan', path: '/client-apply', icon: Landmark },
-    { name: 'My Loans', path: '/client-loans', icon: FileText }
+    { name: 'My Loans', path: '/client-loans', icon: FileText },
+    { name: 'Security Center', path: '/security', icon: ShieldCheck }
   ] : [
     { name: t('dashboard'), path: '/dashboard', icon: LayoutDashboard },
     { name: t('approvalCenter'), path: '/approval-center', icon: CheckSquare, badge: metrics.pendingApprovals },
@@ -52,7 +53,11 @@ export default function Sidebar() {
       <div className="sidebar-brand">
         <ArrowLeft size={16} style={{ cursor: 'pointer', opacity: 0.7 }} />
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-          <ShieldCheck size={24} color="#3b82f6" />
+          {brandingLogo ? (
+            <img src={brandingLogo} style={{ width: '24px', height: '24px', objectFit: 'contain', borderRadius: '4px' }} alt="Logo" />
+          ) : (
+            <ShieldCheck size={24} color="#3b82f6" />
+          )}
           <div>
             <div>GIIN Sentinel</div>
             <div className="sidebar-brand-sub">Institutional Admin</div>

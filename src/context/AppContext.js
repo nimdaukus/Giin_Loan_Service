@@ -56,6 +56,14 @@ export function AppProvider({ children }) {
   // Currency and Language state
   const [currency, setCurrency] = useState('Rwandan Franc (RWF)');
   const [language, setLanguage] = useState('English');
+  const [brandingLogo, setBrandingLogo] = useState(null);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const stored = localStorage.getItem('gls_branding_logo');
+      if (stored) setBrandingLogo(stored);
+    }
+  }, []);
 
   const translations = {
     English: {
@@ -190,85 +198,74 @@ export function AppProvider({ children }) {
   // Pre-populated live activities fallback (empty for clean start)
   const [activities, setActivities] = useState([]);
 
-  // Load initial data from Supabase tables
-  useEffect(() => {
-    async function loadData() {
-      try {
-        // Fetch users
-        const { data: userData, error: userError } = await supabase
-          .from('users')
-          .select('*');
-        if (!userError && userData) {
-          // Merge default super admin to avoid loss
-          const mergedUsers = [...userData];
-          if (!mergedUsers.find(u => u.email === 'mensahqsukujr@gmail.com')) {
-            mergedUsers.push({
-              id: 'USR-DEFAULT-SA',
-              name: 'Super Admin',
-              email: 'mensahqsukujr@gmail.com',
-              password: 'Admins@262702!',
-              role: 'System Admin',
-              permissions: ['apply_loans', 'disburse_loans', 'edit_loans', 'send_reminders', 'view_analytics', 'delete_loans']
-            });
-          }
-          setUsers(mergedUsers);
-        }
+  // Load initial data from Supabase tables in parallel for maximum speed
+  const refreshData = async () => {
+    try {
+      const [
+        userRes,
+        appsRes,
+        loansRes,
+        actRes,
+        remRes,
+        tempRes,
+        settingsRes
+      ] = await Promise.all([
+        supabase.from('users').select('*'),
+        supabase.from('applications').select('*'),
+        supabase.from('loans').select('*'),
+        supabase.from('activities').select('*').order('id', { ascending: false }),
+        supabase.from('reminders').select('*'),
+        supabase.from('templates').select('*'),
+        supabase.from('system_settings').select('*')
+      ]);
 
-        // Fetch applications
-        const { data: appsData, error: appsError } = await supabase
-          .from('applications')
-          .select('*');
-        if (!appsError && appsData) {
-          setApplications(appsData);
+      if (!userRes.error && userRes.data) {
+        const mergedUsers = [...userRes.data];
+        if (!mergedUsers.find(u => u.email === 'mensahqsukujr@gmail.com')) {
+          mergedUsers.push({
+            id: 'USR-DEFAULT-SA',
+            name: 'Super Admin',
+            email: 'mensahqsukujr@gmail.com',
+            password: 'Admins@262702!',
+            role: 'System Admin',
+            permissions: ['apply_loans', 'disburse_loans', 'edit_loans', 'send_reminders', 'view_analytics', 'delete_loans']
+          });
         }
-
-        // Fetch loans
-        const { data: lnData, error: lnError } = await supabase
-          .from('loans')
-          .select('*');
-        if (!lnError && lnData) {
-          setLoans(lnData);
-        }
-
-        // Fetch activities
-        const { data: actData, error: actError } = await supabase
-          .from('activities')
-          .select('*')
-          .order('id', { ascending: false });
-        if (!actError && actData) {
-          setActivities(actData);
-        }
-
-        // Fetch reminders
-        const { data: remData, error: remError } = await supabase
-          .from('reminders')
-          .select('*');
-        if (!remError && remData) {
-          setReminders(remData);
-        }
-
-        // Fetch templates
-        const { data: tempData, error: tempError } = await supabase
-          .from('templates')
-          .select('*');
-        if (!tempError && tempData) {
-          setTemplates(tempData);
-        }
-        
-        // Fetch system settings
-        const { data: settingsData, error: settingsError } = await supabase
-          .from('system_settings')
-          .select('*')
-          .single();
-        if (!settingsError && settingsData) {
-          if (settingsData.currency) setCurrency(settingsData.currency);
-          if (settingsData.language) setLanguage(settingsData.language);
-        }
-      } catch (err) {
-        console.warn("Supabase fetch failed, falling back to local pre-populated state:", err);
+        setUsers(mergedUsers);
       }
+
+      if (!appsRes.error && appsRes.data) {
+        setApplications(appsRes.data);
+      }
+
+      if (!loansRes.error && loansRes.data) {
+        setLoans(loansRes.data);
+      }
+
+      if (!actRes.error && actRes.data) {
+        setActivities(actRes.data);
+      }
+
+      if (!remRes.error && remRes.data) {
+        setReminders(remRes.data);
+      }
+
+      if (!tempRes.error && tempRes.data) {
+        setTemplates(tempRes.data);
+      }
+
+      if (!settingsRes.error && settingsRes.data && settingsRes.data.length > 0) {
+        const s = settingsRes.data[0];
+        if (s.currency) setCurrency(s.currency);
+        if (s.language) setLanguage(s.language);
+      }
+    } catch (err) {
+      console.warn("Supabase fetch failed, falling back to local state:", err);
     }
-    loadData();
+  };
+
+  useEffect(() => {
+    refreshData();
   }, []);
 
   // Compute global portfolio metrics dynamically
@@ -841,6 +838,7 @@ export function AppProvider({ children }) {
         activities,
         momoStatus,
         setMomoStatus,
+        refreshData,
         submitApplication,
         approveApplication,
         rejectApplication,
@@ -862,6 +860,8 @@ export function AppProvider({ children }) {
         formatCurrency,
         modifyLoanRecord,
         deleteLoanRecord,
+        brandingLogo,
+        setBrandingLogo,
         toast
       }}
     >

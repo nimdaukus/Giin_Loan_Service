@@ -5,7 +5,7 @@ import { Smartphone, Laptop, Car, Plus, Edit, UserPlus, Save, CheckCircle, Downl
 import { useApp } from '@/context/AppContext';
 
 export default function SettingsPortal() {
-  const { currency, setCurrency, language, setLanguage, currentUser, users, addStaffMember } = useApp();
+  const { currency, setCurrency, language, setLanguage, currentUser, users, addStaffMember, brandingLogo, setBrandingLogo } = useApp();
   const [apr, setApr] = useState(18.5);
   const [lateFee, setLateFee] = useState(2.0);
   const [toastMessage, setToastMessage] = useState(null);
@@ -112,6 +112,19 @@ export default function SettingsPortal() {
 
   const handleSavePermissions = () => {
     showToast('Permissions configuration synchronized.');
+  };
+
+  const handleBrandingUpload = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const base64 = event.target.result;
+      setBrandingLogo(base64);
+      localStorage.setItem('gls_branding_logo', base64);
+      showToast('Platform logo branding updated successfully!');
+    };
+    reader.readAsDataURL(file);
   };
 
   return (
@@ -592,22 +605,38 @@ export default function SettingsPortal() {
                 width: '36px',
                 height: '36px',
                 borderRadius: '4px',
-                backgroundColor: 'var(--color-primary)',
+                backgroundColor: brandingLogo ? 'transparent' : 'var(--color-primary)',
                 color: 'white',
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'center'
+                justifyContent: 'center',
+                overflow: 'hidden'
               }}>
-                <Shield size={18} />
+                {brandingLogo ? (
+                  <img src={brandingLogo} style={{ width: '100%', height: '100%', objectFit: 'contain' }} alt="Brand logo" />
+                ) : (
+                  <Shield size={18} />
+                )}
               </div>
               <div>
                 <strong style={{ fontSize: '0.8rem', color: 'var(--text-primary)', display: 'block' }}>Current Logo</strong>
-                <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)' }}>Sentinel_Shield_V2.svg</span>
+                <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)' }}>
+                  {brandingLogo ? 'Custom_Uploaded_Logo.png' : 'Sentinel_Shield_V2.svg'}
+                </span>
               </div>
             </div>
 
+            <input 
+              type="file" 
+              id="branding-file-input" 
+              accept="image/*" 
+              onChange={handleBrandingUpload} 
+              style={{ display: 'none' }} 
+            />
+
             <button
-              onClick={() => alert('Triggering file upload dialog...')}
+              type="button"
+              onClick={() => document.getElementById('branding-file-input').click()}
               className="btn btn-outline"
               style={{ width: '100%', borderStyle: 'dashed', marginTop: '1rem' }}
             >

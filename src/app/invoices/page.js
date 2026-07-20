@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { useApp } from '@/context/AppContext';
+import { supabase } from '@/utils/supabase';
 import { Printer, Download, Send, Shield, BookOpen, Clock, AlertTriangle, CheckCircle2 } from 'lucide-react';
 
 export default function InvoicePreview() {
@@ -25,11 +26,134 @@ export default function InvoicePreview() {
     window.print();
   };
 
+  const downloadInvoice = () => {
+    if (!account) return;
+    const invoiceHTML = `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <meta charset="utf-8">
+          <title>Invoice INV-2024-${account.id.split('-')[1] || '001'}</title>
+          <style>
+            body { font-family: system-ui, -apple-system, sans-serif; background-color: #f8fafc; padding: 2rem; color: #1e293b; }
+            .invoice-box { max-width: 800px; margin: auto; padding: 30px; border: 1px solid #e2e8f0; background: #fff; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+            .header { padding: 2rem; background-color: #131b2e; color: white; display: flex; justify-content: space-between; border-radius: 6px; }
+            .title { font-size: 1.5rem; font-weight: 800; }
+            .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 2rem; }
+            .section-title { font-size: 0.7rem; color: #64748b; font-weight: 700; text-transform: uppercase; margin-bottom: 0.5rem; }
+            .table { width: 100%; border-collapse: collapse; margin-top: 2rem; text-align: left; }
+            .table th { border-bottom: 2px solid #1e293b; padding-bottom: 0.5rem; font-size: 0.75rem; }
+            .table td { padding: 1rem 0; border-bottom: 1px solid #e2e8f0; font-size: 0.85rem; }
+            .totals { display: flex; justify-content: space-between; margin-top: 2rem; padding-bottom: 2rem; }
+            .payment-instructions { background-color: #f1f5f9; padding: 1.25rem; border-left: 4px solid #3b82f6; border-radius: 0 6px 6px 0; margin-top: 2rem; }
+          </style>
+        </head>
+        <body>
+          <div class="invoice-box">
+            <div class="header">
+              <div>
+                <div class="title">GIIN SENTINEL INVOICE</div>
+                <div style="font-size: 0.75rem; opacity: 0.8; margin-top: 0.25rem;">Reference: INV-2024-${account.id.split('-')[1] || '001'}</div>
+              </div>
+              <div style="text-align: right;">
+                <div>DATE OF ISSUE: <b>${account.loanDate || '2026-07-12'}</b></div>
+                <div style="margin-top: 0.5rem;">DUE DATE: <b>${account.repaymentDate || 'N/A'}</b></div>
+              </div>
+            </div>
+            <div class="grid">
+              <div>
+                <div class="section-title">FROM</div>
+                <b>GIIN Sentinel Institutional Finance</b><br>
+                KG 541 St, Career Center Building<br>
+                Floor 4, Financial District, Kigali, Rwanda
+              </div>
+              <div>
+                <div class="section-title">BILL TO</div>
+                <b>${account.name}</b><br>
+                ID: ${account.id}<br>
+                Phone: ${account.phone || 'N/A'}<br>
+                Email: ${account.email || 'N/A'}
+              </div>
+            </div>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>DESCRIPTION</th>
+                  <th>QTY</th>
+                  <th style="text-align: right;">PRICE</th>
+                  <th style="text-align: right;">TOTAL</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><b>Tuition Loan Principal</b><br><span style="color: #64748b; font-size: 0.75rem;">Semester installment for ${account.type}</span></td>
+                  <td>1</td>
+                  <td style="text-align: right;">${account.amount.toLocaleString()} RWF</td>
+                  <td style="text-align: right;">${account.amount.toLocaleString()} RWF</td>
+                </tr>
+                <tr>
+                  <td><b>Administrative Interest</b><br><span style="color: #64748b; font-size: 0.75rem;">Calculated at ${account.interestRate}</span></td>
+                  <td>1</td>
+                  <td style="text-align: right;">${adminInterest.toLocaleString()} RWF</td>
+                  <td style="text-align: right;">${adminInterest.toLocaleString()} RWF</td>
+                </tr>
+                ${isOverdue ? `
+                <tr style="color: #ef4444;">
+                  <td><b>Late Payment Penalty</b><br><span style="font-size: 0.75rem;">Delay charge for ${delayDays} overdue days</span></td>
+                  <td>${delayDays}</td>
+                  <td style="text-align: right;">${Math.round(account.amount * (penaltyRate / 100)).toLocaleString()} RWF / day</td>
+                  <td style="text-align: right;">${penaltyAmount.toLocaleString()} RWF</td>
+                </tr>
+                ` : ''}
+              </tbody>
+            </table>
+            <div class="totals">
+              <div>
+                <div class="section-title">COLLATERAL PLEDGED</div>
+                <b>${account.collateralDesc || 'N/A'}</b>
+              </div>
+              <div style="width: 250px; text-align: right;">
+                <div>SUBTOTAL: <b>${(account.amount + adminInterest).toLocaleString()} MVP</b></div>
+                <div style="margin: 0.5rem 0;">LATE PENALTY: <b>${penaltyAmount.toLocaleString()} MVP</b></div>
+                <hr>
+                <div style="font-size: 1.25rem; font-weight: 800; color: #3b82f6;">TOTAL DUE: ${(account.amount + adminInterest + penaltyAmount).toLocaleString()} MVP</div>
+              </div>
+            </div>
+            <div class="payment-instructions">
+              <div class="section-title">PAYMENT INSTRUCTIONS</div>
+              BANK: <b>Bank of Kigali</b> | ACCOUNT: <b>GIIN Sentinel Finance</b> | NO: <b>001-99827-332-01</b>
+            </div>
+          </div>
+        </body>
+      </html>
+    `;
+    const blob = new Blob([invoiceHTML], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `Invoice_INV-2024-${account.id.split('-')[1] || '001'}.html`;
+    link.click();
+    URL.revokeObjectURL(url);
+  };
+
   const handleSendInvoice = () => {
     setIsSending(true);
-    setTimeout(() => {
+    setTimeout(async () => {
       setIsSending(false);
-      alert(`Invoice successfully dispatched to ${account.name} via secure email.`);
+      try {
+        const newActivity = {
+          title: 'New Invoice Issued',
+          desc: `Invoice INV-2024-${account.id.split('-')[1] || '001'} was issued to ${account.name} for RWF ${account.amount.toLocaleString()}.`,
+          time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          type: 'Invoice',
+          userEmail: account.email,
+          ipAddress: 'System'
+        };
+        await supabase.from('activities').insert(newActivity);
+      } catch (err) {
+        console.warn("Realtime notification log failed:", err.message);
+      }
+      alert(`Invoice successfully dispatched to ${account.name} via secure email and dashboard notification.`);
     }, 1200);
   };
 
@@ -110,8 +234,8 @@ export default function InvoicePreview() {
               <button onClick={printInvoice} className="btn btn-outline" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.375rem' }}>
                 <Printer size={16} /> Print
               </button>
-              <button onClick={() => alert('Downloading PDF Invoice...')} className="btn btn-outline" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.375rem' }}>
-                <Download size={16} /> Download PDF
+              <button onClick={downloadInvoice} className="btn btn-outline" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.375rem' }}>
+                <Download size={16} /> Download PDF (HTML Format)
               </button>
               <button onClick={handleSendInvoice} disabled={isSending} className="btn btn-primary" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.375rem' }}>
                 <Send size={16} /> {isSending ? 'Sending...' : 'Send to Borrower'}

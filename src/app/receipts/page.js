@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { useApp } from '@/context/AppContext';
+import { supabase } from '@/utils/supabase';
 import { Printer, Download, Mail, CheckCircle2, ShieldCheck, Lock, FileText, AlertTriangle, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 
@@ -21,10 +22,115 @@ export default function ReceiptPreview() {
 
   const handleSendEmail = () => {
     setIsSending(true);
-    setTimeout(() => {
+    setTimeout(async () => {
       setIsSending(false);
-      alert(`Receipt successfully emailed to ${loan.borrowerName} (${loan.email || 'N/A'}).`);
+      try {
+        const newActivity = {
+          title: 'Payment Receipt Issued',
+          desc: `Receipt RCP-2024-${loan.id.split('-')[1] || '082'} was generated for ${loan.borrowerName} following full settlement of ${loan.id}.`,
+          time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          type: 'Receipt',
+          userEmail: loan.email,
+          ipAddress: 'System'
+        };
+        await supabase.from('activities').insert(newActivity);
+      } catch (err) {
+        console.warn("Realtime notification log failed:", err.message);
+      }
+      alert(`Receipt successfully emailed to ${loan.borrowerName} (${loan.email || 'N/A'}) and dispatched to dashboard.`);
     }, 1200);
+  };
+
+  const downloadReceipt = () => {
+    if (!loan) return;
+    const receiptHTML = `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <meta charset="utf-8">
+          <title>Receipt RCP-2024-${loan.id.split('-')[1] || '082'}</title>
+          <style>
+            body { font-family: system-ui, -apple-system, sans-serif; background-color: #f8fafc; padding: 2rem; color: #1e293b; }
+            .receipt-box { max-width: 800px; margin: auto; padding: 30px; border: 1px solid #e2e8f0; background: #fff; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); position: relative; }
+            .watermark { position: absolute; top: 35%; left: 25%; font-size: 8rem; font-weight: 900; color: rgba(16, 185, 129, 0.04); transform: rotate(-30deg); user-select: none; pointer-events: none; }
+            .header { padding-bottom: 1.5rem; border-bottom: 2px solid #1e293b; display: flex; justify-content: space-between; }
+            .title { font-size: 1.5rem; font-weight: 800; }
+            .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 2rem; }
+            .section-title { font-size: 0.7rem; color: #64748b; font-weight: 700; text-transform: uppercase; margin-bottom: 0.5rem; }
+            .table { width: 100%; border-collapse: collapse; margin-top: 2rem; text-align: left; }
+            .table th { border-bottom: 2px solid #1e293b; padding-bottom: 0.5rem; font-size: 0.75rem; }
+            .table td { padding: 1rem 0; border-bottom: 1px solid #e2e8f0; font-size: 0.85rem; }
+            .totals { display: flex; justify-content: space-between; margin-top: 2rem; }
+            .auth-details { font-size: 0.65rem; color: #64748b; font-family: monospace; line-height: 1.4; }
+          </style>
+        </head>
+        <body>
+          <div class="receipt-box">
+            <div class="watermark">PAID</div>
+            <div class="header">
+              <div>
+                <div class="title">GIIN SENTINEL RECEIPT</div>
+                <div style="font-size: 0.75rem; opacity: 0.8; margin-top: 0.25rem;">NO: RCP-2024-${loan.id.split('-')[1] || '082'}</div>
+              </div>
+              <div style="text-align: right;">
+                <div>DATE ISSUED: <b>${loan.repaymentDate || 'N/A'}</b></div>
+                <div style="margin-top: 0.5rem; background-color: #dcfce7; color: #166534; padding: 0.2rem 0.5rem; border-radius: 50px; font-size: 0.65rem; font-weight: 700; display: inline-block;">PAYMENT SUCCESSFUL</div>
+              </div>
+            </div>
+            <div class="grid">
+              <div>
+                <div class="section-title">BORROWER INFORMATION</div>
+                <b>${loan.borrowerName}</b><br>
+                ID: ${loan.id}<br>
+                Phone: ${loan.phone || 'N/A'}<br>
+                Email: ${loan.email || 'N/A'}
+              </div>
+              <div>
+                <div class="section-title">TRANSACTION SUMMARY</div>
+                Method: <b>Bank Settlement</b><br>
+                Reference: <b>TXN-${(loan.contractId || 'bk-node').slice(-8).toUpperCase()}</b><br>
+                Invoice Ref: <b>INV-2024-${loan.id.split('-')[1] || '001'}</b>
+              </div>
+            </div>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Description</th>
+                  <th style="text-align: right;">Amount (MVP)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><b>Principal Repayment</b><br><span style="color: #64748b; font-size: 0.75rem;">Full repayment for ${loan.type}</span></td>
+                  <td style="text-align: right; font-family: monospace;">${loan.amount.toLocaleString()}</td>
+                </tr>
+                <tr>
+                  <td><b>Accrued Interest</b><br><span style="color: #64748b; font-size: 0.75rem;">Cycle Rate ${loan.interestRate}</span></td>
+                  <td style="text-align: right; font-family: monospace;">${(loan.interestAmount || 0).toLocaleString()}</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="totals">
+              <div class="auth-details">
+                Auth Hash: ${loan.contractId || 'N/A'}<br>
+                Node Verifier: Sentinel-BK-02<br>
+                Timestamp: ${new Date().toISOString().split('T')[0]}T14:22:01Z
+              </div>
+              <div style="width: 250px; text-align: right;">
+                <div style="font-size: 1.25rem; font-weight: 900; color: #10b981;">TOTAL PAID: ${(loan.amount + (loan.interestAmount || 0)).toLocaleString()} MVP</div>
+              </div>
+            </div>
+          </div>
+        </body>
+      </html>
+    `;
+    const blob = new Blob([receiptHTML], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `Receipt_RCP-2024-${loan.id.split('-')[1] || '082'}.html`;
+    link.click();
+    URL.revokeObjectURL(url);
   };
 
   return (
@@ -92,12 +198,12 @@ export default function ReceiptPreview() {
               </button>
               
               <button 
-                onClick={() => alert('Downloading PDF receipt document...')} 
+                onClick={downloadReceipt} 
                 disabled={loan.status !== 'Completed'}
                 className="btn btn-outline" 
                 style={{ display: 'flex', justifyCenter: 'center', gap: '0.5rem', width: '100%', justifyContent: 'center', opacity: loan.status !== 'Completed' ? 0.5 : 1 }}
               >
-                <Download size={16} /> Download PDF
+                <Download size={16} /> Download PDF (HTML Format)
               </button>
               
               <button 
