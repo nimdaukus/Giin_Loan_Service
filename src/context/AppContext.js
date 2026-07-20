@@ -17,8 +17,28 @@ export function AppProvider({ children }) {
     permissions: ['apply_loans', 'disburse_loans', 'edit_loans', 'send_reminders', 'view_analytics', 'delete_loans']
   };
 
-  // Current logged in user profile (defaults to guest or admin for demo before login)
-  const [currentUser, setCurrentUser] = useState(DEFAULT_SUPER_ADMIN);
+  // Current logged in user profile with localStorage persistence to prevent refresh logout
+  const [currentUser, setCurrentUser] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const stored = localStorage.getItem('gls_current_user');
+      if (stored) {
+        try {
+          return JSON.parse(stored);
+        } catch (e) {}
+      }
+    }
+    return DEFAULT_SUPER_ADMIN;
+  });
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      if (currentUser) {
+        localStorage.setItem('gls_current_user', JSON.stringify(currentUser));
+      } else {
+        localStorage.removeItem('gls_current_user');
+      }
+    }
+  }, [currentUser]);
   
   // System users database table state
   const [users, setUsers] = useState([
