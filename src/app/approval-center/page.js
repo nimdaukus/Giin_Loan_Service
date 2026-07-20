@@ -193,6 +193,22 @@ export default function ApprovalCenter() {
                     <div style={{ fontSize: '0.875rem', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '0.25rem', marginTop: '0.125rem' }}>
                       <FileText size={12} color="#64748b" /> {selectedApp.passport}
                     </div>
+                    {selectedApp.passport_file && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const w = window.open();
+                          if (selectedApp.passport_file.startsWith('data:application/pdf')) {
+                            w.document.write(`<embed src="${selectedApp.passport_file}" type="application/pdf" width="100%" height="100%" />`);
+                          } else {
+                            w.document.write(`<img src="${selectedApp.passport_file}" style="max-width:100%; max-height:100vh; display:block; margin:auto;" />`);
+                          }
+                        }}
+                        style={{ display: 'inline-flex', alignItems: 'center', gap: '0.25rem', marginTop: '0.25rem', border: 'none', backgroundColor: 'transparent', color: 'var(--color-primary)', fontSize: '0.7rem', fontWeight: '700', cursor: 'pointer', padding: 0 }}
+                      >
+                        <FileText size={10} /> View Passport File
+                      </button>
+                    )}
                   </div>
                   <div style={{ gridColumn: 'span 2' }}>
                     <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>Email Address</div>

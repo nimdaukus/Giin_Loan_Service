@@ -49,7 +49,8 @@ async function migrate() {
       repaymentDate TEXT,
       collateralImages TEXT[] DEFAULT '{}',
       headshot TEXT,
-      consents TEXT[] DEFAULT '{}'
+      consents TEXT[] DEFAULT '{}',
+      passport_file TEXT
     );
 
     -- Loans Table

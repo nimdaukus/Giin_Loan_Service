@@ -296,7 +296,8 @@ export function AppProvider({ children }) {
       date: new Date().toISOString().split('T')[0],
       collateralImages: appData.collateralImages || [],
       headshot: appData.headshot || '',
-      consents: appData.consents || []
+      consents: appData.consents || [],
+      passport_file: appData.passportFile || ''
     };
 
     setApplications(prev => [newApp, ...prev]);
