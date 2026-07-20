@@ -17,18 +17,19 @@ export function AppProvider({ children }) {
     permissions: ['apply_loans', 'disburse_loans', 'edit_loans', 'send_reminders', 'view_analytics', 'delete_loans']
   };
 
-  // Current logged in user profile with localStorage persistence to prevent refresh logout
-  const [currentUser, setCurrentUser] = useState(() => {
+  // Current logged in user profile (defaults to super admin, loaded from localStorage on mount)
+  const [currentUser, setCurrentUser] = useState(DEFAULT_SUPER_ADMIN);
+
+  useEffect(() => {
     if (typeof window !== 'undefined') {
       const stored = localStorage.getItem('gls_current_user');
       if (stored) {
         try {
-          return JSON.parse(stored);
+          setCurrentUser(JSON.parse(stored));
         } catch (e) {}
       }
     }
-    return DEFAULT_SUPER_ADMIN;
-  });
+  }, []);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
