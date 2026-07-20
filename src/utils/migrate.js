@@ -67,7 +67,8 @@ async function migrate() {
       balance NUMERIC,
       paid NUMERIC,
       "daysLeft" INTEGER,
-      "collateralDesc" TEXT
+      "collateralDesc" TEXT,
+      "reminderStatus" TEXT
     );
 
     -- Activities Table
@@ -119,6 +120,9 @@ async function migrate() {
     INSERT INTO system_settings (id, currency, language, apr, late_fee)
     VALUES (1, 'RWF', 'English', 18.5, 2.0)
     ON CONFLICT (id) DO NOTHING;
+
+    -- Alter existing loans table to add reminderStatus
+    ALTER TABLE loans ADD COLUMN IF NOT EXISTS "reminderStatus" TEXT;
 
     -- Disable RLS on all tables to allow client operations via Anon Key
     ALTER TABLE users DISABLE ROW LEVEL SECURITY;
