@@ -27,8 +27,8 @@ export default function SupportCenter() {
     // Simulate bot response
     setTimeout(() => {
       let reply = "Understood. Sentinel Ops protocols are governed by ISO 27001 standard frameworks. Please check the 'Collateral Guidelines' or contact System Admin.";
-      if (chatInput.toLowerCase().includes('collateral') || chatInput.toLowerCase().includes('laptop') || chatInput.toLowerCase().includes('marcus')) {
-        reply = "Marcus Thorne's tech collateral records can be audited in the Approval Center page, or inspected under our Collateral Inspection dashboard.";
+      if (chatInput.toLowerCase().includes('collateral') || chatInput.toLowerCase().includes('laptop') || chatInput.toLowerCase().includes('phone')) {
+        reply = "Client tech collateral records can be audited in the Approval Center page, or inspected under our Collateral Inspection dashboard.";
       } else if (chatInput.toLowerCase().includes('password') || chatInput.toLowerCase().includes('login') || chatInput.toLowerCase().includes('reset')) {
         reply = "Password recovery links can be generated via the /password-recovery page, and validated with a 6-digit OTP code on the verification gateway.";
       }

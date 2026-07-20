@@ -2,8 +2,10 @@
 
 import React, { useState } from 'react';
 import { DollarSign, Activity, FileText, Cpu, AlertTriangle, ShieldCheck, Play, CheckCircle } from 'lucide-react';
+import { useApp } from '@/context/AppContext';
 
 export default function RiskLiquidityHub() {
+  const { loans, formatCurrency } = useApp();
   const [activeTab, setActiveTab] = useState('Overview');
   const [heatmapToggle, setHeatmapToggle] = useState('region'); // 'region' | 'collateral'
   
@@ -46,6 +48,46 @@ export default function RiskLiquidityHub() {
       });
     }, 1500);
   };
+
+  // Derive dynamic analytics from actual loans
+  const totalExposure = loans.reduce((sum, l) => sum + (l.status === 'Active' ? l.balance : 0), 0);
+  
+  const completedLoansCount = loans.filter(l => l.status === 'Completed').length;
+  const portfolioHealth = loans.length === 0 ? '100%' : `${Math.round((completedLoansCount / loans.length) * 100)}%`;
+
+  const totalPaid = loans.reduce((sum, l) => sum + (l.paid || 0), 0);
+  const totalActive = loans.reduce((sum, l) => sum + (l.status === 'Active' ? l.balance : 0), 0);
+  const liquidityRatio = totalActive === 0 ? '1.00x' : `${(totalPaid / totalActive).toFixed(2)}x`;
+
+  const getCollateralMix = () => {
+    const collateralTypes = {
+      'Smartphone': { count: 0, color: 'var(--color-success)' },
+      'Laptop': { count: 0, color: 'var(--color-primary)' },
+      'Vehicle': { count: 0, color: 'var(--color-warning)' },
+      'Other': { count: 0, color: '#475569' }
+    };
+    
+    loans.forEach(loan => {
+      const desc = (loan.collateralDesc || '').toLowerCase();
+      if (desc.includes('smartphone') || desc.includes('phone') || desc.includes('android') || desc.includes('iphone')) {
+        collateralTypes['Smartphone'].count += 1;
+      } else if (desc.includes('laptop') || desc.includes('computer') || desc.includes('macbook')) {
+        collateralTypes['Laptop'].count += 1;
+      } else if (desc.includes('vehicle') || desc.includes('car') || desc.includes('truck') || desc.includes('motorcycle')) {
+        collateralTypes['Vehicle'].count += 1;
+      } else {
+        collateralTypes['Other'].count += 1;
+      }
+    });
+
+    const totalLoans = loans.length || 1;
+    return Object.keys(collateralTypes).map(name => {
+      const percent = loans.length === 0 ? 0 : Math.round((collateralTypes[name].count / loans.length) * 100);
+      return { name, percent, color: collateralTypes[name].color };
+    });
+  };
+
+  const dynamicMix = getCollateralMix();
 
   return (
     <div>
@@ -90,9 +132,9 @@ export default function RiskLiquidityHub() {
               <DollarSign size={16} color="var(--color-primary)" />
             </div>
           </div>
-          <div className="metric-value">$1.42B</div>
+          <div className="metric-value">{formatCurrency(totalExposure)}</div>
           <div className="metric-change up">
-            <span>+3.2% vs Last Quarter</span>
+            <span>Live Portfolio Value</span>
           </div>
         </div>
 
@@ -103,9 +145,9 @@ export default function RiskLiquidityHub() {
               <ShieldCheck size={16} color="var(--color-success)" />
             </div>
           </div>
-          <div className="metric-value">94.8%</div>
+          <div className="metric-value">{portfolioHealth}</div>
           <div className="metric-change up" style={{ backgroundColor: '#d1fae5', color: '#065f46' }}>
-            <span>Standard Low Risk Level</span>
+            <span>Completed / Total Ratio</span>
           </div>
         </div>
 
@@ -132,10 +174,10 @@ export default function RiskLiquidityHub() {
               <Activity size={16} color="var(--color-warning)" />
             </div>
           </div>
-          <div className="metric-value">1.84x</div>
+          <div className="metric-value">{liquidityRatio}</div>
           <div className="metric-change down" style={{ backgroundColor: '#fef3c7', color: '#92400e' }}>
             <AlertTriangle size={12} />
-            <span>Approaching Alert Threshold</span>
+            <span>Paid vs Outstanding</span>
           </div>
         </div>
       </div>
@@ -148,8 +190,8 @@ export default function RiskLiquidityHub() {
         marginBottom: '2rem'
       }}>
         {/* Heatmap Card */}
-        <div className="card" style={{ margin: 0 }}>
-          <div className="card-header">
+        <div className="card" style={{ margin: 0, padding: '1.5rem' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
             <div>
               <h3 className="card-title">Risk Concentration Heatmap</h3>
               <span className="card-subtitle">Loan concentration by borrower grade vs collateral types</span>
@@ -157,18 +199,18 @@ export default function RiskLiquidityHub() {
             
             <div style={{ display: 'flex', gap: '0.5rem', border: '1px solid var(--border-color-dark)', padding: '2px', borderRadius: '6px' }}>
               <button
-                onClick={() => setHeatmapToggle('collateral')}
-                className={`btn btn-small ${heatmapToggle === 'collateral' ? 'btn-primary' : 'btn-outline'}`}
-                style={{ border: 'none', padding: '0.25rem 0.5rem', fontSize: '0.7rem' }}
-              >
-                By Collateral
-              </button>
-              <button
                 onClick={() => setHeatmapToggle('region')}
                 className={`btn btn-small ${heatmapToggle === 'region' ? 'btn-primary' : 'btn-outline'}`}
                 style={{ border: 'none', padding: '0.25rem 0.5rem', fontSize: '0.7rem' }}
               >
                 By Region
+              </button>
+              <button
+                onClick={() => setHeatmapToggle('collateral')}
+                className={`btn btn-small ${heatmapToggle === 'collateral' ? 'btn-primary' : 'btn-outline'}`}
+                style={{ border: 'none', padding: '0.25rem 0.5rem', fontSize: '0.7rem' }}
+              >
+                By Collateral
               </button>
             </div>
           </div>
@@ -235,12 +277,7 @@ export default function RiskLiquidityHub() {
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem', marginTop: '1rem' }}>
-            {[
-              { name: 'Real Estate', percent: 45, color: 'var(--color-primary)' },
-              { name: 'Tech Infrastructure', percent: 32, color: 'var(--color-success)' },
-              { name: 'Vehicle Fleets', percent: 18, color: 'var(--color-warning)' },
-              { name: 'Other', percent: 5, color: '#475569' }
-            ].map((mix) => (
+            {dynamicMix.map((mix) => (
               <div key={mix.name}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem', fontWeight: '600', marginBottom: '0.375rem' }}>
                   <span style={{ display: 'flex', alignItems: 'center', gap: '0.375rem' }}>

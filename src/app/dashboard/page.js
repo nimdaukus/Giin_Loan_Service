@@ -18,14 +18,9 @@ export default function Dashboard() {
     alert(`Institutional reminder successfully dispatched to ${name}.`);
   };
 
-  // Derive dynamic analytics while preserving baseline portfolio scale
-  const activeLoansVal = loans.reduce((sum, l) => sum + (l.status === 'Active' ? l.balance : 0), 0);
-  const accruedInterestVal = loans.reduce((sum, l) => sum + (l.interestAmount || 0), 0);
-  
-  // Baseline portfolio constant references:
-  // Pre-populated active values sum to 175k principal, 17.1k interest.
-  const dynamicOutstanding = 12482900 + (activeLoansVal - 175000);
-  const dynamicInterest = 842500 + (accruedInterestVal - 22885);
+  // Derive dynamic analytics purely from the active database loans
+  const dynamicOutstanding = loans.reduce((sum, l) => sum + (l.status === 'Active' ? l.balance : 0), 0);
+  const dynamicInterest = loans.reduce((sum, l) => sum + (l.interestAmount || 0), 0);
   const dynamicTotalRepayment = dynamicOutstanding + dynamicInterest;
   const pendingCount = applications.filter(a => a.status === 'Pending' || a.status === 'Under Review').length;
 

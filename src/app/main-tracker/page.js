@@ -126,6 +126,9 @@ export default function MainTracker() {
     ? parseFloat(manualForm.amount) + calculatedInterest
     : 0;
 
+  const avgInterest = loans.length === 0 ? 0 : Math.round((loans.reduce((sum, l) => sum + parseFloat(l.interestRate || 0), 0) / loans.length) * 10) / 10;
+  const repaymentRate = loans.length === 0 ? 100 : Math.round((loans.filter(l => l.status === 'Completed' || l.daysLeft > 0).length / loans.length) * 1000) / 10;
+
   const exportCSV = () => {
     const headers = [
       'Borrower Name', 'Phone', 'Email', 'ID Type/Passport', 'Address', 'Loan Type', 
@@ -399,12 +402,12 @@ export default function MainTracker() {
         </div>
         <div style={{ backgroundColor: '#f0fdf4', padding: '1.25rem', borderRadius: 'var(--radius-md)', border: '1px solid #dcfce7' }}>
           <div style={{ fontSize: '0.75rem', color: '#166534', fontWeight: '700', textTransform: 'uppercase' }}>Average Interest</div>
-          <div style={{ fontSize: '1.5rem', fontWeight: '800', color: '#14532d', marginTop: '0.25rem' }}>9.2%</div>
+          <div style={{ fontSize: '1.5rem', fontWeight: '800', color: '#14532d', marginTop: '0.25rem' }}>{avgInterest}%</div>
           <div style={{ fontSize: '0.7rem', color: '#4ade80', marginTop: '0.125rem' }}>Weighted average rate</div>
         </div>
         <div style={{ backgroundColor: '#fffbeb', padding: '1.25rem', borderRadius: 'var(--radius-md)', border: '1px solid #fef3c7' }}>
           <div style={{ fontSize: '0.75rem', color: '#854d0e', fontWeight: '700', textTransform: 'uppercase' }}>Repayment Rate</div>
-          <div style={{ fontSize: '1.5rem', fontWeight: '800', color: '#78350f', marginTop: '0.25rem' }}>98.4%</div>
+          <div style={{ fontSize: '1.5rem', fontWeight: '800', color: '#78350f', marginTop: '0.25rem' }}>{repaymentRate}%</div>
           <div style={{ fontSize: '0.7rem', color: '#fbbf24', marginTop: '0.125rem' }}>98.1% Delivery SLA</div>
         </div>
         <div style={{ backgroundColor: '#fef2f2', padding: '1.25rem', borderRadius: 'var(--radius-md)', border: '1px solid #fee2e2' }}>

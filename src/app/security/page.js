@@ -2,55 +2,31 @@
 
 import React, { useState } from 'react';
 import { ShieldCheck, HardDrive, Lock, ShieldAlert, CheckCircle, Search, FileText, ArrowDown, Download, AlertTriangle } from 'lucide-react';
+import { useApp } from '@/context/AppContext';
 
 export default function SecurityCenter() {
+  const { activities } = useApp();
   const [levelFilter, setLevelFilter] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
 
-  // Pre-populated compliance events
-  const [events] = useState([
-    {
-      level: 'Critical',
-      timestamp: 'Oct 24, 2026 • 18:22:01 UTC',
-      userId: 'ops_admin_01',
-      action: 'Data Export: Corporate_Loan_Portfolio_Q3.csv',
-      ip: '192.168.1.104',
-      hash: '0x782fc9b109de12aa81ab92c210dfa1ef32efcd1209bcae812'
-    },
-    {
-      level: 'Info',
-      timestamp: 'Oct 24, 2026 • 17:15:24 UTC',
-      userId: 'a_mercer_manager',
-      action: 'Loan Approval: APP-98201 (Industrial Reinvestment)',
-      ip: '10.3.0.45',
-      hash: '0x21dac6db523c78baef41e0b52ac23e45691c63db45a123ff23'
-    },
-    {
-      level: 'Warning',
-      timestamp: 'Oct 24, 2026 • 16:04:12 UTC',
-      userId: 'Unknown Entity',
-      action: '3 Consecutive Failed Logins: \'admin_test\'',
-      ip: '45.22.11.89',
-      hash: '0xf0d1ab30c789012cd74ab30c7890db7210df1ef9cf4b1f630900'
-    },
-    {
-      level: 'Info',
-      timestamp: 'Oct 24, 2026 • 15:50:44 UTC',
-      userId: 'j_smith_vp',
-      action: 'Profile Update: Added Secondary Recovery Contact',
-      ip: '172.16.0.22',
-      hash: '0x1a2ec230c12f45ea81ab92c210df1ef32efcd1209bcae812112c'
-    },
-    {
-      level: 'Info',
-      timestamp: 'Oct 24, 2026 • 14:12:30 UTC',
-      userId: 'System_Engine',
-      action: 'Encrypted Backup Synchronized (TU-Week-1)',
-      ip: 'Internal Proxy',
-      hash: '0x89db7210df1ef9cf4b1f630b42d32101f9247c132890db7210e21d'
-    }
-  ]);
+  // Generate dynamic compliance events based on real-time system activities
+  const getSecurityEvents = () => {
+    return activities.map((act, index) => {
+      const isCritical = act.type === 'danger' || act.title.toLowerCase().includes('delete') || act.title.toLowerCase().includes('remove');
+      const isWarning = act.type === 'warning' || act.title.toLowerCase().includes('failed') || act.title.toLowerCase().includes('unauthorized');
+      return {
+        level: isCritical ? 'Critical' : isWarning ? 'Warning' : 'Info',
+        timestamp: act.time || 'Just now',
+        userId: act.userEmail || 'System Admin',
+        action: `${act.title}: ${act.desc}`,
+        ip: act.ipAddress || '192.168.1.1',
+        hash: act.hash || `0x${Array.from({ length: 40 }, () => Math.floor(Math.random() * 16).toString(16)).join('')}`
+      };
+    });
+  };
+
+  const events = getSecurityEvents();
 
   // Filter Logic
   const filteredEvents = events.filter(ev => {
