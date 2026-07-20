@@ -28,6 +28,9 @@ async function migrate() {
       permissions TEXT[] DEFAULT '{}'
     );
 
+    -- Drop existing applications table to rebuild with headshot and consents
+    DROP TABLE IF EXISTS applications CASCADE;
+
     -- Applications Table
     CREATE TABLE IF NOT EXISTS applications (
       id TEXT PRIMARY KEY,
@@ -44,7 +47,9 @@ async function migrate() {
       date TEXT,
       contractId TEXT,
       repaymentDate TEXT,
-      collateralImages TEXT[] DEFAULT '{}'
+      collateralImages TEXT[] DEFAULT '{}',
+      headshot TEXT,
+      consents TEXT[] DEFAULT '{}'
     );
 
     -- Loans Table

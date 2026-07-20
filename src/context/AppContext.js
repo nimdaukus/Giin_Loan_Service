@@ -276,7 +276,7 @@ export function AppProvider({ children }) {
     supabase.from('activities').insert(newAct).then();
   };
 
-  // Function to submit a loan application from the Mobile App
+  // Function to submit a loan application
   const submitApplication = async (appData) => {
     const nextNum = applications.length > 0
       ? Math.max(...applications.map(a => parseInt(a.id.split('-')[1]) || 100)) + 1
@@ -294,21 +294,23 @@ export function AppProvider({ children }) {
       collateralDesc: appData.collateralDesc || 'N/A',
       status: 'Pending',
       date: new Date().toISOString().split('T')[0],
-      collateralImages: []
+      collateralImages: appData.collateralImages || [],
+      headshot: appData.headshot || '',
+      consents: appData.consents || []
     };
 
     setApplications(prev => [newApp, ...prev]);
-    supabase.from('applications').insert(newApp).then(({ error }) => {
-      if (error) console.warn("Supabase app insert warning:", error.message);
-    });
+    const { error } = await supabase.from('applications').insert(newApp);
+    if (error) console.warn("Supabase app insert warning:", error.message);
 
     // Log in live activity
     const newAct = {
       id: `ACT-${Date.now()}`,
       title: 'Loan Application Submitted',
-      desc: `${newApp.name} applied for ${newApp.amount.toLocaleString()} MVP`,
+      desc: `${newApp.name} applied for ${newApp.amount.toLocaleString()} RWF`,
       time: 'Just now',
-      type: 'submit'
+      type: 'submit',
+      userEmail: newApp.email
     };
     setActivities(prev => [newAct, ...prev]);
     supabase.from('activities').insert(newAct).then();

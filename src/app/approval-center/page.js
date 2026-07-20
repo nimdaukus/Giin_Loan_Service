@@ -157,9 +157,21 @@ export default function ApprovalCenter() {
                   {selectedApp.status} Review
                 </span>
               </div>
-              <h2 style={{ fontSize: '1.35rem', fontWeight: '700', marginTop: '0.5rem', color: 'var(--text-primary)' }}>
-                {selectedApp.name}
-              </h2>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginTop: '0.75rem' }}>
+                {selectedApp.headshot && (
+                  <img 
+                    src={selectedApp.headshot} 
+                    alt="Applicant Headshot" 
+                    style={{ width: '48px', height: '48px', borderRadius: '50%', objectFit: 'cover', border: '2px solid var(--color-primary)' }} 
+                  />
+                )}
+                <div>
+                  <h2 style={{ fontSize: '1.25rem', fontWeight: '800', color: 'var(--text-primary)', margin: 0 }}>
+                    {selectedApp.name}
+                  </h2>
+                  <span style={{ fontSize: '0.7rem', color: 'var(--text-secondary)' }}>ID: {selectedApp.id}</span>
+                </div>
+              </div>
             </div>
 
             {/* Form Fields */}
@@ -224,6 +236,25 @@ export default function ApprovalCenter() {
                 </div>
               </div>
 
+              {/* Consents & declarations */}
+              <div>
+                <h4 style={{ fontSize: '0.8rem', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--color-primary)', marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.375rem' }}>
+                  <ShieldCheck size={14} /> Applicant Consents & Declarations
+                </h4>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', backgroundColor: '#f0fdf4', padding: '1rem', borderRadius: 'var(--radius-sm)', border: '1px solid #bbf7d0', fontSize: '0.75rem', color: '#166534' }}>
+                  {selectedApp.consents && selectedApp.consents.length > 0 ? (
+                    selectedApp.consents.map((c, idx) => (
+                      <div key={idx} style={{ display: 'flex', gap: '0.375rem', alignItems: 'flex-start' }}>
+                        <span style={{ color: '#15803d', fontWeight: 'bold', marginTop: '2px' }}>✓</span>
+                        <span>{c}</span>
+                      </div>
+                    ))
+                  ) : (
+                    <div style={{ color: 'var(--text-secondary)' }}>No consents recorded.</div>
+                  )}
+                </div>
+              </div>
+
               {/* Collateral evidence */}
               <div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
@@ -238,45 +269,28 @@ export default function ApprovalCenter() {
                   {selectedApp.collateralDesc}
                 </p>
 
-                {/* Collateral Thumbnail Mockups */}
-                <div style={{ display: 'flex', gap: '0.75rem', marginTop: '0.75rem' }}>
-                  <div style={{
-                    flex: 1,
-                    padding: '0.75rem',
-                    border: '1px solid var(--border-color-dark)',
-                    borderRadius: 'var(--radius-sm)',
-                    backgroundColor: '#f8fafc',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '0.25rem',
-                    textAlign: 'center',
-                    aspectRatio: '3/2'
-                  }}>
-                    <ImageIcon size={20} color="#64748b" />
-                    <span style={{ fontSize: '0.7rem', fontWeight: '600', color: 'var(--text-secondary)' }}>Ownership Deeds.pdf</span>
-                    <span style={{ fontSize: '0.6rem', color: 'var(--text-muted)' }}>Verified File</span>
+                {/* Collateral Images Previews */}
+                {selectedApp.collateralImages && selectedApp.collateralImages.length > 0 ? (
+                  <div style={{ display: 'flex', gap: '0.75rem', marginTop: '0.75rem', flexWrap: 'wrap' }}>
+                    {selectedApp.collateralImages.map((img, idx) => (
+                      <div key={idx} style={{ width: '90px', height: '90px', borderRadius: '8px', overflow: 'hidden', border: '1px solid var(--border-color-dark)', position: 'relative' }}>
+                        <img 
+                          src={img} 
+                          alt={`Collateral Asset ${idx + 1}`} 
+                          style={{ width: '100%', height: '100%', objectFit: 'cover', cursor: 'zoom-in' }}
+                          onClick={() => {
+                            const w = window.open();
+                            w.document.write(`<img src="${img}" style="max-width:100%; max-height:100vh; display:block; margin:auto;" />`);
+                          }}
+                        />
+                      </div>
+                    ))}
                   </div>
-                  <div style={{
-                    flex: 1,
-                    padding: '0.75rem',
-                    border: '1px solid var(--border-color-dark)',
-                    borderRadius: 'var(--radius-sm)',
-                    backgroundColor: '#f8fafc',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '0.25rem',
-                    textAlign: 'center',
-                    aspectRatio: '3/2'
-                  }}>
-                    <ImageIcon size={20} color="#64748b" />
-                    <span style={{ fontSize: '0.7rem', fontWeight: '600', color: 'var(--text-secondary)' }}>Valuation_Report.pdf</span>
-                    <span style={{ fontSize: '0.6rem', color: 'var(--text-muted)' }}>Signed G-Docs</span>
+                ) : (
+                  <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', padding: '0.5rem', backgroundColor: '#f8fafc', border: '1px solid var(--border-color-dark)', borderRadius: '4px', marginTop: '0.5rem' }}>
+                    No physical collateral images uploaded.
                   </div>
-                </div>
+                )}
               </div>
             </div>
 
