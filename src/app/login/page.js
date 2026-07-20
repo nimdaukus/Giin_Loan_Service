@@ -1,9 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { Mail, Lock, Eye, EyeOff, ShieldCheck, ArrowRight, Loader2, Users, Briefcase, Shield } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, ShieldCheck, ArrowRight, Loader2 } from 'lucide-react';
 import { useApp } from '@/context/AppContext';
 
 export default function InstitutionalLogin() {
@@ -11,10 +11,15 @@ export default function InstitutionalLogin() {
   const { setCurrentUser, users } = useApp();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  
+  useEffect(() => {
+    setEmail('');
+    setPassword('');
+  }, []);
+
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [role, setRole] = useState('System Admin'); // 'Client' | 'Loan Officer' | 'System Admin'
 
   const handleLoginSubmit = (e) => {
     e.preventDefault();
@@ -42,6 +47,7 @@ export default function InstitutionalLogin() {
     const foundUser = users.find(u => u.email.toLowerCase() === email.toLowerCase() && u.password === password);
     if (!foundUser) {
       setIsLoading(false);
+      setPassword('');
       alert('Authentication Failed: Account does not exist in the system database. Please register first.');
       return;
     }
@@ -184,51 +190,7 @@ export default function InstitutionalLogin() {
               </p>
             </div>
 
-            {/* Role Selector Tabs */}
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: '1fr 1fr 1fr',
-              gap: '0.5rem',
-              backgroundColor: '#f1f5f9',
-              padding: '0.25rem',
-              borderRadius: '8px',
-              marginBottom: '1.5rem'
-            }}>
-              {[
-                { name: 'Client', icon: Users },
-                { name: 'Loan Officer', icon: Briefcase },
-                { name: 'System Admin', icon: Shield }
-              ].map(t => {
-                const Icon = t.icon;
-                const isSelected = role === t.name;
-                return (
-                  <button
-                    key={t.name}
-                    type="button"
-                    onClick={() => setRole(t.name)}
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                      gap: '0.25rem',
-                      padding: '0.5rem 0.25rem',
-                      borderRadius: '6px',
-                      border: 'none',
-                      backgroundColor: isSelected ? '#ffffff' : 'transparent',
-                      color: isSelected ? 'var(--color-primary)' : 'var(--text-secondary)',
-                      fontWeight: isSelected ? '700' : '500',
-                      fontSize: '0.7rem',
-                      cursor: 'pointer',
-                      boxShadow: isSelected ? '0 1px 3px rgba(0, 0, 0, 0.1)' : 'none',
-                      transition: 'all 0.2s ease'
-                    }}
-                  >
-                    <Icon size={14} />
-                    {t.name}
-                  </button>
-                );
-              })}
-            </div>
+
 
             {/* Form */}
             <form onSubmit={handleLoginSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>

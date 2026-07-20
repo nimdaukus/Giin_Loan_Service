@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Shield, CheckCircle, ArrowRight, ArrowLeft, Loader2 } from 'lucide-react';
@@ -12,8 +12,7 @@ export default function InstitutionalSignUp() {
   const [step, setStep] = useState(1);
   const [isSuccess, setIsSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [role, setRole] = useState('System Admin'); // 'Client' | 'Loan Officer' | 'System Admin'
-
+  const [role] = useState('Client');
   // Form states
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
@@ -25,6 +24,17 @@ export default function InstitutionalSignUp() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [tos, setTos] = useState(false);
+
+  useEffect(() => {
+    setFullName('');
+    setEmail('');
+    setPhone('');
+    setDocumentId('');
+    setStudentId('');
+    setPassword('');
+    setConfirmPassword('');
+    setTos(false);
+  }, []);
 
   const handleNextStep = () => {
     if (!fullName || !email || !phone || !documentId) {
@@ -63,6 +73,15 @@ export default function InstitutionalSignUp() {
     }).then(() => {
       setIsLoading(false);
       setIsSuccess(true);
+      // Clear all fields on success
+      setFullName('');
+      setEmail('');
+      setPhone('');
+      setDocumentId('');
+      setStudentId('');
+      setPassword('');
+      setConfirmPassword('');
+      setTos(false);
     }).catch(err => {
       setIsLoading(false);
       alert('Signup failed: ' + err.message);
@@ -300,29 +319,7 @@ export default function InstitutionalSignUp() {
                         transition={{ duration: 0.25 }}
                         style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}
                       >
-                        <div>
-                          <label style={{ display: 'block', fontSize: '0.7rem', fontWeight: '700', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.375rem' }}>
-                            Account Type / Access Role
-                          </label>
-                          <select
-                            value={role}
-                            onChange={(e) => setRole(e.target.value)}
-                            style={{
-                              width: '100%',
-                              padding: '0.75rem',
-                              border: '1px solid #e2e8f0',
-                              borderRadius: '8px',
-                              fontSize: '0.85rem',
-                              backgroundColor: '#fafafa',
-                              outline: 'none',
-                              cursor: 'pointer'
-                            }}
-                          >
-                            <option value="Client">Client / Borrower</option>
-                            <option value="Loan Officer">Loan Officer / Staff</option>
-                            <option value="System Admin">System Admin / Institutional Admin</option>
-                          </select>
-                        </div>
+
 
                         <div>
                           <label style={{ display: 'block', fontSize: '0.7rem', fontWeight: '700', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.375rem' }}>
@@ -509,7 +506,7 @@ export default function InstitutionalSignUp() {
                             style={{ width: '14px', height: '14px', cursor: 'pointer', marginTop: '3px' }}
                           />
                           <label htmlFor="signup-tos" style={{ marginLeft: '0.5rem', fontSize: '0.75rem', color: 'var(--text-secondary)', lineHeight: '1.4', cursor: 'pointer' }}>
-                            I agree to the <a href="#" style={{ color: 'var(--color-primary)', fontWeight: '700', textDecoration: 'none' }}>Terms of Service</a> and <a href="#" style={{ color: 'var(--color-primary)', fontWeight: '700', textDecoration: 'none' }}>Security Protocols</a> for institutional account holders.
+                            I agree to the <a href="#" style={{ color: 'var(--color-primary)', fontWeight: '700', textDecoration: 'none' }}>Terms of Service</a> and <a href="#" style={{ color: 'var(--color-primary)', fontWeight: '700', textDecoration: 'none' }}>Security Protocols</a> for account holders.
                           </label>
                         </div>
 
@@ -544,7 +541,7 @@ export default function InstitutionalSignUp() {
 
                 <div style={{ marginTop: '2.5rem', paddingTop: '1.5rem', borderTop: '1px solid #f1f5f9', textAlign: 'center' }}>
                   <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
-                    Already have an institutional account?{' '}
+                    Already have an account?{' '}
                     <a href="/login" style={{ color: 'var(--color-primary)', fontWeight: '700', textDecoration: 'none' }}>
                       Log in here
                     </a>
