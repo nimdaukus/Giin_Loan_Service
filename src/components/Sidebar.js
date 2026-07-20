@@ -15,19 +15,20 @@ export default function Sidebar() {
   const isClient = currentUser.role === 'Client';
   const isOfficer = currentUser.role === 'Loan Officer';
 
-  const mainMenuItems = [
-    ...(isClient ? [{ name: 'Mobile Client Portal', path: '/mobile', icon: Smartphone, badge: 0 }] : []),
-    ...((!isClient) ? [
-      { name: t('dashboard'), path: '/dashboard', icon: LayoutDashboard },
-      { name: t('approvalCenter'), path: '/approval-center', icon: CheckSquare, badge: metrics.pendingApprovals },
-      { name: t('disbursements'), path: '/disbursements', icon: Landmark },
-      { name: t('mainTracker'), path: '/main-tracker', icon: BarChart2 },
-      { name: t('invoiceTemplate'), path: '/invoices', icon: FileText },
-      { name: t('receiptTemplate'), path: '/receipts', icon: Receipt },
-      { name: t('riskHub'), path: '/portfolio', icon: BarChart2 },
-      { name: t('auditCenter'), path: '/security', icon: Shield },
-      { name: t('reminders'), path: '/reminders', icon: Bell }
-    ] : [])
+  const mainMenuItems = isClient ? [
+    { name: 'Dashboard', path: '/client-dashboard', icon: LayoutDashboard },
+    { name: 'Apply for Loan', path: '/client-apply', icon: Landmark },
+    { name: 'My Loans', path: '/client-loans', icon: FileText }
+  ] : [
+    { name: t('dashboard'), path: '/dashboard', icon: LayoutDashboard },
+    { name: t('approvalCenter'), path: '/approval-center', icon: CheckSquare, badge: metrics.pendingApprovals },
+    { name: t('disbursements'), path: '/disbursements', icon: Landmark },
+    { name: t('mainTracker'), path: '/main-tracker', icon: BarChart2 },
+    { name: t('invoiceTemplate'), path: '/invoices', icon: FileText },
+    { name: t('receiptTemplate'), path: '/receipts', icon: Receipt },
+    { name: t('riskHub'), path: '/portfolio', icon: BarChart2 },
+    { name: t('auditCenter'), path: '/security', icon: Shield },
+    { name: t('reminders'), path: '/reminders', icon: Bell }
   ];
 
   const bottomMenuItems = [

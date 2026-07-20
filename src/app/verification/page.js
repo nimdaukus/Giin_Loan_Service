@@ -66,8 +66,8 @@ export default function Verification() {
     }
 
     if (currentUser?.role === 'Client') {
-      alert('Verification Successful! Identity verified. Redirecting to Mobile Client Portal.');
-      router.push('/mobile');
+      alert('Verification Successful! Identity verified. Redirecting to Client Portal.');
+      router.push('/client-dashboard');
     } else {
       alert('Verification Successful! Identity verified. Redirecting to Institutional Oversight Dashboard.');
       router.push('/dashboard');
