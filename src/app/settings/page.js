@@ -5,7 +5,7 @@ import { Smartphone, Laptop, Car, Plus, Edit, UserPlus, Save, CheckCircle, Downl
 import { useApp } from '@/context/AppContext';
 
 export default function SettingsPortal() {
-  const { currency, setCurrency, language, setLanguage, currentUser } = useApp();
+  const { currency, setCurrency, language, setLanguage, currentUser, users, addStaffMember } = useApp();
   const [apr, setApr] = useState(18.5);
   const [lateFee, setLateFee] = useState(2.0);
   const [toastMessage, setToastMessage] = useState(null);
@@ -46,17 +46,56 @@ export default function SettingsPortal() {
     );
   }
 
+  // Staff creation form states
+  const [isStaffModalOpen, setIsStaffModalOpen] = useState(false);
+  const [staffName, setStaffName] = useState('');
+  const [staffEmail, setStaffEmail] = useState('');
+  const [staffPassword, setStaffPassword] = useState('');
+  const [staffRole, setStaffRole] = useState('Loan Officer');
+  const [staffPerms, setStaffPerms] = useState({
+    apply_loans: true,
+    disburse_loans: false,
+    edit_loans: false,
+    send_reminders: false,
+    view_analytics: true
+  });
+
+  const handleAddStaffSubmit = (e) => {
+    e.preventDefault();
+    if (!staffName || !staffEmail || !staffPassword) {
+      alert('Please fill out all staff fields.');
+      return;
+    }
+    const selectedPerms = Object.keys(staffPerms).filter(key => staffPerms[key]);
+    addStaffMember({
+      name: staffName,
+      email: staffEmail,
+      password: staffPassword,
+      role: staffRole,
+      permissions: selectedPerms
+    });
+    showToast(`Staff member ${staffName} registered successfully!`);
+    setIsStaffModalOpen(false);
+    
+    // Reset form
+    setStaffName('');
+    setStaffEmail('');
+    setStaffPassword('');
+    setStaffRole('Loan Officer');
+    setStaffPerms({
+      apply_loans: true,
+      disburse_loans: false,
+      edit_loans: false,
+      send_reminders: false,
+      view_analytics: true
+    });
+  };
+
   // Collateral categories state
   const [collaterals, setCollaterals] = useState([
     { class: 'Smartphone', docs: 'IMEI Cert, Purchase Receipt', status: 'Active', icon: Smartphone },
     { class: 'Laptop', docs: 'Serial Check, Warranty Doc', status: 'Active', icon: Laptop },
     { class: 'Vehicle', docs: 'Original Logbook, Insurance Policy', status: 'Inactive', icon: Car }
-  ]);
-
-  // Team users state
-  const [users, setUsers] = useState([
-    { name: 'Jean Damascene', role: 'Institutional Admin', initials: 'JD', color: 'var(--color-success)' },
-    { name: 'Marie Kaliza', role: 'Reviewer', initials: 'MK', color: 'var(--color-primary)' }
   ]);
 
   const showToast = (message) => {
@@ -183,65 +222,219 @@ export default function SettingsPortal() {
                 <span className="card-subtitle">Manage administrative access and permissions</span>
               </div>
               <button
-                onClick={() => alert('Adding new team member invites...')}
+                onClick={() => setIsStaffModalOpen(true)}
                 className="btn btn-outline btn-small"
                 style={{ display: 'flex', alignItems: 'center', gap: '0.375rem' }}
               >
-                <UserPlus size={14} /> Invite User
+                <UserPlus size={14} /> Add Staff Member
               </button>
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-              {users.map((u) => (
-                <div
-                  key={u.name}
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    padding: '0.75rem 1rem',
-                    border: '1px solid var(--border-color-dark)',
-                    backgroundColor: '#ffffff',
-                    borderRadius: 'var(--radius-md)'
-                  }}
-                >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                    <div style={{
-                      width: '32px',
-                      height: '32px',
-                      borderRadius: '50%',
-                      backgroundColor: u.color,
-                      color: 'white',
-                      fontWeight: '700',
-                      fontSize: '0.8rem',
+              {users.map((u) => {
+                const initials = u.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+                const color = u.role === 'System Admin' ? 'var(--color-danger)' : 'var(--color-primary)';
+                return (
+                  <div
+                    key={u.id || u.email}
+                    style={{
                       display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center'
-                    }}>
-                      {u.initials}
-                    </div>
-                    <div>
-                      <h4 style={{ fontSize: '0.85rem', fontWeight: '700', color: 'var(--text-primary)' }}>{u.name}</h4>
-                      <p style={{ fontSize: '0.7rem', color: 'var(--text-secondary)' }}>{u.role}</p>
-                    </div>
-                  </div>
-                  <button
-                    onClick={() => alert(`Modifying clearance levels for ${u.name}`)}
-                    style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)' }}
+                      flexDirection: 'column',
+                      gap: '0.5rem',
+                      padding: '1rem',
+                      border: '1px solid var(--border-color-dark)',
+                      backgroundColor: '#ffffff',
+                      borderRadius: 'var(--radius-md)'
+                    }}
                   >
-                    ⚙
-                  </button>
-                </div>
-              ))}
-            </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                        <div style={{
+                          width: '32px',
+                          height: '32px',
+                          borderRadius: '50%',
+                          backgroundColor: color,
+                          color: 'white',
+                          fontWeight: '700',
+                          fontSize: '0.8rem',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center'
+                        }}>
+                          {initials}
+                        </div>
+                        <div>
+                          <h4 style={{ fontSize: '0.85rem', fontWeight: '700', color: 'var(--text-primary)' }}>{u.name}</h4>
+                          <p style={{ fontSize: '0.7rem', color: 'var(--text-secondary)' }}>{u.role} &bull; {u.email}</p>
+                        </div>
+                      </div>
+                      <span style={{ fontSize: '0.65rem', backgroundColor: '#f1f5f9', padding: '0.2rem 0.5rem', borderRadius: '4px', fontWeight: '700', color: '#475569' }}>
+                        ID: {u.id ? u.id.split('-').pop() : 'DEFAULT'}
+                      </span>
+                    </div>
 
-            <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '1.25rem' }}>
-              <button onClick={handleSavePermissions} className="btn btn-primary" style={{ padding: '0.5rem 1.25rem' }}>
-                Save Permissions
-              </button>
+                    {/* Delegated Permissions Tags */}
+                    {u.permissions && u.permissions.length > 0 && (
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.25rem', borderTop: '1px solid #f1f5f9', paddingTop: '0.5rem', marginTop: '0.25rem' }}>
+                        {u.permissions.map(p => (
+                          <span key={p} style={{ fontSize: '0.6rem', backgroundColor: 'var(--color-primary-light)', color: 'var(--color-primary)', padding: '0.1rem 0.35rem', borderRadius: '3px', fontWeight: '600' }}>
+                            {p.replace('_', ' ')}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>
+
+        {/* Add Staff / Role Delegation Modal */}
+        {isStaffModalOpen && (
+          <div style={{
+            position: 'fixed',
+            inset: 0,
+            backgroundColor: 'rgba(15, 23, 42, 0.6)',
+            backdropFilter: 'blur(4px)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 9999,
+            animation: 'fadeIn 0.25s ease-out'
+          }}>
+            <div style={{
+              backgroundColor: '#ffffff',
+              borderRadius: '12px',
+              width: '100%',
+              maxWidth: '520px',
+              boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+              overflow: 'hidden',
+              border: '1px solid var(--border-color)',
+              fontFamily: 'Inter, sans-serif'
+            }}>
+              {/* Modal Header */}
+              <div style={{
+                padding: '1.25rem 1.5rem',
+                borderBottom: '1px solid var(--border-color)',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                backgroundColor: '#f8fafc'
+              }}>
+                <h3 style={{ fontSize: '1.1rem', fontWeight: '800', color: 'var(--text-primary)' }}>Add Staff & Delegate Permissions</h3>
+                <button 
+                  onClick={() => setIsStaffModalOpen(false)}
+                  style={{ background: 'none', border: 'none', fontSize: '1.25rem', cursor: 'pointer', color: 'var(--text-muted)' }}
+                >
+                  &times;
+                </button>
+              </div>
+
+              {/* Modal Form */}
+              <form onSubmit={handleAddStaffSubmit} style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.7rem', fontWeight: '700', color: 'var(--text-secondary)', textTransform: 'uppercase', marginBottom: '0.375rem' }}>
+                    Staff Full Name
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. John Doe"
+                    value={staffName}
+                    onChange={(e) => setStaffName(e.target.value)}
+                    style={{ width: '100%', padding: '0.65rem 0.75rem', border: '1px solid #e2e8f0', borderRadius: '8px', fontSize: '0.85rem' }}
+                  />
+                </div>
+
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.7rem', fontWeight: '700', color: 'var(--text-secondary)', textTransform: 'uppercase', marginBottom: '0.375rem' }}>
+                    Login Email
+                  </label>
+                  <input
+                    type="email"
+                    required
+                    placeholder="e.g. j.doe@institution.com"
+                    value={staffEmail}
+                    onChange={(e) => setStaffEmail(e.target.value)}
+                    style={{ width: '100%', padding: '0.65rem 0.75rem', border: '1px solid #e2e8f0', borderRadius: '8px', fontSize: '0.85rem' }}
+                  />
+                </div>
+
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.7rem', fontWeight: '700', color: 'var(--text-secondary)', textTransform: 'uppercase', marginBottom: '0.375rem' }}>
+                    Access Password
+                  </label>
+                  <input
+                    type="password"
+                    required
+                    placeholder="Minimum 6 characters"
+                    value={staffPassword}
+                    onChange={(e) => setStaffPassword(e.target.value)}
+                    style={{ width: '100%', padding: '0.65rem 0.75rem', border: '1px solid #e2e8f0', borderRadius: '8px', fontSize: '0.85rem' }}
+                  />
+                </div>
+
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.7rem', fontWeight: '700', color: 'var(--text-secondary)', textTransform: 'uppercase', marginBottom: '0.375rem' }}>
+                    Access Role
+                  </label>
+                  <select
+                    value={staffRole}
+                    onChange={(e) => setStaffRole(e.target.value)}
+                    style={{ width: '100%', padding: '0.65rem 0.75rem', border: '1px solid #e2e8f0', borderRadius: '8px', fontSize: '0.85rem', cursor: 'pointer' }}
+                  >
+                    <option value="Loan Officer">Loan Officer / Staff</option>
+                    <option value="System Admin">System Admin / Institutional Admin</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.7rem', fontWeight: '700', color: 'var(--text-secondary)', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
+                    Delegate Permissions & Tasks
+                  </label>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', backgroundColor: '#f8fafc', padding: '1rem', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
+                    {[
+                      { key: 'apply_loans', label: 'Apply for Loans (Book clients)' },
+                      { key: 'disburse_loans', label: 'Disburse Capital (Release funds)' },
+                      { key: 'edit_loans', label: 'Edit Loan Records (Modify parameters)' },
+                      { key: 'send_reminders', label: 'Send Overdue Reminders (Email/SMS)' },
+                      { key: 'view_analytics', label: 'View Analytical Reports & Portfolios' }
+                    ].map(p => (
+                      <label key={p.key} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.8rem', cursor: 'pointer', color: 'var(--text-primary)' }}>
+                        <input
+                          type="checkbox"
+                          checked={staffPerms[p.key]}
+                          onChange={(e) => setStaffPerms({ ...staffPerms, [p.key]: e.target.checked })}
+                          style={{ cursor: 'pointer' }}
+                        />
+                        {p.label}
+                      </label>
+                    ))}
+                  </div>
+                </div>
+
+                <div style={{ display: 'flex', gap: '0.75rem', marginTop: '0.5rem' }}>
+                  <button 
+                    type="button" 
+                    onClick={() => setIsStaffModalOpen(false)}
+                    className="btn btn-outline" 
+                    style={{ flex: 1 }}
+                  >
+                    Cancel
+                  </button>
+                  <button 
+                    type="submit" 
+                    className="btn btn-primary" 
+                    style={{ flex: 2 }}
+                  >
+                    Create & Delegate
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
 
         {/* Right Column: Financial params & logs */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>

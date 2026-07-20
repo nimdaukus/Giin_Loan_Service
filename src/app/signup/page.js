@@ -4,9 +4,11 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Shield, CheckCircle, ArrowRight, ArrowLeft, Loader2 } from 'lucide-react';
+import { useApp } from '@/context/AppContext';
 
 export default function InstitutionalSignUp() {
   const router = useRouter();
+  const { registerUser } = useApp();
   const [step, setStep] = useState(1);
   const [isSuccess, setIsSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -52,11 +54,19 @@ export default function InstitutionalSignUp() {
     }
     
     setIsLoading(true);
-    // Simulate API delay for loader visualization
-    setTimeout(() => {
+    
+    registerUser({
+      name: fullName,
+      email: email,
+      password: password,
+      role: role
+    }).then(() => {
       setIsLoading(false);
       setIsSuccess(true);
-    }, 1500);
+    }).catch(err => {
+      setIsLoading(false);
+      alert('Signup failed: ' + err.message);
+    });
   };
 
   return (

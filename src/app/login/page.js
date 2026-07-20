@@ -8,7 +8,7 @@ import { useApp } from '@/context/AppContext';
 
 export default function InstitutionalLogin() {
   const router = useRouter();
-  const { setCurrentUser } = useApp();
+  const { setCurrentUser, users } = useApp();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -20,29 +20,42 @@ export default function InstitutionalLogin() {
     e.preventDefault();
     setIsLoading(true);
     
-    let profile = {
-      name: 'Admin User',
-      role: 'System Admin',
-      initials: 'AD',
-      email: email
-    };
-    
-    if (role === 'Client') {
-      profile = {
-        name: 'Client Borrower',
-        role: 'Client',
-        initials: 'CB',
-        email: email
+    // 1. Validate Super Admin
+    if (email.toLowerCase() === 'mensahqsukujr@gmail.com' && password === 'Admins@262702!') {
+      const adminProfile = {
+        name: 'Super Admin',
+        role: 'System Admin',
+        initials: 'SA',
+        email: 'mensahqsukujr@gmail.com',
+        permissions: ['apply_loans', 'disburse_loans', 'edit_loans', 'send_reminders', 'view_analytics', 'delete_loans']
       };
-    } else if (role === 'Loan Officer') {
-      profile = {
-        name: 'Officer Desk',
-        role: 'Loan Officer',
-        initials: 'LO',
-        email: email
-      };
+      setCurrentUser(adminProfile);
+      
+      setTimeout(() => {
+        setIsLoading(false);
+        router.push('/verification');
+      }, 1500);
+      return;
     }
 
+    // 2. Validate against system DB accounts list
+    const foundUser = users.find(u => u.email.toLowerCase() === email.toLowerCase() && u.password === password);
+    if (!foundUser) {
+      setIsLoading(false);
+      alert('Authentication Failed: Account does not exist in the system database. Please register first.');
+      return;
+    }
+
+    // Setup active profile with database values and custom permissions
+    const initials = foundUser.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+    const profile = {
+      name: foundUser.name,
+      role: foundUser.role,
+      initials: initials || 'US',
+      email: foundUser.email,
+      permissions: foundUser.permissions || []
+    };
+    
     setCurrentUser(profile);
 
     // Simulate network authentication delay

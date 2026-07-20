@@ -5,7 +5,10 @@ import { useApp } from '@/context/AppContext';
 import { Download, Plus, Filter, Search, ShieldCheck, CheckCircle2, AlertTriangle, X, Mail, Phone, MapPin, User, FileText, Landmark, Calculator, Edit, Trash2 } from 'lucide-react';
 
 export default function MainTracker() {
-  const { loans, metrics, addManualLoan, updateLoanStatus, makePayment, modifyLoanRecord, deleteLoanRecord } = useApp();
+  const { loans, metrics, addManualLoan, updateLoanStatus, makePayment, modifyLoanRecord, deleteLoanRecord, currentUser } = useApp();
+  
+  const canApply = currentUser?.role === 'System Admin' || currentUser?.role === 'GLOBAL ACCESS' || currentUser?.permissions?.includes('apply_loans');
+  const canEdit = currentUser?.role === 'System Admin' || currentUser?.role === 'GLOBAL ACCESS' || currentUser?.permissions?.includes('edit_loans');
   
   // States for filter inputs
   const [statusFilter, setStatusFilter] = useState('All');
@@ -180,9 +183,11 @@ export default function MainTracker() {
           <button onClick={exportCSV} className="btn btn-outline">
             <Download size={16} /> Export Data
           </button>
-          <button onClick={() => setIsModalOpen(true)} className="btn btn-primary">
-            <Plus size={16} /> Add Manual Entry
-          </button>
+          {canApply && (
+            <button onClick={() => setIsModalOpen(true)} className="btn btn-primary">
+              <Plus size={16} /> Add Manual Entry
+            </button>
+          )}
         </div>
       </div>
 
@@ -988,16 +993,18 @@ export default function MainTracker() {
             }}>
               {!isEditing && (
                 <div style={{ display: 'flex', gap: '0.75rem' }}>
-                  <button 
-                    onClick={() => {
-                      setEditForm({ ...activeSelectedLoan });
-                      setIsEditing(true);
-                    }}
-                    className="btn btn-outline"
-                    style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.375rem' }}
-                  >
-                    <Edit size={14} /> Edit Details
-                  </button>
+                  {canEdit && (
+                    <button 
+                      onClick={() => {
+                        setEditForm({ ...activeSelectedLoan });
+                        setIsEditing(true);
+                      }}
+                      className="btn btn-outline"
+                      style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.375rem' }}
+                    >
+                      <Edit size={14} /> Edit Details
+                    </button>
+                  )}
                   <button 
                     onClick={() => {
                       if (currentUser?.role !== 'System Admin' && currentUser?.role !== 'GLOBAL ACCESS') {

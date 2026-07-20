@@ -8,14 +8,30 @@ const AppContext = createContext();
 export function AppProvider({ children }) {
   const [momoStatus, setMomoStatus] = useState('Pending'); // 'Pending' | 'Confirmed' | 'Rejected'
   
-  // Current logged in advisor user profile
-  const [currentUser, setCurrentUser] = useState({
-    name: 'Admin User',
-    role: 'GLOBAL ACCESS',
-    email: 'admin@giinsentinel.com',
-    initials: 'JD'
-  });
+  // Default System Super Admin account
+  const DEFAULT_SUPER_ADMIN = {
+    name: 'Super Admin',
+    role: 'System Admin',
+    email: 'mensahqsukujr@gmail.com',
+    initials: 'SA',
+    permissions: ['apply_loans', 'disburse_loans', 'edit_loans', 'send_reminders', 'view_analytics', 'delete_loans']
+  };
+
+  // Current logged in user profile (defaults to guest or admin for demo before login)
+  const [currentUser, setCurrentUser] = useState(DEFAULT_SUPER_ADMIN);
   
+  // System users database table state
+  const [users, setUsers] = useState([
+    {
+      id: 'USR-DEFAULT-SA',
+      name: 'Super Admin',
+      email: 'mensahqsukujr@gmail.com',
+      password: 'Admins@262702!',
+      role: 'System Admin',
+      permissions: ['apply_loans', 'disburse_loans', 'edit_loans', 'send_reminders', 'view_analytics', 'delete_loans']
+    }
+  ]);
+
   // Currency and Language state
   const [currency, setCurrency] = useState('Rwandan Franc (RWF)');
   const [language, setLanguage] = useState('English');
@@ -295,6 +311,26 @@ export function AppProvider({ children }) {
   useEffect(() => {
     async function loadData() {
       try {
+        // Fetch users
+        const { data: userData, error: userError } = await supabase
+          .from('users')
+          .select('*');
+        if (!userError && userData && userData.length > 0) {
+          // Merge default super admin to avoid loss
+          const mergedUsers = [...userData];
+          if (!mergedUsers.find(u => u.email === 'mensahqsukujr@gmail.com')) {
+            mergedUsers.push({
+              id: 'USR-DEFAULT-SA',
+              name: 'Super Admin',
+              email: 'mensahqsukujr@gmail.com',
+              password: 'Admins@262702!',
+              role: 'System Admin',
+              permissions: ['apply_loans', 'disburse_loans', 'edit_loans', 'send_reminders', 'view_analytics', 'delete_loans']
+            });
+          }
+          setUsers(mergedUsers);
+        }
+
         // Fetch applications
         const { data: appsData, error: appsError } = await supabase
           .from('applications')
@@ -358,6 +394,53 @@ export function AppProvider({ children }) {
       if (error) console.warn("Supabase settings sync error:", error.message);
     });
   }, [currency, language]);
+
+  // Method to register user account dynamically to Supabase
+  const registerUser = async (userData) => {
+    const defaultPerms = userData.role === 'Client' 
+      ? ['apply_loans'] 
+      : ['apply_loans', 'view_analytics']; // Default staff defaults
+      
+    const newUser = {
+      id: `USR-${Date.now()}`,
+      name: userData.name,
+      email: userData.email,
+      password: userData.password,
+      role: userData.role,
+      permissions: defaultPerms
+    };
+
+    setUsers(prev => [...prev, newUser]);
+    const { error } = await supabase.from('users').insert(newUser);
+    if (error) console.warn("Supabase user insert warning:", error.message);
+  };
+
+  // Method to add new staff user and delegate permissions (called by Admin)
+  const addStaffMember = async (staffData) => {
+    const newStaff = {
+      id: `USR-${Date.now()}`,
+      name: staffData.name,
+      email: staffData.email,
+      password: staffData.password,
+      role: staffData.role || 'Loan Officer',
+      permissions: staffData.permissions || []
+    };
+
+    setUsers(prev => [...prev, newStaff]);
+    const { error } = await supabase.from('users').insert(newStaff);
+    if (error) console.warn("Supabase staff insert warning:", error.message);
+
+    // Log activity
+    const newAct = {
+      id: `ACT-${Date.now()}`,
+      title: 'Staff Member Created',
+      desc: `Admin registered ${newStaff.name} as ${newStaff.role} with delegated access.`,
+      time: 'Just now',
+      type: 'submit'
+    };
+    setActivities(prev => [newAct, ...prev]);
+    supabase.from('activities').insert(newAct).then();
+  };
 
   // Function to submit a loan application from the Mobile App
   const submitApplication = async (appData) => {
@@ -797,6 +880,9 @@ export function AppProvider({ children }) {
         addManualLoan,
         currentUser,
         setCurrentUser,
+        users,
+        registerUser,
+        addStaffMember,
         currency,
         setCurrency,
         language,
